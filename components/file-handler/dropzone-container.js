@@ -1,6 +1,7 @@
 import {useState} from 'react'
 import PropTypes from 'prop-types'
 import Dropzone from 'react-dropzone'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 
 import theme from '@/styles/theme'
 
@@ -39,11 +40,13 @@ const DropzoneContainer = ({file, isLoading, maxSize, error, onFileDrop, onFileD
                   onMouseLeave={() => setIsHovered(false)}
                 >
                   <input {...inputProps} />
-                  <div>{!file && <div alt='Glisser un fichier ou l’ajouter en cliquant sur la zone'>PlusIcon</div>}</div>
+                  <div>{!file && <div alt='Glisser un fichier ou l’ajouter en cliquant sur la zone'>
+                    <FontAwesomeIcon icon='plus' size='3x' />
+                  </div>}</div>
                   <div className='file-container'>{file ? (
                     <div className='file-sumup'>
                       <div className='file-details'>
-                        <div>FileIcon</div>
+                        <FontAwesomeIcon icon='file' size='3x' />
                         <div className='file-infos'>
                           <div className='name'>{file.name}</div>
                           <div className='size'>{formatFileSize(file.size)}</div>
@@ -58,7 +61,7 @@ const DropzoneContainer = ({file, isLoading, maxSize, error, onFileDrop, onFileD
                           display: isHovered || isDragActive ? 'block' : 'none',
                           margin: '0 1em'
                         }}
-                        >RefreshIcon
+                        ><FontAwesomeIcon icon='arrows-rotate' size='3x' />
                         </div>
                       )}
                     </div>
