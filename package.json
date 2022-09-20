@@ -9,15 +9,18 @@
     "lint": "xo"
   },
   "dependencies": {
+    "@tanstack/react-table": "^8.5.13",
+    "lodash": "^4.17.21",
     "next": "12.2.5",
     "prop-types": "^15.8.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-dropzone": "^14.2.2",
+    "table-reader": "ssh:git@github.com:livingdata-co/table-reader.git"
   },
   "devDependencies": {
     "eslint-config-xo": "^0.42.0",
     "eslint-config-xo-nextjs": "^4.2.1",
-    "eslint-config-xo-react": "^0.27.0",
     "xo": "^0.52.3"
   },
   "xo": {
@@ -38,7 +41,11 @@
       "import/extensions": "off",
       "node/prefer-global/process": "off",
       "unicorn/no-array-for-each": "off",
-      "unicorn/prefer-switch": "off"
+      "unicorn/prefer-switch": "off",
+      "react/no-unknown-property": ["error", { "ignore": ["jsx"] }]
     }
+  },
+  "engines": {
+    "node": ">= 18"
   }
 }

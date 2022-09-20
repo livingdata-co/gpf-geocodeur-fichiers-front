@@ -1,22 +1,87 @@
-import Head from 'next/head'
+import {useState, useCallback, useEffect} from 'react'
+import {previewCsvFromBlob, validateCsvFromBlob} from 'table-reader/lib/csv'
 
-import styles from '@/styles/Home.module.css'
+import Main from '@/layouts/main'
 
-const Home = () => (
-  <div className={styles.container}>
-    <Head>
-      <title>Géocodeur GPF</title>
-      <meta name='description' content='Géocodeur de la GéoPlateforme' />
-    </Head>
+import StepsProgress from '@/components/steps-progress'
+import FileHandler from '@/components/file-handler'
+import FilePreview from '@/components/file-preview'
+import Spinner from '@/components/spinner'
+import ValidationProgress from '@/components/validation-progress'
 
-    <main className={styles.main}>
-      <h1 className={styles.title}>
-        Welcome World
-      </h1>
-    </main>
+const Home = () => {
+  const [file, setFile] = useState()
+  const [preview, setPreview] = useState()
+  const [detectedFormatOptions, setDetectedFormatOptions] = useState()
+  const [isLoading, setIsLoading] = useState(false)
+  const [validation, setValidation] = useState()
 
-    <footer className={styles.footer} />
-  </div>
-)
+  const handlePreview = useCallback(async params => {
+    if (file) {
+      setIsLoading(true)
+      const {formatOptions = {}, previewCount = 10} = params || {}
+      const options = {format: 'csv', formatOptions, previewCount}
+      const preview = await previewCsvFromBlob(file, options)
+
+      if (!params) {
+        setDetectedFormatOptions(preview.formatOptions)
+      }
+
+      setPreview(preview)
+
+      setIsLoading(false)
+    }
+  }, [file])
+
+  const handleValidationComplete = useCallback(() => {
+    setValidation(null)
+    // Lancer le géocodage
+  }, [])
+
+  const validate = useCallback(options => {
+    const validation = validateCsvFromBlob(file, options)
+    validation.addListener('progress', setValidation)
+    validation.addListener('complete', handleValidationComplete)
+    validation.addListener('error', setValidation)
+  }, [file, handleValidationComplete])
+
+  useEffect(() => {
+    handlePreview()
+  }, [file, handlePreview])
+
+  return (
+    <Main>
+      <div className='container'>
+        <StepsProgress file={file} preview={preview} />
+
+        <FileHandler file={file} handleFile={setFile} />
+
+        <div className='loading'>
+          {isLoading && <Spinner />}
+        </div>
+
+        {preview && <FilePreview {...preview} detectedFormatOptions={detectedFormatOptions} updatePreview={handlePreview} handleSubmit={validate} />}
+
+        {validation && <ValidationProgress {...validation} />}
+
+        <style jsx>{`
+          .container {
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+            padding: 2rem;
+          }
+
+          .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+        `}
+        </style>
+      </div>
+    </Main>
+  )
+}
 
 export default Home
