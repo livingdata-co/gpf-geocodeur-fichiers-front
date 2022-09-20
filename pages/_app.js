@@ -2,12 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import '@/styles/globals.css'
+import '@fortawesome/fontawesome-svg-core/styles.css'
 
 // Prepare icons lib
-import {library} from '@fortawesome/fontawesome-svg-core'
-import {faFile, faPlus, faMinus, faArrowsRotate} from '@fortawesome/free-solid-svg-icons'
+import {config} from '@fortawesome/fontawesome-svg-core'
 
-library.add(faFile, faPlus, faMinus, faArrowsRotate)
+config.autoAddCss = false // Tell Font Awesome to skip adding the CSS automatically since it's being imported above
 
 const App = ({Component, pageProps}) => (
   <React.StrictMode>

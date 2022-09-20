@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faPlus, faMinus} from '@fortawesome/free-solid-svg-icons'
 
 import colors from '@/styles/colors'
 
@@ -42,7 +43,7 @@ const ColumnSelector = ({label, icon, handleClick}) => (
 
 ColumnSelector.propTypes = {
   label: PropTypes.string.isRequired,
-  icon: PropTypes.oneOf(['plus', 'minus']).isRequired,
+  icon: PropTypes.oneOf([faPlus, faMinus]).isRequired,
   handleClick: PropTypes.func.isRequired
 }
 

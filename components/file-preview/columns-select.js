@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import {faPlus, faMinus} from '@fortawesome/free-solid-svg-icons'
 
 import colors from '@/styles/colors'
 
@@ -9,14 +10,14 @@ const ColumnsSelect = ({selectedColumns, columns, onSelect}) => (
     <h3>Colonnes à séléctionner</h3>
     <div className='columns'>
       {columns.filter(c => !selectedColumns.includes(c)).map(column => (
-        <ColumnSelector key={column} label={column} icon='plus' handleClick={() => onSelect(column)} />
+        <ColumnSelector key={column} label={column} icon={faPlus} handleClick={() => onSelect(column)} />
       ))}
     </div>
 
     <div className='selected columns'>
       {selectedColumns.length === 0 && <div className='empty'>Aucune colonne séléctionnée</div>}
       {selectedColumns.map(column => (
-        <ColumnSelector key={column} label={column} icon='minus' handleClick={() => onSelect(column)} />
+        <ColumnSelector key={column} label={column} icon={faMinus} handleClick={() => onSelect(column)} />
       ))}
     </div>
 
