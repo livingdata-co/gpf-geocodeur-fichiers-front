@@ -13,6 +13,7 @@ const Home = () => {
   const [file, setFile] = useState()
   const [preview, setPreview] = useState()
   const [detectedFormatOptions, setDetectedFormatOptions] = useState()
+  const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [validation, setValidation] = useState()
 
@@ -21,13 +22,21 @@ const Home = () => {
       setIsLoading(true)
       const {formatOptions = {}, previewCount = 10} = params || {}
       const options = {format: 'csv', formatOptions, previewCount}
-      const preview = await previewCsvFromBlob(file, options)
 
-      if (!params) {
-        setDetectedFormatOptions(preview.formatOptions)
+      try {
+        const preview = await previewCsvFromBlob(file, options)
+        if (!params) {
+          setDetectedFormatOptions(preview.formatOptions)
+        }
+
+        if (preview.parseErrors) {
+          throw new Error(preview.parseErrors[0])
+        }
+
+        setPreview(preview)
+      } catch (error) {
+        setError(error.message)
       }
-
-      setPreview(preview)
 
       setIsLoading(false)
     }
@@ -60,7 +69,7 @@ const Home = () => {
           {isLoading && <Spinner />}
         </div>
 
-        {preview && <FilePreview {...preview} detectedFormatOptions={detectedFormatOptions} updatePreview={handlePreview} handleSubmit={validate} />}
+        {preview && <FilePreview {...preview} detectedFormatOptions={detectedFormatOptions} error={error} updatePreview={handlePreview} handleSubmit={validate} />}
 
         {validation && <ValidationProgress {...validation} />}
 

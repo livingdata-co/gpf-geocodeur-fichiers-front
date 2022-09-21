@@ -13,7 +13,7 @@ import OptionsInputs from '@/components/file-preview/options-inputs'
 import ColumnsSelect from '@/components/file-preview/columns-select'
 import AdvancedParams from '@/components/file-preview/advanced-params'
 
-const FilePreview = ({columns, rows, formatOptions, detectedFormatOptions, parseErrors, updatePreview, handleSubmit}) => {
+const FilePreview = ({columns, rows, formatOptions, detectedFormatOptions, error, updatePreview, handleSubmit}) => {
   const [encoding, setEncoding] = useState(detectedFormatOptions.encoding)
   const [delimiter, setDelimiter] = useState(detectedFormatOptions.delimiter)
   const [linebreak, setLinebreak] = useState(detectedFormatOptions.linebreak)
@@ -87,7 +87,7 @@ const FilePreview = ({columns, rows, formatOptions, detectedFormatOptions, parse
         </div>
       </div>
 
-      {parseErrors.length > 0 ? (
+      {error ? (
         <ErrorMessage>Les paramètres sélectionnés ne permettent pas l’analyse du fichier</ErrorMessage>
       ) : (
         <>
@@ -131,13 +131,13 @@ const FilePreview = ({columns, rows, formatOptions, detectedFormatOptions, parse
 FilePreview.defaultProps = {
   columns: [],
   rows: [],
-  parseErrors: []
+  error: null
 }
 
 FilePreview.propTypes = {
   columns: PropTypes.array,
   rows: PropTypes.array,
-  parseErrors: PropTypes.array,
+  error: PropTypes.string,
   formatOptions: PropTypes.object.isRequired,
   detectedFormatOptions: PropTypes.object.isRequired,
   updatePreview: PropTypes.func.isRequired,
