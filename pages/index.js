@@ -12,6 +12,8 @@ import FormatOptionsForm from '@/components/format-options-form'
 import ErrorMessage from '@/components/error-message'
 import Table from '@/components/table'
 import Button from '@/components/button'
+import StepButton from '@/components/step-button'
+import SectionHeader from '@/components/section-header'
 
 const Home = () => {
   const [file, setFile] = useState()
@@ -24,6 +26,7 @@ const Home = () => {
   const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [validation, setValidation] = useState()
+  const [step, setStep] = useState(1)
 
   const handlePreview = useCallback(async params => {
     if (file) {
@@ -44,6 +47,7 @@ const Home = () => {
         setPreview(preview)
         setFormatOptions(preview.formatOptions)
         setPreviewCount(preview.rows.length)
+        setStep(2)
       } catch (error) {
         setError(error.message)
       }
@@ -55,6 +59,7 @@ const Home = () => {
   const handleValidationComplete = useCallback(() => {
     setValidation(null)
     // Lancer le géocodage
+    // Étape 4
   }, [])
 
   const validate = useCallback(() => {
@@ -71,32 +76,44 @@ const Home = () => {
   return (
     <Main>
       <div className='container'>
-        <StepsProgress file={file} preview={preview} />
+        <StepsProgress step={step} handleStep={setStep} />
 
-        {/* STEP 1 */}
-        <FileHandler file={file} handleFile={setFile} />
-
-        <div className='loading'>
-          {isLoading && <Spinner />}
-        </div>
-
-        {preview && (
+        {step === 1 ? (
           <>
-            {/* STEP 2 */}
+            <SectionHeader>1 - Déposer un fichier</SectionHeader>
+            <FileHandler file={file} handleFile={setFile} />
+          </>
+        ) : (
+          <FileHandler file={file} handleFile={setFile} />
+        )}
+
+        {step === 2 && (
+          <>
+            <SectionHeader>2 - Aperçu du fichier et vérification de l’encodage</SectionHeader>
             <FormatOptionsForm
               previewCount={previewCount}
               formatOptions={formatOptions}
+              step={step}
               detectedFormatOptions={detectedFormatOptions}
               submitOptions={handlePreview}
+              handleStep={setStep}
             />
 
             {error ? (
               <ErrorMessage>Les paramètres sélectionnés ne permettent pas l’analyse du fichier</ErrorMessage>
             ) : (
-              <Table columns={preview.columns} rows={preview.rows} />
+              <Table columns={preview.columns} rows={preview.rows} step={step} handleStep={setStep} />
             )}
 
-            {/* STEP 3 */}
+            <StepButton stepType='next' handleStep={setStep} step={step} />
+          </>
+        )}
+
+        {step === 3 && (
+          <>
+            <StepButton stepType='previous' step={step} handleStep={setStep} position='start' />
+
+            <SectionHeader>3 - Construire les adresses</SectionHeader>
             <BuildAddress
               columns={preview.columns}
               rows={preview.rows}
@@ -109,10 +126,14 @@ const Home = () => {
             <div className='submit'>
               <Button onClick={validate}>Lancer le géocodage</Button>
             </div>
-
-            {validation && <ValidationProgress {...validation} />}
           </>
         )}
+
+        <div className='loading'>
+          {isLoading && <Spinner />}
+        </div>
+
+        {validation && <ValidationProgress {...validation} />}
 
         <style jsx>{`
           .container {
