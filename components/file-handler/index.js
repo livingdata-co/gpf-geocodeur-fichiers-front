@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import {useEffect, useState} from 'react'
 
-import SectionHeader from '../section-header'
 import {formatFileSize} from '@/lib/file'
 
 import DropzoneContainer from '@/components/file-handler/dropzone-container'
@@ -48,7 +47,6 @@ const FileHandler = ({file, handleFile}) => {
 
   return (
     <section>
-      <SectionHeader>1 - Déposer un fichier</SectionHeader>
       <DropzoneContainer
         file={file}
         maxSize={FILE_MAX_SIZE}

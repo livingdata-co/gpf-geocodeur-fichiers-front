@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types'
 import {useCallback} from 'react'
 
-import SectionHeader from '@/components/section-header'
 import GeocodePreview from '@/components/geocode-preview'
-
 import ColumnsSelect from '@/components/build-address/columns-select'
 import AdvancedParams from '@/components/build-address/advanced-params'
 
@@ -18,7 +16,6 @@ const BuildAddress = ({columns, rows, previewCount, selectedColumns, handleColum
 
   return (
     <div>
-      <SectionHeader>3 - Construire les adresses</SectionHeader>
       <ColumnsSelect selectedColumns={selectedColumns} columns={columns} onSelect={handleColumn} />
       {selectedColumns.length > 0 && <GeocodePreview columns={selectedColumns} rows={rows} maxRow={previewCount} />}
       <AdvancedParams columns={columns} handleParams={handleAdvancedParams} />
