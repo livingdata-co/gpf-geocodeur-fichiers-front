@@ -34,7 +34,7 @@ const Table = ({columns, rows, selectedColumns, onSelect}) => {
                 <th
                   key={header.id}
                   className={`${selectedColumns.includes(header.id) ? 'selected' : ''}`}
-                  onClick={() => onSelect(header.id)}
+                  onClick={onSelect ? () => onSelect(header.id) : null}
                 >
                   {flexRender(
                     header.column.columnDef.header,
@@ -88,7 +88,7 @@ const Table = ({columns, rows, selectedColumns, onSelect}) => {
             height: ${CELL_HEIGHT}px;
             border: 1px solid whitesmoke;
             margin: 1px;
-            cursor: pointer;
+            cursor: ${onSelect ? 'pointer' : 'default'};
           }
 
           th::after, 
@@ -103,11 +103,11 @@ const Table = ({columns, rows, selectedColumns, onSelect}) => {
 
           th:hover::after,
           th.selected::after {
-            background-color: ${colors.lightBlue}30;
+            background-color: ${onSelect ? `${colors.lightBlue}30` : ''};
           }
 
           th.selected:hover::after {
-            background-color: ${colors.lightBlue}40;
+            background-color: ${onSelect ? `${colors.lightBlue}40` : ''};
           }
 
           tr {
@@ -118,11 +118,16 @@ const Table = ({columns, rows, selectedColumns, onSelect}) => {
   )
 }
 
+Table.defaultProps = {
+  selectedColumns: [],
+  onSelect: null
+}
+
 Table.propTypes = {
   columns: PropTypes.arrayOf(PropTypes.string).isRequired,
   rows: PropTypes.arrayOf(PropTypes.object).isRequired,
-  selectedColumns: PropTypes.array.isRequired,
-  onSelect: PropTypes.func.isRequired
+  selectedColumns: PropTypes.array,
+  onSelect: PropTypes.func
 }
 
 export default Table

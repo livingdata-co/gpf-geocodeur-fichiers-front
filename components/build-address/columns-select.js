@@ -3,7 +3,7 @@ import {faPlus, faMinus} from '@fortawesome/free-solid-svg-icons'
 
 import colors from '@/styles/colors'
 
-import ColumnSelector from '@/components/file-preview/column-selector'
+import ColumnSelector from '@/components/build-address/column-selector'
 
 const ColumnsSelect = ({selectedColumns, columns, onSelect}) => (
   <div className='colums-select-container'>
