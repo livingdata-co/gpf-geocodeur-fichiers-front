@@ -6,7 +6,8 @@ import SelectInput from '@/components/select-input'
 
 const linebreakOptions = [
   {value: '\n', label: 'Linux'},
-  {value: '\r\n', label: 'Windows'}
+  {value: '\r\n', label: 'Windows'},
+  {value: '\r', label: 'BSD'}
 ]
 
 const delimiterOptions = [
@@ -17,13 +18,14 @@ const delimiterOptions = [
 ]
 
 const quoteCharOptions = [
-  {value: '"', label: 'double-quote'}
+  {value: '"', label: 'double-quote'},
+  {value: '\'\'', label: 'quote-quote'}
 ]
 
 const encodingOptions = [
-  {value: 'utf-8', label: 'utf-8'}, // eslint-disable-line unicorn/text-encoding-identifier-case
-  {value: 'iso-8859-1', label: 'iso-8859-1'},
-  {value: 'iso-8859-15', label: 'iso-8859-15'}
+  {value: 'UTF-8', label: 'UTF-8'}, // eslint-disable-line unicorn/text-encoding-identifier-case
+  {value: 'ISO-8859-1', label: 'ISO-8859-1'},
+  {value: 'windows-1252', label: 'windows-1252'}
 ]
 
 const OptionsInputs = ({
