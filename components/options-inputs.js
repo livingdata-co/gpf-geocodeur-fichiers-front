@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import colors from '@/styles/colors'
 
 import SelectInput from '@/components/select-input'
-import StepButton from '@/components/step-button'
 
 const linebreakOptions = [
   {value: '\n', label: 'Linux'},
@@ -30,20 +29,14 @@ const encodingOptions = [
 ]
 
 const OptionsInputs = ({
-  step,
   autodetected,
   encoding, handleEncoding,
   delimiter, handleDelimeter,
   linebreak, handleLinebreak,
-  quoteChar, handleQuoteChar,
-  handleStep
+  quoteChar, handleQuoteChar
 }) => (
   <section>
-    <h3>
-      Paramètres du fichier détectés
-      <StepButton stepType='next' handleStep={handleStep} step={step} />
-    </h3>
-
+    <h3>Paramètres du fichier détectés</h3>
     <div className='inputs'>
       <SelectInput label='Encodage' value={encoding} autodetected={autodetected.encoding} options={encodingOptions} auto handleChange={handleEncoding} />
       <SelectInput label='Séparateur de ligne' value={linebreak} autodetected={autodetected.linebreak} options={linebreakOptions} handleChange={handleLinebreak} />
@@ -52,11 +45,6 @@ const OptionsInputs = ({
     </div>
 
     <style jsx>{`
-      h3 {
-        display: grid;
-        grid-template-columns: 1fr auto;
-      }
-
       .inputs {
         display: grid;
         align-items: center;
@@ -72,7 +60,6 @@ const OptionsInputs = ({
 )
 
 OptionsInputs.propTypes = {
-  step: PropTypes.number.isRequired,
   autodetected: PropTypes.shape({
     encoding: PropTypes.string.isRequired,
     linebreak: PropTypes.string.isRequired,
@@ -86,8 +73,7 @@ OptionsInputs.propTypes = {
   linebreak: PropTypes.string.isRequired,
   handleLinebreak: PropTypes.func.isRequired,
   quoteChar: PropTypes.string.isRequired,
-  handleQuoteChar: PropTypes.func.isRequired,
-  handleStep: PropTypes.func.isRequired
+  handleQuoteChar: PropTypes.func.isRequired
 }
 
 export default OptionsInputs

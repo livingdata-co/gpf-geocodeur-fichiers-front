@@ -18,6 +18,7 @@ const StepButton = ({step, stepType, position, handleStep, ...props}) => {
 
       <style jsx>{`
         .step-button-container {
+          height: 40px;
           width: 100%;
           display: flex;
           justify-content: ${position === 'end' ? 'flex-end' : 'flex-start'};
@@ -27,7 +28,7 @@ const StepButton = ({step, stepType, position, handleStep, ...props}) => {
           width: fit-content;
           background: ${colors.darkBlue};
           color: #fff;
-          padding: 10px;
+          padding: 5px 10px;
           border: none;
           border-radius: 4px;
           display: flex;

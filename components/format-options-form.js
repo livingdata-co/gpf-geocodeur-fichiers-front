@@ -6,7 +6,7 @@ import SelectInput from '@/components/select-input'
 import OptionsInputs from '@/components/options-inputs'
 import Button from '@/components/button'
 
-const FormatOptionsForm = ({formatOptions, detectedFormatOptions, previewCount, step, submitOptions, handleStep}) => {
+const FormatOptionsForm = ({formatOptions, detectedFormatOptions, previewCount, submitOptions}) => {
   const [encoding, setEncoding] = useState(detectedFormatOptions.encoding)
   const [delimiter, setDelimiter] = useState(detectedFormatOptions.delimiter)
   const [linebreak, setLinebreak] = useState(detectedFormatOptions.linebreak)
@@ -45,13 +45,11 @@ const FormatOptionsForm = ({formatOptions, detectedFormatOptions, previewCount, 
   return (
     <div className='options-form'>
       <OptionsInputs
-        step={step}
         autodetected={detectedFormatOptions}
         encoding={encoding} handleEncoding={setEncoding}
         delimiter={delimiter} handleDelimeter={setDelimiter}
         linebreak={linebreak} handleLinebreak={setLinebreak}
         quoteChar={quoteChar} handleQuoteChar={setQuoteChar}
-        handleStep={handleStep}
       />
 
       <div className='submit-options'>
@@ -88,9 +86,7 @@ FormatOptionsForm.propTypes = {
   formatOptions: PropTypes.object.isRequired,
   detectedFormatOptions: PropTypes.object.isRequired,
   previewCount: PropTypes.number.isRequired,
-  step: PropTypes.number.isRequired,
-  submitOptions: PropTypes.func.isRequired,
-  handleStep: PropTypes.func.isRequired
+  submitOptions: PropTypes.func.isRequired
 }
 
 export default FormatOptionsForm

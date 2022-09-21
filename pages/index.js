@@ -89,14 +89,15 @@ const Home = () => {
 
         {step === 2 && (
           <>
-            <SectionHeader>2 - Aperçu du fichier et vérification de l’encodage</SectionHeader>
+            <SectionHeader step={step} handleStep={setStep} stepType='next'>
+              2 - Aperçu du fichier et vérification de l’encodage
+            </SectionHeader>
+
             <FormatOptionsForm
               previewCount={previewCount}
               formatOptions={formatOptions}
-              step={step}
               detectedFormatOptions={detectedFormatOptions}
               submitOptions={handlePreview}
-              handleStep={setStep}
             />
 
             {error ? (
@@ -111,9 +112,10 @@ const Home = () => {
 
         {step === 3 && (
           <>
-            <StepButton stepType='previous' step={step} handleStep={setStep} position='start' />
+            <SectionHeader step={step} handleStep={setStep} stepType='previous'>
+              3 - Construire les adresses
+            </SectionHeader>
 
-            <SectionHeader>3 - Construire les adresses</SectionHeader>
             <BuildAddress
               columns={preview.columns}
               rows={preview.rows}
