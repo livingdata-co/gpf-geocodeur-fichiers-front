@@ -90,7 +90,7 @@ const Home = () => {
             {error ? (
               <ErrorMessage>Les paramètres sélectionnés ne permettent pas l’analyse du fichier</ErrorMessage>
             ) : (
-              <Table columns={preview.columns} rows={preview.rows} step={step} handleStep={setStep} />
+              <Table columns={preview.columns} rows={preview.rows} />
             )}
 
             <StepButton stepType='next' handleStep={setStep} step={step} />
@@ -106,7 +106,6 @@ const Home = () => {
             <BuildAddress
               columns={preview.columns}
               rows={preview.rows}
-              previewCount={previewCount}
               selectedColumns={selectedColumns}
               handleColumns={setSelectedColumns}
               handleAdvancedParams={setAdvancedParams}
