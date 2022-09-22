@@ -47,6 +47,7 @@ const Home = () => {
         setPreview(preview)
         setFormatOptions(preview.formatOptions)
         setPreviewCount(preview.rows.length)
+        setSelectedColumns([])
         setStep(2)
       } catch (error) {
         setError(error.message)
