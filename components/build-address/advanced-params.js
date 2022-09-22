@@ -1,20 +1,27 @@
 import {useMemo, useState} from 'react'
 import PropTypes from 'prop-types'
 
+import TextInput from '@/components/text-input'
 import SelectInput from '@/components/select-input'
 
 const AdvancedParams = ({columns, handleParams}) => {
-  const [codeINSEE, setCodeINSEE] = useState(null)
+  const [advancedParams, setAdvancedParams] = useState({
+    codeINSEE: null,
+    lat: null,
+    long: null
+  })
 
   const options = useMemo(() => [
-    {label: codeINSEE ? 'Aucune' : 'Choisir une colonne', value: ''},
+    {label: advancedParams.codeINSEE ? 'Aucune' : 'Choisir une colonne', value: ''},
     ...columns.map(code => ({label: `${code}`, value: `${code}`}))
-  ], [columns, codeINSEE])
+  ], [columns, advancedParams])
 
-  const handleChange = value => {
-    const codeINSEE = value === '' ? null : value
-    setCodeINSEE(codeINSEE)
-    handleParams({codeINSEE})
+  const handleChange = event => {
+    const {value, name} = event.target
+
+    const sanitizedValue = value === '' ? null : value
+    setAdvancedParams({...advancedParams, [name]: sanitizedValue})
+    handleParams(advancedParams)
   }
 
   return (
@@ -24,17 +31,37 @@ const AdvancedParams = ({columns, handleParams}) => {
       <div className='advanced-params'>
         <SelectInput
           label='Code INSEE'
-          value={`${codeINSEE}`}
+          ariaLabel='Sélectionner une colonne correspondant au code INSEE'
+          value={`${advancedParams.codeINSEE}`}
+          name='codeINSEE'
           options={options}
           handleChange={handleChange}
+        />
+
+        <TextInput
+          value={advancedParams.lat}
+          name='lat'
+          handleChange={handleChange}
+          ariaLabel='Entrer une latitude'
+          label='Latitude'
+        />
+
+        <TextInput
+          value={advancedParams.long}
+          name='long'
+          handleChange={handleChange}
+          ariaLabel='Entrer une longitude'
+          label='Longitude'
         />
       </div>
 
       <style jsx>{`
         .advanced-params {
           display: flex;
+          flex-wrap: wrap;
+          gap: 1em;
         }
-        `}</style>
+      `}</style>
     </div>
   )
 }

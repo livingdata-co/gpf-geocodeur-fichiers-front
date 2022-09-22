@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import PropTypes from 'prop-types'
 
-const SelectInput = ({label, value, autodetected, options, handleChange}) => {
+const SelectInput = ({label, name, value, ariaLabel, autodetected, options, handleChange}) => {
   const [isFocus, setIsFocus] = useState(false)
 
   return (
@@ -9,10 +9,11 @@ const SelectInput = ({label, value, autodetected, options, handleChange}) => {
       <label htmlFor={label}>{label} :</label>
 
       <select
-        name={label}
+        name={name}
+        aria-label={ariaLabel}
         id={label}
         value={value}
-        onChange={e => handleChange(e.target.value)}
+        onChange={e => handleChange(e)}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
       >
@@ -24,15 +25,15 @@ const SelectInput = ({label, value, autodetected, options, handleChange}) => {
       </select>
 
       <style jsx>{`
-      .container {
-        display: grid;
-        align-items: center;
-        grid-gap: .5rem;
-      }
+        .container {
+          display: grid;
+          align-items: center;
+          grid-gap: .5rem;
+        }
 
-      label {
-        font-weight: bold;
-      }
+        label {
+          font-weight: bold;
+        }
       `}</style>
     </div>
   )
@@ -44,6 +45,8 @@ SelectInput.defaultProps = {
 
 SelectInput.propTypes = {
   label: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  ariaLabel: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   autodetected: PropTypes.string,
   options: PropTypes.arrayOf(PropTypes.shape({
