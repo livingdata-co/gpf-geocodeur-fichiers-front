@@ -1,5 +1,5 @@
 import {useState, useCallback, useEffect} from 'react'
-import {previewCsvFromBlob, validateCsvFromBlob} from 'table-reader/lib/csv'
+import {previewCsvFromBlob} from 'table-reader/lib/csv'
 
 import Main from '@/layouts/main'
 
@@ -7,13 +7,13 @@ import StepsProgress from '@/components/steps-progress'
 import FileHandler from '@/components/file-handler'
 import BuildAddress from '@/components/build-address'
 import Spinner from '@/components/spinner'
-import ValidationProgress from '@/components/validation-progress'
 import FormatOptionsForm from '@/components/format-options-form'
 import ErrorMessage from '@/components/error-message'
 import Table from '@/components/table'
 import Button from '@/components/button'
 import StepButton from '@/components/step-button'
 import SectionHeader from '@/components/section-header'
+import Geocoding from '@/components/geocoding'
 
 const Home = () => {
   const [file, setFile] = useState()
@@ -25,7 +25,6 @@ const Home = () => {
   const [selectedColumns, setSelectedColumns] = useState([])
   const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
-  const [validation, setValidation] = useState()
   const [step, setStep] = useState(1)
 
   const handlePreview = useCallback(async params => {
@@ -56,19 +55,6 @@ const Home = () => {
       setIsLoading(false)
     }
   }, [file])
-
-  const handleValidationComplete = useCallback(() => {
-    setValidation(null)
-    // Lancer le géocodage
-    // Étape 4
-  }, [])
-
-  const validate = useCallback(() => {
-    const validation = validateCsvFromBlob(file, {formatOptions: {...formatOptions, ...advancedParams}})
-    validation.addListener('progress', setValidation)
-    validation.addListener('complete', handleValidationComplete)
-    validation.addListener('error', setError)
-  }, [file, formatOptions, advancedParams, handleValidationComplete])
 
   useEffect(() => {
     handlePreview()
@@ -127,16 +113,28 @@ const Home = () => {
             />
 
             <div className='submit'>
-              <Button onClick={validate}>Lancer le géocodage</Button>
+              <Button onClick={() => setStep(4)}>Valider les paramètres</Button>
             </div>
+          </>
+        )}
+
+        {step === 4 && (
+          <>
+            <SectionHeader step={step} handleStep={setStep} stepType='previous'>
+              4 - Géocodage
+            </SectionHeader>
+
+            <Geocoding
+              file={file}
+              formatOptions={formatOptions}
+              advancedParams={advancedParams}
+            />
           </>
         )}
 
         <div className='loading'>
           {isLoading && <Spinner />}
         </div>
-
-        {validation && <ValidationProgress {...validation} />}
 
         <style jsx>{`
           .container {
