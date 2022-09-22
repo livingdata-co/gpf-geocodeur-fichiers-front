@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import {useCallback} from 'react'
 
-import Table from '../table'
+import Table from '@/components/table'
 import GeocodePreview from '@/components/geocode-preview'
 import ColumnsSelect from '@/components/build-address/columns-select'
 import AdvancedParams from '@/components/build-address/advanced-params'
