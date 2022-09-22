@@ -8,7 +8,6 @@ import AdvancedParams from '@/components/build-address/advanced-params'
 
 const BuildAddress = ({columns, rows, selectedColumns, handleColumns, handleAdvancedParams}) => {
   const handleColumn = useCallback(column => {
-    console.log(column)
     if (selectedColumns.includes(column)) {
       handleColumns(selectedColumns.filter(c => c !== column))
     } else {
