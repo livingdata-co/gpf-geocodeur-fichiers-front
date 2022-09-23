@@ -1,13 +1,12 @@
 import PropTypes from 'prop-types'
 import {useCallback} from 'react'
 
-import SectionHeader from '@/components/section-header'
+import Table from '@/components/table'
 import GeocodePreview from '@/components/geocode-preview'
-
 import ColumnsSelect from '@/components/build-address/columns-select'
 import AdvancedParams from '@/components/build-address/advanced-params'
 
-const BuildAddress = ({columns, rows, previewCount, selectedColumns, handleColumns, handleAdvancedParams}) => {
+const BuildAddress = ({columns, rows, selectedColumns, handleColumns, handleAdvancedParams}) => {
   const handleColumn = useCallback(column => {
     if (selectedColumns.includes(column)) {
       handleColumns(selectedColumns.filter(c => c !== column))
@@ -18,9 +17,14 @@ const BuildAddress = ({columns, rows, previewCount, selectedColumns, handleColum
 
   return (
     <div>
-      <SectionHeader>3 - Construire les adresses</SectionHeader>
       <ColumnsSelect selectedColumns={selectedColumns} columns={columns} onSelect={handleColumn} />
-      {selectedColumns.length > 0 && <GeocodePreview columns={selectedColumns} rows={rows} maxRow={previewCount} />}
+      {selectedColumns.length > 0 && (
+        <div>
+          <h3>Prévisualisation de l’adresse</h3>
+          <Table columns={columns} rows={rows.slice(0, 3)} selectedColumns={selectedColumns} onSelect={handleColumn} />
+          <GeocodePreview columns={selectedColumns} rows={rows} maxRow={3} />
+        </div>
+      )}
       <AdvancedParams columns={columns} handleParams={handleAdvancedParams} />
     </div>
   )
@@ -28,8 +32,7 @@ const BuildAddress = ({columns, rows, previewCount, selectedColumns, handleColum
 
 BuildAddress.propTypes = {
   columns: PropTypes.array.isRequired,
-  rows: PropTypes.string.isRequired,
-  previewCount: PropTypes.string.isRequired,
+  rows: PropTypes.array.isRequired,
   selectedColumns: PropTypes.array.isRequired,
   handleColumns: PropTypes.func.isRequired,
   handleAdvancedParams: PropTypes.func.isRequired,

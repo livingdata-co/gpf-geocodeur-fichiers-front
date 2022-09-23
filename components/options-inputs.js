@@ -36,7 +36,7 @@ const OptionsInputs = ({
   quoteChar, handleQuoteChar
 }) => (
   <section>
-    <h3>Paramètres du fichier détectées</h3>
+    <h3>Paramètres du fichier détectés</h3>
     <div className='inputs'>
       <SelectInput label='Encodage' value={encoding} autodetected={autodetected.encoding} options={encodingOptions} auto handleChange={handleEncoding} />
       <SelectInput label='Séparateur de ligne' value={linebreak} autodetected={autodetected.linebreak} options={linebreakOptions} handleChange={handleLinebreak} />
@@ -73,7 +73,7 @@ OptionsInputs.propTypes = {
   linebreak: PropTypes.string.isRequired,
   handleLinebreak: PropTypes.func.isRequired,
   quoteChar: PropTypes.string.isRequired,
-  handleQuoteChar: PropTypes.func.isRequired,
+  handleQuoteChar: PropTypes.func.isRequired
 }
 
 export default OptionsInputs

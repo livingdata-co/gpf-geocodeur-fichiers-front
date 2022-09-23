@@ -1,5 +1,6 @@
 import {useState, useCallback, useEffect} from 'react'
-import {previewCsvFromBlob, validateCsvFromBlob} from 'table-reader/lib/csv'
+import {faCircleChevronRight, faCircleChevronLeft} from '@fortawesome/free-solid-svg-icons'
+import {previewCsvFromBlob} from 'table-reader/lib/csv'
 
 import Main from '@/layouts/main'
 
@@ -7,11 +8,12 @@ import StepsProgress from '@/components/steps-progress'
 import FileHandler from '@/components/file-handler'
 import BuildAddress from '@/components/build-address'
 import Spinner from '@/components/spinner'
-import ValidationProgress from '@/components/validation-progress'
 import FormatOptionsForm from '@/components/format-options-form'
 import ErrorMessage from '@/components/error-message'
 import Table from '@/components/table'
 import Button from '@/components/button'
+import SectionHeader from '@/components/section-header'
+import Geocoding from '@/components/geocoding'
 
 const Home = () => {
   const [file, setFile] = useState()
@@ -23,7 +25,7 @@ const Home = () => {
   const [selectedColumns, setSelectedColumns] = useState([])
   const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
-  const [validation, setValidation] = useState()
+  const [step, setStep] = useState(1)
 
   const handlePreview = useCallback(async params => {
     if (file) {
@@ -44,6 +46,8 @@ const Home = () => {
         setPreview(preview)
         setFormatOptions(preview.formatOptions)
         setPreviewCount(preview.rows.length)
+        setSelectedColumns([])
+        setStep(2)
       } catch (error) {
         setError(error.message)
       }
@@ -52,17 +56,12 @@ const Home = () => {
     }
   }, [file])
 
-  const handleValidationComplete = useCallback(() => {
-    setValidation(null)
-    // Lancer le géocodage
-  }, [])
-
-  const validate = useCallback(() => {
-    const validation = validateCsvFromBlob(file, {formatOptions: {...formatOptions, ...advancedParams}})
-    validation.addListener('progress', setValidation)
-    validation.addListener('complete', handleValidationComplete)
-    validation.addListener('error', setError)
-  }, [file, formatOptions, advancedParams, handleValidationComplete])
+  const goToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    })
+  }
 
   useEffect(() => {
     handlePreview()
@@ -71,18 +70,23 @@ const Home = () => {
   return (
     <Main>
       <div className='container'>
-        <StepsProgress file={file} preview={preview} />
+        <StepsProgress step={step} handleStep={setStep} />
 
-        {/* STEP 1 */}
-        <FileHandler file={file} handleFile={setFile} />
-
-        <div className='loading'>
-          {isLoading && <Spinner />}
-        </div>
-
-        {preview && (
+        {step === 1 ? (
           <>
-            {/* STEP 2 */}
+            <SectionHeader>1 - Déposer un fichier</SectionHeader>
+            <FileHandler file={file} handleFile={setFile} />
+          </>
+        ) : (
+          <FileHandler file={file} handleFile={setFile} />
+        )}
+
+        {step === 2 && (
+          <>
+            <SectionHeader handleStep={() => setStep(3)} stepType='next'>
+              2 - Aperçu du fichier et vérification de l’encodage
+            </SectionHeader>
+
             <FormatOptionsForm
               previewCount={previewCount}
               formatOptions={formatOptions}
@@ -96,23 +100,71 @@ const Home = () => {
               <Table columns={preview.columns} rows={preview.rows} />
             )}
 
-            {/* STEP 3 */}
+            <div className='button-position'>
+              <Button
+                onClick={() => setStep(3)}
+                label='Aller à l’étape suivante'
+                icon={faCircleChevronRight}
+              >
+                Étape suivante
+              </Button>
+            </div>
+          </>
+        )}
+
+        {step === 3 && (
+          <>
+            <SectionHeader>3 - Construire les adresses</SectionHeader>
+
             <BuildAddress
               columns={preview.columns}
               rows={preview.rows}
-              previewCount={previewCount}
               selectedColumns={selectedColumns}
               handleColumns={setSelectedColumns}
               handleAdvancedParams={setAdvancedParams}
             />
 
             <div className='submit'>
-              <Button onClick={validate}>Lancer le géocodage</Button>
+              <Button
+                onClick={() => {
+                  goToTop()
+                  setStep(2)
+                }}
+                label='Aller à l’étape précédente'
+                icon={faCircleChevronLeft}
+              >
+                Étape précédente
+              </Button>
+              <Button onClick={() => setStep(4)} disabled={selectedColumns.length === 0}>
+                Valider les paramètres
+              </Button>
             </div>
-
-            {validation && <ValidationProgress {...validation} />}
           </>
         )}
+
+        {step === 4 && (
+          <>
+            <SectionHeader
+              onClick={() => {
+                goToTop()
+                setStep(3)
+              }}
+              stepType='previous'
+            >
+              4 - Géocodage
+            </SectionHeader>
+
+            <Geocoding
+              file={file}
+              formatOptions={formatOptions}
+              advancedParams={advancedParams}
+            />
+          </>
+        )}
+
+        <div className='loading'>
+          {isLoading && <Spinner />}
+        </div>
 
         <style jsx>{`
           .container {
@@ -122,6 +174,11 @@ const Home = () => {
             padding: 2rem;
           }
 
+          .button-position {
+            display: flex;
+            justify-content: flex-end;
+          }
+
           .loading {
             display: flex;
             align-items: center;
@@ -129,8 +186,9 @@ const Home = () => {
           }
 
           .submit {
-            display: flex;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            justify-items: center;
           }
         `}
         </style>

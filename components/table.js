@@ -61,7 +61,7 @@ const Table = ({columns, rows, selectedColumns, onSelect}) => {
       <style jsx>{`
           .table-container {
             margin: 1em 0;
-            height: 600px;
+            height: fit-content;
             width: 100%;
             overflow: scroll;
             width: -moz-available;
@@ -91,7 +91,7 @@ const Table = ({columns, rows, selectedColumns, onSelect}) => {
             cursor: ${onSelect ? 'pointer' : 'default'};
           }
 
-          th::after, 
+          th::after,
           th::before {
             content: "";
             position: absolute;

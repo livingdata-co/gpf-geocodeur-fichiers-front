@@ -5,11 +5,13 @@ import colors from '@/styles/colors'
 const ErrorMessage = ({children}) => (
   <div className='error'>
     {children}
+
     <style jsx>{`
-            .error {
-                color: ${colors.error};
-            }
-            `}</style>
+      .error {
+        color: ${colors.error};
+        margin: 10px 0;
+      }
+    `}</style>
   </div>
 )
 
