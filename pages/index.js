@@ -99,9 +99,7 @@ const Home = () => {
 
         {step === 3 && (
           <>
-            <SectionHeader step={step} handleStep={setStep} stepType='previous'>
-              3 - Construire les adresses
-            </SectionHeader>
+            <SectionHeader>3 - Construire les adresses</SectionHeader>
 
             <BuildAddress
               columns={preview.columns}
@@ -112,6 +110,7 @@ const Home = () => {
             />
 
             <div className='submit'>
+              <StepButton step={step} handleStep={setStep} stepType='previous' position='start' />
               <Button onClick={() => setStep(4)} disabled={selectedColumns.length === 0}>
                 Valider les paramètres
               </Button>
@@ -152,8 +151,9 @@ const Home = () => {
           }
 
           .submit {
-            display: flex;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            justify-items: center;
           }
         `}
         </style>

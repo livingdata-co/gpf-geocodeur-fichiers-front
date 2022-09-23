@@ -13,6 +13,7 @@ const Button = ({label, children, ...props}) => (
             padding: 10px 20px;
             border: none;
             border-radius: 4px;
+            width: fit-content;
         }
 
         button:hover {
