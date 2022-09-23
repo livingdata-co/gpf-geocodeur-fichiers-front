@@ -9,7 +9,8 @@ const GeocodePreview = ({columns, rows, maxRow}) => {
     [...Array.from({length: maxRow}).keys()].map(k => ({label: `${k + 1}`, value: k.toString()}))
   ), [maxRow])
 
-  const handleRow = value => {
+  const handleRow = e => {
+    const {value} = e.target
     setRow(Number.parseInt(value, 10))
   }
 

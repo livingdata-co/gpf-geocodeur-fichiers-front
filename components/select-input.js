@@ -1,9 +1,8 @@
 import {useState} from 'react'
 import PropTypes from 'prop-types'
 
-const SelectInput = ({label, name, value, ariaLabel, autodetected, options, handleChange}) => {
+const SelectInput = ({label, name, value, ariaLabel, autodetected, options, hasEmptyValue, handleChange}) => {
   const [isFocus, setIsFocus] = useState(false)
-  const isValueNull = value === 'null' || value === 'undefined'
 
   return (
     <div className='container'>
@@ -18,7 +17,11 @@ const SelectInput = ({label, name, value, ariaLabel, autodetected, options, hand
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
       >
-        <option value=''>{isValueNull ? 'Choisir une colonne' : 'Aucune'}</option>
+        {hasEmptyValue && (
+          <option value=''>
+            {value === 'null' || value === 'undefined' ? 'Choisir une colonne' : 'Aucune'}
+          </option>
+        )}
         {options.map(({value, label, isDisabled}) => (
           <option key={value} value={value} disabled={isDisabled}>
             {label} {isFocus && autodetected === value ? '(détecté)' : ''}
@@ -43,6 +46,7 @@ const SelectInput = ({label, name, value, ariaLabel, autodetected, options, hand
 
 SelectInput.defaultProps = {
   autodetected: null,
+  hasEmptyValue: false
 }
 
 SelectInput.propTypes = {
@@ -55,6 +59,7 @@ SelectInput.propTypes = {
     value: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired
   })).isRequired,
+  hasEmptyValue: PropTypes.bool,
   handleChange: PropTypes.func.isRequired
 }
 

@@ -46,10 +46,10 @@ const FormatOptionsForm = ({formatOptions, detectedFormatOptions, previewCount, 
     <div className='options-form'>
       <OptionsInputs
         autodetected={detectedFormatOptions}
-        encoding={encoding} handleEncoding={setEncoding}
-        delimiter={delimiter} handleDelimeter={setDelimiter}
-        linebreak={linebreak} handleLinebreak={setLinebreak}
-        quoteChar={quoteChar} handleQuoteChar={setQuoteChar}
+        encoding={encoding} handleEncoding={e => setEncoding(e.target.value)}
+        delimiter={delimiter} handleDelimeter={e => setDelimiter(e.target.value)}
+        linebreak={linebreak} handleLinebreak={e => setLinebreak(e.target.value)}
+        quoteChar={quoteChar} handleQuoteChar={e => setQuoteChar(e.target.value)}
       />
 
       <div className='submit-options'>
@@ -57,7 +57,7 @@ const FormatOptionsForm = ({formatOptions, detectedFormatOptions, previewCount, 
           label='Lignes'
           value={rowsCount.toString()}
           options={[10, 50, 100].map(v => ({label: v.toString(), value: v.toString()}))}
-          handleChange={v => setRowsCount(Number.parseInt(v, 10))}
+          handleChange={v => setRowsCount(Number.parseInt(v.target.value, 10))}
         />
 
         <Button onClick={handleSubmit} disabled={!isChangedDetected}>Modifier les paramètres</Button>

@@ -40,6 +40,7 @@ const AdvancedParams = ({columns, handleParams}) => {
           ariaLabel='Sélectionner une colonne correspondant au code INSEE'
           value={`${advancedParams.codeINSEE}`}
           name='codeINSEE'
+          hasEmptyValue
           options={options}
           handleChange={handleChange}
         />
@@ -49,6 +50,7 @@ const AdvancedParams = ({columns, handleParams}) => {
           ariaLabel='Entrer une latitude'
           value={`${advancedParams.lat}`}
           name='lat'
+          hasEmptyValue
           options={options}
           handleChange={handleChange}
         />
@@ -58,6 +60,7 @@ const AdvancedParams = ({columns, handleParams}) => {
           ariaLabel='Entrer une longitude'
           value={`${advancedParams.long}`}
           name='long'
+          hasEmptyValue
           options={options}
           handleChange={handleChange}
         />
