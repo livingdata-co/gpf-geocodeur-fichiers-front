@@ -1,4 +1,5 @@
 import {useState, useCallback, useEffect} from 'react'
+import {faCircleChevronRight, faCircleChevronLeft} from '@fortawesome/free-solid-svg-icons'
 import {previewCsvFromBlob} from 'table-reader/lib/csv'
 
 import Main from '@/layouts/main'
@@ -11,8 +12,6 @@ import FormatOptionsForm from '@/components/format-options-form'
 import ErrorMessage from '@/components/error-message'
 import Table from '@/components/table'
 import Button from '@/components/button'
-import NextButton from '@/components/next-button'
-import PreviousButton from '@/components/previous-button'
 import SectionHeader from '@/components/section-header'
 import Geocoding from '@/components/geocoding'
 
@@ -57,6 +56,13 @@ const Home = () => {
     }
   }, [file])
 
+  const goToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    })
+  }
+
   useEffect(() => {
     handlePreview()
   }, [file, handlePreview])
@@ -77,7 +83,7 @@ const Home = () => {
 
         {step === 2 && (
           <>
-            <SectionHeader step={step} handleStep={setStep} stepType='next'>
+            <SectionHeader handleStep={() => setStep(3)} stepType='next'>
               2 - Aperçu du fichier et vérification de l’encodage
             </SectionHeader>
 
@@ -94,7 +100,15 @@ const Home = () => {
               <Table columns={preview.columns} rows={preview.rows} />
             )}
 
-            <NextButton handleStep={setStep} step={step} />
+            <div className='button-position'>
+              <Button
+                onClick={() => setStep(3)}
+                label='Aller à l’étape suivante'
+                icon={faCircleChevronRight}
+              >
+                Étape suivante
+              </Button>
+            </div>
           </>
         )}
 
@@ -111,7 +125,16 @@ const Home = () => {
             />
 
             <div className='submit'>
-              <PreviousButton step={step} handleStep={setStep} position='start' />
+              <Button
+                onClick={() => {
+                  goToTop()
+                  setStep(2)
+                }}
+                label='Aller à l’étape précédente'
+                icon={faCircleChevronLeft}
+              >
+                Étape précédente
+              </Button>
               <Button onClick={() => setStep(4)} disabled={selectedColumns.length === 0}>
                 Valider les paramètres
               </Button>
@@ -121,7 +144,13 @@ const Home = () => {
 
         {step === 4 && (
           <>
-            <SectionHeader step={step} handleStep={setStep} stepType='previous'>
+            <SectionHeader
+              onClick={() => {
+                goToTop()
+                setStep(3)
+              }}
+              stepType='previous'
+            >
               4 - Géocodage
             </SectionHeader>
 
@@ -143,6 +172,11 @@ const Home = () => {
             flex-direction: column;
             gap: 1em;
             padding: 2rem;
+          }
+
+          .button-position {
+            display: flex;
+            justify-content: flex-end;
           }
 
           .loading {
