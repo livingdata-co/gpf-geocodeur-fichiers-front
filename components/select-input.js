@@ -17,11 +17,8 @@ const SelectInput = ({label, name, value, ariaLabel, autodetected, options, hasE
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
       >
-        {hasEmptyValue && (
-          <option value=''>
-            {value === 'null' || value === 'undefined' ? 'Choisir une colonne' : 'Aucune'}
-          </option>
-        )}
+        {hasEmptyValue && <option value=''>{value === 'null' ? 'Choisir une colonne' : 'Aucune'}</option>}
+
         {options.map(({value, label, isDisabled}) => (
           <option key={value} value={value} disabled={isDisabled}>
             {label} {isFocus && autodetected === value ? '(détecté)' : ''}
