@@ -112,7 +112,9 @@ const Home = () => {
             />
 
             <div className='submit'>
-              <Button onClick={() => setStep(4)}>Valider les paramètres</Button>
+              <Button onClick={() => setStep(4)} disabled={selectedColumns.length === 0}>
+                Valider les paramètres
+              </Button>
             </div>
           </>
         )}
