@@ -11,7 +11,8 @@ import FormatOptionsForm from '@/components/format-options-form'
 import ErrorMessage from '@/components/error-message'
 import Table from '@/components/table'
 import Button from '@/components/button'
-import StepButton from '@/components/step-button'
+import NextButton from '@/components/next-button'
+import PreviousButton from '@/components/previous-button'
 import SectionHeader from '@/components/section-header'
 import Geocoding from '@/components/geocoding'
 
@@ -93,7 +94,7 @@ const Home = () => {
               <Table columns={preview.columns} rows={preview.rows} />
             )}
 
-            <StepButton stepType='next' handleStep={setStep} step={step} />
+            <NextButton handleStep={setStep} step={step} />
           </>
         )}
 
@@ -110,7 +111,7 @@ const Home = () => {
             />
 
             <div className='submit'>
-              <StepButton step={step} handleStep={setStep} stepType='previous' position='start' />
+              <PreviousButton step={step} handleStep={setStep} position='start' />
               <Button onClick={() => setStep(4)} disabled={selectedColumns.length === 0}>
                 Valider les paramètres
               </Button>
