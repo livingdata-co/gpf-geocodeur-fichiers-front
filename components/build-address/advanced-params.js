@@ -1,7 +1,6 @@
-import {useMemo, useState} from 'react'
+import {useState, useMemo, useEffect} from 'react'
 import PropTypes from 'prop-types'
 
-import TextInput from '@/components/text-input'
 import SelectInput from '@/components/select-input'
 
 const AdvancedParams = ({columns, handleParams}) => {
@@ -10,11 +9,7 @@ const AdvancedParams = ({columns, handleParams}) => {
     lat: null,
     long: null
   })
-
-  const options = useMemo(() => [
-    {label: advancedParams.codeINSEE ? 'Aucune' : 'Choisir une colonne', value: ''},
-    ...columns.map(code => ({label: `${code}`, value: `${code}`}))
-  ], [columns, advancedParams])
+  const [selectedCols, setSelectedCols] = useState([])
 
   const handleChange = event => {
     const {value, name} = event.target
@@ -23,6 +18,16 @@ const AdvancedParams = ({columns, handleParams}) => {
     setAdvancedParams({...advancedParams, [name]: sanitizedValue})
     handleParams(advancedParams)
   }
+
+  useEffect(() => {
+    // Détermine les colonnes déjà séléctionnées et à disabled dans la liste d'options
+    const sanitizedParams = Object.keys(advancedParams).map(param => advancedParams[param]).filter(value => value !== null)
+    setSelectedCols(sanitizedParams)
+  }, [advancedParams, columns])
+
+  const options = useMemo(() => [
+    ...columns.map(col => ({label: `${col}`, value: `${col}`, isDisabled: selectedCols.includes(col)}))
+  ], [columns, selectedCols])
 
   return (
     <div className='advanced-params-container'>
@@ -38,20 +43,22 @@ const AdvancedParams = ({columns, handleParams}) => {
           handleChange={handleChange}
         />
 
-        <TextInput
-          value={advancedParams.lat}
-          name='lat'
-          handleChange={handleChange}
-          ariaLabel='Entrer une latitude'
+        <SelectInput
           label='Latitude'
+          ariaLabel='Entrer une latitude'
+          value={`${advancedParams.lat}`}
+          name='lat'
+          options={options}
+          handleChange={handleChange}
         />
 
-        <TextInput
-          value={advancedParams.long}
-          name='long'
-          handleChange={handleChange}
-          ariaLabel='Entrer une longitude'
+        <SelectInput
           label='Longitude'
+          ariaLabel='Entrer une longitude'
+          value={`${advancedParams.long}`}
+          name='long'
+          options={options}
+          handleChange={handleChange}
         />
       </div>
 

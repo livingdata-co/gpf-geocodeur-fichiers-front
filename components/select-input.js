@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 const SelectInput = ({label, name, value, ariaLabel, autodetected, options, handleChange}) => {
   const [isFocus, setIsFocus] = useState(false)
+  const isValueNull = value === 'null' || value === 'undefined'
 
   return (
     <div className='container'>
@@ -17,8 +18,9 @@ const SelectInput = ({label, name, value, ariaLabel, autodetected, options, hand
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
       >
-        {options.map(({value, label}) => (
-          <option key={value} value={value}>
+        <option value=''>{isValueNull ? 'Choisir une colonne' : 'Aucune'}</option>
+        {options.map(({value, label, isDisabled}) => (
+          <option key={value} value={value} disabled={isDisabled}>
             {label} {isFocus && autodetected === value ? '(détecté)' : ''}
           </option>
         ))}
