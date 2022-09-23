@@ -1,4 +1,4 @@
-import {useState, useMemo, useEffect} from 'react'
+import {useState, useMemo} from 'react'
 import PropTypes from 'prop-types'
 
 import SelectInput from '@/components/select-input'
@@ -9,7 +9,6 @@ const AdvancedParams = ({columns, handleParams}) => {
     lat: null,
     long: null
   })
-  const [selectedCols, setSelectedCols] = useState([])
 
   const handleChange = event => {
     const {value, name} = event.target
@@ -20,15 +19,12 @@ const AdvancedParams = ({columns, handleParams}) => {
     handleParams(newAdvancedParams)
   }
 
-  useEffect(() => {
-    // Détermine les colonnes déjà séléctionnées et à disabled dans la liste d'options
-    const sanitizedParams = Object.keys(advancedParams).map(param => advancedParams[param]).filter(value => value !== null)
-    setSelectedCols(sanitizedParams)
-  }, [advancedParams, columns])
-
-  const options = useMemo(() => [
-    ...columns.map(col => ({label: `${col}`, value: `${col}`, isDisabled: selectedCols.includes(col)}))
-  ], [columns, selectedCols])
+  const options = useMemo(() => {
+    const selectedCols = new Set(Object.values(advancedParams).filter(value => value !== null))
+    return [
+      ...columns.map(col => ({label: `${col}`, value: `${col}`, isDisabled: selectedCols.has(col)}))
+    ]
+  }, [columns, advancedParams])
 
   return (
     <div className='advanced-params-container'>
