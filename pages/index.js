@@ -28,6 +28,7 @@ const Home = () => {
   const [step, setStep] = useState(1)
 
   const handlePreview = useCallback(async params => {
+    setError(null)
     if (file) {
       setIsLoading(true)
       const {formatOptions = {}, previewCount} = params || {}
@@ -56,16 +57,25 @@ const Home = () => {
     }
   }, [file])
 
-  const goToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    })
+  const changeStep = step => {
+    setStep(step)
+    setError(null)
   }
 
   useEffect(() => {
     handlePreview()
   }, [file, handlePreview])
+
+  const handleValidation = () => {
+    const isLatLongComplete = (advancedParams.long && advancedParams.lat) || (!advancedParams.long && !advancedParams.lat)
+
+    setError(null)
+    if (isLatLongComplete) {
+      setStep(4)
+    } else {
+      setError('Renseigner la longitude nécessite de renseigner la longitude et vice-versa')
+    }
+  }
 
   return (
     <Main>
@@ -83,7 +93,7 @@ const Home = () => {
 
         {step === 2 && (
           <>
-            <SectionHeader handleStep={() => setStep(3)} stepType='next'>
+            <SectionHeader handleStep={() => changeStep(3)} stepType='next'>
               2 - Aperçu du fichier et vérification de l’encodage
             </SectionHeader>
 
@@ -102,7 +112,7 @@ const Home = () => {
 
             <div className='button-position'>
               <Button
-                onClick={() => setStep(3)}
+                onClick={() => changeStep(3)}
                 label='Aller à l’étape suivante'
                 icon={faCircleChevronRight}
               >
@@ -125,19 +135,19 @@ const Home = () => {
             />
 
             <div className='submit'>
-              <Button
-                onClick={() => {
-                  goToTop()
-                  setStep(2)
-                }}
-                label='Aller à l’étape précédente'
-                icon={faCircleChevronLeft}
-              >
-                Étape précédente
-              </Button>
-              <Button onClick={() => setStep(4)} disabled={selectedColumns.length === 0}>
-                Valider les paramètres
-              </Button>
+              <div className='actions-buttons'>
+                <Button
+                  onClick={() => changeStep(2)}
+                  label='Aller à l’étape précédente'
+                  icon={faCircleChevronLeft}
+                >
+                  Étape précédente
+                </Button>
+                <Button onClick={handleValidation} disabled={selectedColumns.length === 0}>
+                  Valider les paramètres
+                </Button>
+              </div>
+              <ErrorMessage>{error}</ErrorMessage>
             </div>
           </>
         )}
@@ -145,10 +155,7 @@ const Home = () => {
         {step === 4 && (
           <>
             <SectionHeader
-              onClick={() => {
-                goToTop()
-                setStep(3)
-              }}
+              handleStep={() => changeStep(3)}
               stepType='previous'
             >
               4 - Géocodage
@@ -185,7 +192,8 @@ const Home = () => {
             justify-content: center;
           }
 
-          .submit {
+          .actions-buttons {
+            margin-top: 1.5em;
             display: grid;
             grid-template-columns: auto 1fr;
             justify-items: center;

@@ -15,8 +15,9 @@ const AdvancedParams = ({columns, handleParams}) => {
     const {value, name} = event.target
 
     const sanitizedValue = value === '' ? null : value
-    setAdvancedParams({...advancedParams, [name]: sanitizedValue})
-    handleParams(advancedParams)
+    const newAdvancedParams = {...advancedParams, [name]: sanitizedValue}
+    setAdvancedParams(newAdvancedParams)
+    handleParams(newAdvancedParams)
   }
 
   useEffect(() => {
