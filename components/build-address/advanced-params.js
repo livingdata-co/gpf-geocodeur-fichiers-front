@@ -20,8 +20,8 @@ const AdvancedParams = ({columns, handleParams}) => {
   }, [advancedParams, handleParams])
 
   const isOptionUnavailable = useCallback(option => {
-    const selectedCols = new Set(Object.values(advancedParams).filter(value => value !== null))
-    return selectedCols.has(option)
+    const selectedCols = Object.values(advancedParams).filter(value => value !== null)
+    return selectedCols.includes(option)
   }, [advancedParams])
 
   const optionsINSEE = useMemo(() => [
