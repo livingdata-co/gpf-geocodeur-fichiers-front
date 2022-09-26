@@ -13,7 +13,7 @@ const SelectInput = ({label, name, value, ariaLabel, autodetected, options, hasE
         aria-label={ariaLabel}
         id={label}
         value={value}
-        onChange={e => handleChange(e)}
+        onChange={handleChange}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
       >
