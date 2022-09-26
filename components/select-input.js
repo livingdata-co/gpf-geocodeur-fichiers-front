@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import PropTypes from 'prop-types'
 
-const SelectInput = ({label, value, autodetected, options, handleChange}) => {
+const SelectInput = ({label, name, value, ariaLabel, autodetected, options, handleChange}) => {
   const [isFocus, setIsFocus] = useState(false)
 
   return (
@@ -9,41 +9,44 @@ const SelectInput = ({label, value, autodetected, options, handleChange}) => {
       <label htmlFor={label}>{label} :</label>
 
       <select
-        name={label}
+        name={name}
+        aria-label={ariaLabel}
         id={label}
         value={value}
-        onChange={e => handleChange(e.target.value)}
+        onChange={handleChange}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
       >
-        {options.map(({value, label}) => (
-          <option key={value} value={value}>
+        {options.map(({value, label, isDisabled}) => (
+          <option key={value} value={value} disabled={isDisabled}>
             {label} {isFocus && autodetected === value ? '(détecté)' : ''}
           </option>
         ))}
       </select>
 
       <style jsx>{`
-      .container {
-        display: grid;
-        align-items: center;
-        grid-gap: .5rem;
-      }
+        .container {
+          display: grid;
+          align-items: center;
+          grid-gap: .5rem;
+        }
 
-      label {
-        font-weight: bold;
-      }
+        label {
+          font-weight: bold;
+        }
       `}</style>
     </div>
   )
 }
 
 SelectInput.defaultProps = {
-  autodetected: null,
+  autodetected: null
 }
 
 SelectInput.propTypes = {
   label: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  ariaLabel: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   autodetected: PropTypes.string,
   options: PropTypes.arrayOf(PropTypes.shape({

@@ -1,21 +1,33 @@
-import {useMemo, useState} from 'react'
+import {useState, useCallback} from 'react'
 import PropTypes from 'prop-types'
 
 import SelectInput from '@/components/select-input'
 
 const AdvancedParams = ({columns, handleParams}) => {
-  const [codeINSEE, setCodeINSEE] = useState(null)
+  const [advancedParams, setAdvancedParams] = useState({
+    codeINSEE: null,
+    lat: null,
+    long: null
+  })
 
-  const options = useMemo(() => [
-    {label: codeINSEE ? 'Aucune' : 'Choisir une colonne', value: ''},
-    ...columns.map(code => ({label: `${code}`, value: `${code}`}))
-  ], [columns, codeINSEE])
+  const handleChange = useCallback(event => {
+    const {value, name} = event.target
+    const sanitizedValue = value === '' ? null : value
+    const newAdvancedParams = {...advancedParams, [name]: sanitizedValue}
 
-  const handleChange = value => {
-    const codeINSEE = value === '' ? null : value
-    setCodeINSEE(codeINSEE)
-    handleParams({codeINSEE})
-  }
+    setAdvancedParams(newAdvancedParams)
+    handleParams(newAdvancedParams)
+  }, [advancedParams, handleParams])
+
+  const isOptionUnavailable = useCallback(option => {
+    const selectedCols = Object.values(advancedParams).filter(value => value !== null)
+    return selectedCols.includes(option)
+  }, [advancedParams])
+
+  const getOptions = useCallback(param => [
+    {label: param ? 'Aucune' : 'Choisir une colonne', value: ''},
+    ...columns.map(col => ({label: `${col}`, value: `${col}`, isDisabled: isOptionUnavailable(col)}))
+  ], [columns, isOptionUnavailable])
 
   return (
     <div className='advanced-params-container'>
@@ -24,8 +36,28 @@ const AdvancedParams = ({columns, handleParams}) => {
       <div className='advanced-params'>
         <SelectInput
           label='Code INSEE'
-          value={`${codeINSEE}`}
-          options={options}
+          ariaLabel='Sélectionner une colonne correspondant au code INSEE'
+          value={`${advancedParams.codeINSEE}`}
+          name='codeINSEE'
+          options={getOptions(advancedParams.codeINSEE)}
+          handleChange={handleChange}
+        />
+
+        <SelectInput
+          label='Latitude'
+          ariaLabel='Entrer une latitude'
+          value={`${advancedParams.lat}`}
+          name='lat'
+          options={getOptions(advancedParams.lat)}
+          handleChange={handleChange}
+        />
+
+        <SelectInput
+          label='Longitude'
+          ariaLabel='Entrer une longitude'
+          value={`${advancedParams.long}`}
+          name='long'
+          options={getOptions(advancedParams.long)}
           handleChange={handleChange}
         />
       </div>
@@ -33,8 +65,10 @@ const AdvancedParams = ({columns, handleParams}) => {
       <style jsx>{`
         .advanced-params {
           display: flex;
+          flex-wrap: wrap;
+          gap: 1em;
         }
-        `}</style>
+      `}</style>
     </div>
   )
 }

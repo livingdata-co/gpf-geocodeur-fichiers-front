@@ -8,6 +8,8 @@ const ErrorMessage = ({children}) => (
 
     <style jsx>{`
       .error {
+        width: 100%;
+        text-align: center;
         color: ${colors.error};
         margin: 10px 0;
       }
