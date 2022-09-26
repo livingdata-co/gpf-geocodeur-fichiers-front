@@ -1,4 +1,4 @@
-import {useState, useMemo} from 'react'
+import {useState, useMemo, useCallback} from 'react'
 import PropTypes from 'prop-types'
 
 import SelectInput from '@/components/select-input'
@@ -10,14 +10,14 @@ const AdvancedParams = ({columns, handleParams}) => {
     long: null
   })
 
-  const handleChange = event => {
+  const handleChange = useCallback(event => {
     const {value, name} = event.target
-
     const sanitizedValue = value === '' ? null : value
     const newAdvancedParams = {...advancedParams, [name]: sanitizedValue}
+
     setAdvancedParams(newAdvancedParams)
     handleParams(newAdvancedParams)
-  }
+  }, [advancedParams, handleParams])
 
   const options = useMemo(() => {
     const selectedCols = new Set(Object.values(advancedParams).filter(value => value !== null))
