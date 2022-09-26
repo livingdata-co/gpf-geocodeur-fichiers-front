@@ -1,6 +1,6 @@
 import {useState, useCallback, useEffect} from 'react'
 import {faCircleChevronRight, faCircleChevronLeft} from '@fortawesome/free-solid-svg-icons'
-import {previewCsvFromBlob} from 'table-reader/lib/csv'
+import {previewCsvFromBlob} from '@livingdata/tabular-data-helpers'
 
 import Main from '@/layouts/main'
 

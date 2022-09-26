@@ -1,7 +1,7 @@
 import {useState, useCallback} from 'react'
 import PropTypes from 'prop-types'
 
-import {validateCsvFromBlob} from 'table-reader/lib/csv'
+import {validateCsvFromBlob} from '@livingdata/tabular-data-helpers'
 
 import ValidationProgress from '@/components/validation-progress'
 import ErrorMessage from '@/components/error-message'
