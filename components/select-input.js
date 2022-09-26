@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import PropTypes from 'prop-types'
 
-const SelectInput = ({label, name, value, ariaLabel, autodetected, options, hasEmptyValue, handleChange}) => {
+const SelectInput = ({label, name, value, ariaLabel, autodetected, options, handleChange}) => {
   const [isFocus, setIsFocus] = useState(false)
 
   return (
@@ -17,8 +17,6 @@ const SelectInput = ({label, name, value, ariaLabel, autodetected, options, hasE
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
       >
-        {hasEmptyValue && <option value=''>{value === 'null' ? 'Choisir une colonne' : 'Aucune'}</option>}
-
         {options.map(({value, label, isDisabled}) => (
           <option key={value} value={value} disabled={isDisabled}>
             {label} {isFocus && autodetected === value ? '(détecté)' : ''}
@@ -42,8 +40,7 @@ const SelectInput = ({label, name, value, ariaLabel, autodetected, options, hasE
 }
 
 SelectInput.defaultProps = {
-  autodetected: null,
-  hasEmptyValue: false
+  autodetected: null
 }
 
 SelectInput.propTypes = {
@@ -56,7 +53,6 @@ SelectInput.propTypes = {
     value: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired
   })).isRequired,
-  hasEmptyValue: PropTypes.bool,
   handleChange: PropTypes.func.isRequired
 }
 

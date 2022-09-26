@@ -19,12 +19,25 @@ const AdvancedParams = ({columns, handleParams}) => {
     handleParams(newAdvancedParams)
   }, [advancedParams, handleParams])
 
-  const options = useMemo(() => {
+  const isOptionUnavailable = useCallback(option => {
     const selectedCols = new Set(Object.values(advancedParams).filter(value => value !== null))
-    return [
-      ...columns.map(col => ({label: `${col}`, value: `${col}`, isDisabled: selectedCols.has(col)}))
-    ]
-  }, [columns, advancedParams])
+    return selectedCols.has(option)
+  }, [advancedParams])
+
+  const optionsINSEE = useMemo(() => [
+    {label: advancedParams.codeINSEE ? 'Aucune' : 'Choisir une colonne', value: ''},
+    ...columns.map(col => ({label: `${col}`, value: `${col}`, isDisabled: isOptionUnavailable(col)}))
+  ], [columns, advancedParams, isOptionUnavailable])
+
+  const optionsLat = useMemo(() => [
+    {label: advancedParams.lat ? 'Aucune' : 'Choisir une colonne', value: ''},
+    ...columns.map(col => ({label: `${col}`, value: `${col}`, isDisabled: isOptionUnavailable(col)}))
+  ], [columns, advancedParams, isOptionUnavailable])
+
+  const optionsLong = useMemo(() => [
+    {label: advancedParams.long ? 'Aucune' : 'Choisir une colonne', value: ''},
+    ...columns.map(col => ({label: `${col}`, value: `${col}`, isDisabled: isOptionUnavailable(col)}))
+  ], [columns, advancedParams, isOptionUnavailable])
 
   return (
     <div className='advanced-params-container'>
@@ -36,8 +49,7 @@ const AdvancedParams = ({columns, handleParams}) => {
           ariaLabel='Sélectionner une colonne correspondant au code INSEE'
           value={`${advancedParams.codeINSEE}`}
           name='codeINSEE'
-          hasEmptyValue
-          options={options}
+          options={optionsINSEE}
           handleChange={handleChange}
         />
 
@@ -46,8 +58,7 @@ const AdvancedParams = ({columns, handleParams}) => {
           ariaLabel='Entrer une latitude'
           value={`${advancedParams.lat}`}
           name='lat'
-          hasEmptyValue
-          options={options}
+          options={optionsLat}
           handleChange={handleChange}
         />
 
@@ -56,8 +67,7 @@ const AdvancedParams = ({columns, handleParams}) => {
           ariaLabel='Entrer une longitude'
           value={`${advancedParams.long}`}
           name='long'
-          hasEmptyValue
-          options={options}
+          options={optionsLong}
           handleChange={handleChange}
         />
       </div>
