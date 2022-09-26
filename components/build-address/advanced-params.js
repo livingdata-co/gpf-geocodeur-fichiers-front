@@ -24,20 +24,10 @@ const AdvancedParams = ({columns, handleParams}) => {
     return selectedCols.includes(option)
   }, [advancedParams])
 
-  const optionsINSEE = useMemo(() => [
-    {label: advancedParams.codeINSEE ? 'Aucune' : 'Choisir une colonne', value: ''},
+  const getOptions = useCallback(param => [
+    {label: param ? 'Aucune' : 'Choisir une colonne', value: ''},
     ...columns.map(col => ({label: `${col}`, value: `${col}`, isDisabled: isOptionUnavailable(col)}))
-  ], [columns, advancedParams, isOptionUnavailable])
-
-  const optionsLat = useMemo(() => [
-    {label: advancedParams.lat ? 'Aucune' : 'Choisir une colonne', value: ''},
-    ...columns.map(col => ({label: `${col}`, value: `${col}`, isDisabled: isOptionUnavailable(col)}))
-  ], [columns, advancedParams, isOptionUnavailable])
-
-  const optionsLong = useMemo(() => [
-    {label: advancedParams.long ? 'Aucune' : 'Choisir une colonne', value: ''},
-    ...columns.map(col => ({label: `${col}`, value: `${col}`, isDisabled: isOptionUnavailable(col)}))
-  ], [columns, advancedParams, isOptionUnavailable])
+  ], [columns, isOptionUnavailable])
 
   return (
     <div className='advanced-params-container'>
@@ -49,7 +39,7 @@ const AdvancedParams = ({columns, handleParams}) => {
           ariaLabel='Sélectionner une colonne correspondant au code INSEE'
           value={`${advancedParams.codeINSEE}`}
           name='codeINSEE'
-          options={optionsINSEE}
+          options={getOptions(advancedParams.codeINSEE)}
           handleChange={handleChange}
         />
 
@@ -58,7 +48,7 @@ const AdvancedParams = ({columns, handleParams}) => {
           ariaLabel='Entrer une latitude'
           value={`${advancedParams.lat}`}
           name='lat'
-          options={optionsLat}
+          options={getOptions(advancedParams.lat)}
           handleChange={handleChange}
         />
 
@@ -67,7 +57,7 @@ const AdvancedParams = ({columns, handleParams}) => {
           ariaLabel='Entrer une longitude'
           value={`${advancedParams.long}`}
           name='long'
-          options={optionsLong}
+          options={getOptions(advancedParams.long)}
           handleChange={handleChange}
         />
       </div>
