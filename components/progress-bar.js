@@ -15,37 +15,37 @@ const ProgressBar = ({label, min, max}) => {
 
       <style jsx>{`
         .progress-bar-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
+          width: 100%;
         }
 
         .progress-bar {
-            position: relative;
-            height: 40px;
-            width: 100%;
+          display: flex;
+          justify-content: center;
+          position: relative;
+          height: 40px;
+          width: 100%;
         }
 
+        {/* width: 100% en attendant correction percent */}
         .progress {
-            position: absolute;
-            top: 0;
-            height: 100%;
-            width: ${percent}%;
-            background-color: ${colors.darkBlue};
+          position: absolute;
+          top: 0;
+          height: 100%;
+          width: 100%;
+          background-color: ${colors.darkBlue};
         }
 
         .text {
-            position: absolute;
-            text-align: center;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #fff;
+          position: absolute;
+          text-align: center;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: #fff;
         }
-        `}</style>
+      `}</style>
     </div>
   )
 }
