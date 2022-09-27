@@ -19,8 +19,8 @@ class Layout extends React.Component {
     return (
       <>
         <Head>
-          <title>Géocodeur GPF</title>
-          <meta name='description' content='Géocodeur de la GéoPlateforme' />
+          <title>Géocodeur</title>
+          <meta name='description' content='Géocodeur de fichiers d’adresses de la GéoPlateforme' />
           <meta name='viewport' content='width=device-width, initial-scale=1' />
         </Head>
 

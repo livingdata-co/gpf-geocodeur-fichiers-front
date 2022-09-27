@@ -7,7 +7,7 @@ import ColumnSelector from '@/components/build-address/column-selector'
 
 const ColumnsSelect = ({selectedColumns, columns, onSelect}) => (
   <div className='colums-select-container'>
-    <h3>Colonnes à séléctionner</h3>
+    <h3>Colonnes à sélectionner</h3>
     <div className='columns'>
       {columns.filter(c => !selectedColumns.includes(c)).map(column => (
         <ColumnSelector key={column} label={column} icon={faPlus} handleClick={() => onSelect(column)} />
