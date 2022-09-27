@@ -88,10 +88,10 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
-"@livingdata/tabular-data-helpers@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@livingdata/tabular-data-helpers/-/tabular-data-helpers-0.0.2.tgz#bef99217f8a51c9a76141ca4f87222ba6daa080b"
-  integrity sha512-MkyhB44sgzuxZt6NLeYyFooUP8TUxyB9l6Sz/DvURFTD+WDGVYhon5I+4Z2xzzOukjHJcyoHdZCfX4P8/wTzCg==
+"@livingdata/tabular-data-helpers@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@livingdata/tabular-data-helpers/-/tabular-data-helpers-0.0.3.tgz#06980c2e768168f0516846f2c7ea9e34d2b2409d"
+  integrity sha512-ALVBWOT7GqmnHyeqkUie1hNOhAU9hNuHynppuKAga+mQMLABc0TorEy53AOQ+SzA0tUZobeVhYABNsp+tHCASA==
   dependencies:
     buffer "^6.0.3"
     chardet "^1.4.0"
