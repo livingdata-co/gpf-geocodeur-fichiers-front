@@ -1,14 +1,16 @@
 import {useState} from 'react'
 import PropTypes from 'prop-types'
+import Image from 'next/image'
 import Dropzone from 'react-dropzone'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faFile, faPlus, faArrowsRotate} from '@fortawesome/free-solid-svg-icons'
-
-import theme from '@/styles/theme'
+import {faRotate, faFileCsv} from '@fortawesome/free-solid-svg-icons'
 
 import {formatFileSize} from '@/lib/file'
 
+import theme from '@/styles/theme'
+
 import Spinner from '@/components/spinner'
+import UnderlineTitle from '@/components/underline-title'
 
 const DropzoneContainer = ({file, isLoading, maxSize, error, onFileDrop, onFileDropRejected}) => {
   const [isHovered, setIsHovered] = useState(false)
@@ -16,10 +18,9 @@ const DropzoneContainer = ({file, isLoading, maxSize, error, onFileDrop, onFileD
   return (
     <>
       <div>
-        {file ? <h4>Votre fichier</h4> : <h3>Choisir un fichier</h3> }
+        {file ? <UnderlineTitle>Fichier sélectionné</UnderlineTitle> : <UnderlineTitle>Choisir un fichier</UnderlineTitle> }
 
         <div className='file-handler-container'>
-
           <Dropzone
             autoFocus
             onDrop={onFileDrop}
@@ -42,14 +43,14 @@ const DropzoneContainer = ({file, isLoading, maxSize, error, onFileDrop, onFileD
                 >
                   <input {...inputProps} />
                   {!file && (
-                    <div alt='Glisser un fichier ou l’ajouter en cliquant sur la zone'>
-                      <FontAwesomeIcon icon={faPlus} size='3x' />
+                    <div>
+                      <Image src='/images/drop-icon.png' height={80} width={80} alt='Glisser un fichier ou l’ajouter en cliquant sur la zone' />
                     </div>
                   )}
                   <div className='file-container'>{file ? (
                     <div className='file-sumup'>
                       <div className='file-details'>
-                        <FontAwesomeIcon icon={faFile} size='3x' />
+                        <FontAwesomeIcon icon={faFileCsv} size='3x' />
                         <div className='file-infos'>
                           <div className='name'>{file.name}</div>
                           <div className='size'>{formatFileSize(file.size)}</div>
@@ -64,7 +65,7 @@ const DropzoneContainer = ({file, isLoading, maxSize, error, onFileDrop, onFileD
                           display: isHovered || isDragActive ? 'block' : 'none',
                           margin: '0 1em'
                         }}
-                        ><FontAwesomeIcon icon={faArrowsRotate} size='3x' />
+                        ><FontAwesomeIcon icon={faRotate} size='3x' />
                         </div>
                       )}
                     </div>
@@ -93,15 +94,17 @@ const DropzoneContainer = ({file, isLoading, maxSize, error, onFileDrop, onFileD
             flex-flow: column;
             justify-content: center;
             width: 100%;
-            border: 1px dashed #ccc;
+            border: 3px dashed ${theme.primary};
             height: 200px;
             text-align: center;
             cursor: pointer;
-            border-radius: 4px;
+            border-radius: ${file ? '' : '10px'};
+            box-sizing: border-box;
           }
 
           .dropzone:hover {
-            background-color: #ebeff3;
+            background-color: ${theme.backgroundColor};
+            border-color: ${theme.borderDark};
           }
 
           .dropzone.file {
@@ -120,15 +123,20 @@ const DropzoneContainer = ({file, isLoading, maxSize, error, onFileDrop, onFileD
             align-items: center;
             justify-content: space-between;
             text-align: left;
+            background: ${theme.backgroundDarkColor};
+            color: #fff;
+            padding: 1em;
+            border-radius: 8px;
           }
 
           .file-details {
             display: flex;
             align-items: center;
+            gap: .5em;
           }
 
           .file-infos {
-            border-left: 3px solid ${theme.primary};
+            border-left: 3px solid;
             margin-left: 5px;
             padding: 0 5px;
           }
@@ -143,7 +151,7 @@ const DropzoneContainer = ({file, isLoading, maxSize, error, onFileDrop, onFileD
           }
 
           .active {
-            background-color: #ebeff3;
+            background-color: ${theme.backgroundColor};
           }
 
           .loading {
@@ -152,7 +160,7 @@ const DropzoneContainer = ({file, isLoading, maxSize, error, onFileDrop, onFileD
             justify-content: space-between;
             font-style: italic;
           }
-          
+
           .loading span {
             margin-left: 1em;
           }
