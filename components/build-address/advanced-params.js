@@ -2,6 +2,7 @@ import {useState, useCallback} from 'react'
 import PropTypes from 'prop-types'
 
 import SelectInput from '@/components/select-input'
+import UnderlineTitle from '@/components/underline-title'
 
 const AdvancedParams = ({columns, handleParams}) => {
   const [advancedParams, setAdvancedParams] = useState({
@@ -31,7 +32,7 @@ const AdvancedParams = ({columns, handleParams}) => {
 
   return (
     <div className='advanced-params-container'>
-      <h3>Paramètres avancés</h3>
+      <UnderlineTitle>Paramètres avancés</UnderlineTitle>
 
       <div className='advanced-params'>
         <SelectInput
@@ -63,10 +64,14 @@ const AdvancedParams = ({columns, handleParams}) => {
       </div>
 
       <style jsx>{`
+        .advanced-params-container {
+          margin-top: 2em;
+        }
+
         .advanced-params {
           display: flex;
           flex-wrap: wrap;
-          gap: 1em;
+          gap: 2em;
         }
       `}</style>
     </div>

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import colors from '@/styles/colors'
 
 import SelectInput from '@/components/select-input'
+import UnderlineTitle from '@/components/underline-title'
 
 const linebreakOptions = [
   {value: '\n', label: 'Linux'},
@@ -36,7 +37,8 @@ const OptionsInputs = ({
   quoteChar, handleQuoteChar
 }) => (
   <section>
-    <h3>Paramètres du fichier détectés</h3>
+    <UnderlineTitle>Paramètres du fichier détectés</UnderlineTitle>
+
     <div className='inputs'>
       <SelectInput label='Encodage' value={encoding} autodetected={autodetected.encoding} options={encodingOptions} auto handleChange={handleEncoding} />
       <SelectInput label='Séparateur de ligne' value={linebreak} autodetected={autodetected.linebreak} options={linebreakOptions} handleChange={handleLinebreak} />
@@ -48,14 +50,15 @@ const OptionsInputs = ({
       .inputs {
         display: grid;
         align-items: center;
+        justify-content: center;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         background: ${colors.darkBlue};
         color: white;
         border-radius: 10px;
-        padding: 1rem;
-        grid-gap: 1rem;
+        padding: 2em 3em;
+        grid-gap: 1em;
       }
-      `}</style>
+    `}</style>
   </section>
 )
 
