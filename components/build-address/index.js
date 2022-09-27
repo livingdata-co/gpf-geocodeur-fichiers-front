@@ -5,6 +5,7 @@ import Table from '@/components/table'
 import GeocodePreview from '@/components/geocode-preview'
 import ColumnsSelect from '@/components/build-address/columns-select'
 import AdvancedParams from '@/components/build-address/advanced-params'
+import UnderlineTitle from '@/components/underline-title'
 
 const BuildAddress = ({columns, rows, selectedColumns, handleColumns, handleAdvancedParams}) => {
   const handleColumn = useCallback(column => {
@@ -17,11 +18,13 @@ const BuildAddress = ({columns, rows, selectedColumns, handleColumns, handleAdva
 
   return (
     <div>
+      <UnderlineTitle>Colonnes à sélectionner</UnderlineTitle>
       <Table columns={columns} rows={rows.slice(0, 3)} selectedColumns={selectedColumns} onSelect={handleColumn} />
       <ColumnsSelect selectedColumns={selectedColumns} columns={columns} onSelect={handleColumn} />
+
       {selectedColumns.length > 0 && (
         <div>
-          <h3>Prévisualisation de l’adresse</h3>
+          <UnderlineTitle>Prévisualisation de l’adresse</UnderlineTitle>
           <GeocodePreview columns={selectedColumns} rows={rows} maxRow={3} />
         </div>
       )}
