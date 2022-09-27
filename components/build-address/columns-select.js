@@ -15,7 +15,7 @@ const ColumnsSelect = ({selectedColumns, columns, onSelect}) => (
     </div>
 
     <div className='selected columns'>
-      {selectedColumns.length === 0 && <div className='empty'>Aucune colonne séléctionnée</div>}
+      {selectedColumns.length === 0 && <div className='empty'>Aucune colonne sélectionnée</div>}
       {selectedColumns.map(column => (
         <ColumnSelector key={column} label={column} icon={faMinus} handleClick={() => onSelect(column)} />
       ))}

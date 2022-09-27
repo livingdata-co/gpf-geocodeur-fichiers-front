@@ -17,11 +17,11 @@ const BuildAddress = ({columns, rows, selectedColumns, handleColumns, handleAdva
 
   return (
     <div>
+      <Table columns={columns} rows={rows.slice(0, 3)} selectedColumns={selectedColumns} onSelect={handleColumn} />
       <ColumnsSelect selectedColumns={selectedColumns} columns={columns} onSelect={handleColumn} />
       {selectedColumns.length > 0 && (
         <div>
           <h3>Prévisualisation de l’adresse</h3>
-          <Table columns={columns} rows={rows.slice(0, 3)} selectedColumns={selectedColumns} onSelect={handleColumn} />
           <GeocodePreview columns={selectedColumns} rows={rows} maxRow={3} />
         </div>
       )}
