@@ -64,6 +64,10 @@ const AdvancedParams = ({columns, handleParams}) => {
       </div>
 
       <style jsx>{`
+        .advanced-params-container {
+          margin-top: 2em;
+        }
+
         .advanced-params {
           display: flex;
           flex-wrap: wrap;

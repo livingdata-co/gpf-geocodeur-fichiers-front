@@ -94,26 +94,28 @@ const Home = () => {
 
         {step === 2 && (
           <>
-            <SectionHeader handleStep={() => changeStep(3)} stepType='next'>
-              2 - Aperçu du fichier et vérification de l’encodage
-            </SectionHeader>
+            <section>
+              <SectionHeader handleStep={() => changeStep(3)} stepType='next'>
+                2 - Aperçu du fichier et vérification de l’encodage
+              </SectionHeader>
 
-            <FormatOptionsForm
-              previewCount={previewCount}
-              formatOptions={formatOptions}
-              detectedFormatOptions={detectedFormatOptions}
-              submitOptions={handlePreview}
-            />
+              <FormatOptionsForm
+                previewCount={previewCount}
+                formatOptions={formatOptions}
+                detectedFormatOptions={detectedFormatOptions}
+                submitOptions={handlePreview}
+              />
 
-            {error ? (
-              <ErrorMessage>Les paramètres sélectionnés ne permettent pas l’analyse du fichier</ErrorMessage>
-            ) : (
-              <>
-                <UnderlineTitle>Aperçu du fichier</UnderlineTitle>
-                <Table columns={preview.columns} rows={preview.rows} />
-              </>
-            )}
+              {error ? (
+                <ErrorMessage>Les paramètres sélectionnés ne permettent pas l’analyse du fichier</ErrorMessage>
+              ) : (
+                <div className='table-container'>
+                  <UnderlineTitle>Aperçu du fichier</UnderlineTitle>
+                  <Table columns={preview.columns} rows={preview.rows} />
+                </div>
+              )}
 
+            </section>
             <div className='button-position'>
               <Button
                 onClick={() => changeStep(3)}
@@ -128,15 +130,16 @@ const Home = () => {
 
         {step === 3 && (
           <>
-            <SectionHeader>3 - Construire les adresses</SectionHeader>
-
-            <BuildAddress
-              columns={preview.columns}
-              rows={preview.rows}
-              selectedColumns={selectedColumns}
-              handleColumns={setSelectedColumns}
-              handleAdvancedParams={setAdvancedParams}
-            />
+            <section>
+              <SectionHeader>3 - Construire les adresses</SectionHeader>
+              <BuildAddress
+                columns={preview.columns}
+                rows={preview.rows}
+                selectedColumns={selectedColumns}
+                handleColumns={setSelectedColumns}
+                handleAdvancedParams={setAdvancedParams}
+              />
+            </section>
 
             <div className='submit'>
               <div className='actions-buttons'>
@@ -147,10 +150,12 @@ const Home = () => {
                 >
                   Étape précédente
                 </Button>
+
                 <Button onClick={handleValidation} disabled={selectedColumns.length === 0}>
                   Valider les paramètres
                 </Button>
               </div>
+
               <ErrorMessage>{error}</ErrorMessage>
             </div>
           </>
@@ -183,6 +188,10 @@ const Home = () => {
             flex-direction: column;
             gap: 1em;
             padding: 2rem;
+          }
+
+          section, .table-container {
+            margin-top: 2em;
           }
 
           .button-position {

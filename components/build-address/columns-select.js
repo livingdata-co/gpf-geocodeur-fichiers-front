@@ -7,7 +7,6 @@ import ColumnSelector from '@/components/build-address/column-selector'
 
 const ColumnsSelect = ({selectedColumns, columns, onSelect}) => (
   <div className='colums-select-container'>
-
     <div className='columns'>
       {columns.filter(c => !selectedColumns.includes(c)).map(column => (
         <ColumnSelector key={column} label={column} icon={faPlus} handleClick={() => onSelect(column)} />
@@ -22,23 +21,23 @@ const ColumnsSelect = ({selectedColumns, columns, onSelect}) => (
     </div>
 
     <style jsx>{`
-        .columns {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            grid-gap: 1em;
-            padding: 1em;
-        }
+      .columns {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        grid-gap: 1em;
+        padding: 1em;
+      }
 
-        .selected {
-            border: 1px dashed ${colors.blue};
-        }
+      .selected {
+        border: 1px dashed ${colors.blue};
+      }
 
-        .empty {
-            background-color: whitesmoke;
-            border-radius: 4px;
-            padding: 1em;
-        }
-        `}</style>
+      .empty {
+        background-color: whitesmoke;
+        border-radius: 4px;
+        padding: 1em;
+      }
+    `}</style>
   </div>
 )
 

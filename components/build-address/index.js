@@ -23,12 +23,18 @@ const BuildAddress = ({columns, rows, selectedColumns, handleColumns, handleAdva
       <ColumnsSelect selectedColumns={selectedColumns} columns={columns} onSelect={handleColumn} />
 
       {selectedColumns.length > 0 && (
-        <div>
+        <div className='preview-container'>
           <UnderlineTitle>Prévisualisation de l’adresse</UnderlineTitle>
           <GeocodePreview columns={selectedColumns} rows={rows} maxRow={3} />
         </div>
       )}
       <AdvancedParams columns={columns} handleParams={handleAdvancedParams} />
+
+      <style jsx>{`
+        .preview-container {
+          margin-top: 2em;
+        }
+      `}</style>
     </div>
   )
 }

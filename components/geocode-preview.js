@@ -35,9 +35,9 @@ const GeocodePreview = ({columns, rows, maxRow}) => {
 
       <style jsx>{`
         .container {
-            display: flex;
-            gap: 1em;
-            margin: 1em 0;
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            gap: 2em;
         }
 
         .geocode-preview {

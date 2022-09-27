@@ -9,7 +9,7 @@ const UnderlineTitle = ({children}) => (
       .title-container {
         width: fit-content;
         border-bottom: solid 5px ${theme.borderLight};
-        margin: .5em 0;
+        margin: .5em 0 1em 0;
       }
 
       .title-container h4 {
