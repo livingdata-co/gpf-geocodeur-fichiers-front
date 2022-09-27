@@ -59,61 +59,60 @@ const Table = ({columns, rows, selectedColumns, onSelect}) => {
       </table>
 
       <style jsx>{`
-          .table-container {
-            margin: 1em 0;
-            height: fit-content;
-            width: 100%;
-            overflow: scroll;
-            width: -moz-available;
-          }
+        .table-container {
+          height: fit-content;
+          width: 100%;
+          overflow: scroll;
+          width: -moz-available;
+        }
 
-          table {
-            overflow: hidden;
-            border-collapse: collapse;
-          }
+        table {
+          overflow: hidden;
+          border-collapse: collapse;
+        }
 
-          thead {
-            position: sticky;
-            top: 0;
-            background: #fff;
-          }
+        thead {
+          position: sticky;
+          top: 0;
+          background: #fff;
+        }
 
-          th {
-            position: relative;
-          }
+        th {
+          position: relative;
+        }
 
-          th, td {
-            padding: 5px 10px;
-            white-space: nowrap;
-            height: ${CELL_HEIGHT}px;
-            border: 1px solid whitesmoke;
-            margin: 1px;
-            cursor: ${onSelect ? 'pointer' : 'default'};
-          }
+        th, td {
+          padding: 5px 10px;
+          white-space: nowrap;
+          height: ${CELL_HEIGHT}px;
+          border: 1px solid whitesmoke;
+          margin: 1px;
+          cursor: ${onSelect ? 'pointer' : 'default'};
+        }
 
-          th::after,
-          th::before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: -1000px;
-            height: 10000px;
-            width: 100%;
-          }
+        th::after,
+        th::before {
+          content: "";
+          position: absolute;
+          left: 0;
+          top: -1000px;
+          height: 10000px;
+          width: 100%;
+        }
 
-          th:hover::after,
-          th.selected::after {
-            background-color: ${onSelect ? `${colors.lightBlue}30` : ''};
-          }
+        th:hover::after,
+        th.selected::after {
+          background-color: ${onSelect ? `${colors.lightBlue}30` : ''};
+        }
 
-          th.selected:hover::after {
-            background-color: ${onSelect ? `${colors.lightBlue}40` : ''};
-          }
+        th.selected:hover::after {
+          background-color: ${onSelect ? `${colors.lightBlue}40` : ''};
+        }
 
-          tr {
-            text-align: center;
-          }
-          `}</style>
+        tr {
+          text-align: center;
+        }
+      `}</style>
     </div>
   )
 }

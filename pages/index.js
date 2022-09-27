@@ -14,6 +14,7 @@ import Table from '@/components/table'
 import Button from '@/components/button'
 import SectionHeader from '@/components/section-header'
 import Geocoding from '@/components/geocoding'
+import UnderlineTitle from '@/components/underline-title'
 
 const Home = () => {
   const [file, setFile] = useState()
@@ -107,7 +108,10 @@ const Home = () => {
             {error ? (
               <ErrorMessage>Les paramètres sélectionnés ne permettent pas l’analyse du fichier</ErrorMessage>
             ) : (
-              <Table columns={preview.columns} rows={preview.rows} />
+              <>
+                <UnderlineTitle>Aperçu du fichier</UnderlineTitle>
+                <Table columns={preview.columns} rows={preview.rows} />
+              </>
             )}
 
             <div className='button-position'>
