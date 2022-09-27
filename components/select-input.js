@@ -1,6 +1,8 @@
 import {useState} from 'react'
 import PropTypes from 'prop-types'
 
+import theme from '@/styles/theme'
+
 const SelectInput = ({label, name, value, ariaLabel, autodetected, options, handleChange}) => {
   const [isFocus, setIsFocus] = useState(false)
 
@@ -33,6 +35,14 @@ const SelectInput = ({label, name, value, ariaLabel, autodetected, options, hand
 
         label {
           font-weight: bold;
+        }
+
+        select {
+          background: #fff;
+          border: none;
+          border-bottom: 3px solid ${theme.borderDarker};
+          padding: .5em;
+          border-radius: 3px 3px 0 0;
         }
       `}</style>
     </div>

@@ -5,5 +5,6 @@ export default ({
   lighterBlue: '#E3EFFD',
   lightGrey: '#D9D9D9',
   darkGrey: '#8393A7',
+  darkerGrey: '#26353F',
   error: '#f60700',
 })

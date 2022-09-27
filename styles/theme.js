@@ -20,8 +20,9 @@ export default ({
   secondary: colors.blue,
   secondaryDarken: colors.darkBlue,
 
-  border: colors.grey,
+  border: colors.darkGrey,
   borderDark: colors.darkBlue,
+  borderDarker: colors.darkerGrey,
   borderLight: colors.blue,
   borderLighter: colors.lightGrey,
   borderActive: colors.lightBlue,
