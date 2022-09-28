@@ -2,20 +2,18 @@ import PropTypes from 'prop-types'
 
 import ProgressBar from '@/components/progress-bar'
 
-const ValidationProgress = ({readRows, readBytes, totalBytes}) => (
+const ValidationProgress = ({readBytes, totalBytes, isValidationComplete}) => (
   <div className='validation-progress'>
-    <ProgressBar label='Vérification en cours…' min={readBytes} max={totalBytes} />
-    <div className='rows'>{readRows} lignes traitées</div>
+    <ProgressBar
+      label={`${isValidationComplete ? 'Vérification du fichier terminée' : 'Vérification en cours…'}`}
+      min={readBytes}
+      max={totalBytes}
+    />
 
     <style jsx>{`
       .validation-progress {
         width: 100%;
         text-align: center;
-      }
-
-      .rows {
-        font-weight: bold;
-        font-style: italic;
       }
     `}</style>
   </div>
@@ -23,9 +21,9 @@ const ValidationProgress = ({readRows, readBytes, totalBytes}) => (
 )
 
 ValidationProgress.propTypes = {
-  readRows: PropTypes.number.isRequired,
   readBytes: PropTypes.number.isRequired,
   totalBytes: PropTypes.number.isRequired,
+  isValidationComplete: PropTypes.bool.isRequired
 }
 
 export default ValidationProgress

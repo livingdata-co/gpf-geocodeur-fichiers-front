@@ -7,4 +7,5 @@ export default ({
   darkGrey: '#8393A7',
   darkerGrey: '#26353F',
   error: '#f60700',
+  darkGreen: '#239906'
 })
