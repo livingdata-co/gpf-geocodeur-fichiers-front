@@ -56,12 +56,13 @@ const SelectInput = ({label, name, value, ariaLabel, autodetected, options, isDi
 
 SelectInput.defaultProps = {
   autodetected: null,
+  name: null,
   isDisabled: false
 }
 
 SelectInput.propTypes = {
   label: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   ariaLabel: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   autodetected: PropTypes.string,

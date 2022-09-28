@@ -55,6 +55,7 @@ const FormatOptionsForm = ({formatOptions, detectedFormatOptions, previewCount, 
       <div className='submit-options'>
         <SelectInput
           label='Lignes'
+          ariaLabel='Sélectionner le nombre de lignes à afficher'
           value={rowsCount.toString()}
           options={[10, 50, 100].map(v => ({label: v.toString(), value: v.toString()}))}
           handleChange={v => setRowsCount(Number.parseInt(v.target.value, 10))}
