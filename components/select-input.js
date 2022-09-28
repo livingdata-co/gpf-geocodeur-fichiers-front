@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import theme from '@/styles/theme'
 
-const SelectInput = ({label, name, value, ariaLabel, autodetected, options, handleChange}) => {
+const SelectInput = ({label, name, value, ariaLabel, autodetected, options, isDisabled, handleChange}) => {
   const [isFocus, setIsFocus] = useState(false)
 
   return (
@@ -15,6 +15,7 @@ const SelectInput = ({label, name, value, ariaLabel, autodetected, options, hand
         aria-label={ariaLabel}
         id={label}
         value={value}
+        disabled={isDisabled}
         onChange={handleChange}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
@@ -44,13 +45,18 @@ const SelectInput = ({label, name, value, ariaLabel, autodetected, options, hand
           padding: .5em;
           border-radius: 3px 3px 0 0;
         }
+
+        select:disabled {
+          background-color: ${theme.disable};
+        }
       `}</style>
     </div>
   )
 }
 
 SelectInput.defaultProps = {
-  autodetected: null
+  autodetected: null,
+  isDisabled: false
 }
 
 SelectInput.propTypes = {
@@ -59,6 +65,7 @@ SelectInput.propTypes = {
   ariaLabel: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   autodetected: PropTypes.string,
+  isDisabled: PropTypes.bool,
   options: PropTypes.arrayOf(PropTypes.shape({
     value: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired

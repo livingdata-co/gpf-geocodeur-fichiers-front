@@ -19,6 +19,7 @@ export default ({
   primaryDark: colors.darkBlue,
   secondary: colors.blue,
   secondaryDarken: colors.darkBlue,
+  disable: colors.lightGrey,
 
   border: colors.darkGrey,
   borderDark: colors.darkBlue,
