@@ -156,7 +156,7 @@ const Home = () => {
                 </Button>
               </div>
 
-              <ErrorMessage>{error}</ErrorMessage>
+              {error && <ErrorMessage>{error}</ErrorMessage>}
             </div>
           </>
         )}
