@@ -40,10 +40,10 @@ const OptionsInputs = ({
     <UnderlineTitle>Paramètres du fichier détectés</UnderlineTitle>
 
     <div className='inputs'>
-      <SelectInput label='Encodage' value={encoding} autodetected={autodetected.encoding} options={encodingOptions} auto handleChange={handleEncoding} />
-      <SelectInput label='Séparateur de ligne' value={linebreak} autodetected={autodetected.linebreak} options={linebreakOptions} handleChange={handleLinebreak} isDisabled />
-      <SelectInput label='Séparateur de colonne' value={delimiter} autodetected={autodetected.delimiter} options={delimiterOptions} handleChange={handleDelimeter} />
-      <SelectInput label='Caractère d’échappement' value={quoteChar} autodetected={autodetected.quoteChar} options={quoteCharOptions} handleChange={handleQuoteChar} />
+      <SelectInput label='Encodage' ariaLabel='Sélectionner le type d’encodage' value={encoding} autodetected={autodetected.encoding} options={encodingOptions} auto handleChange={handleEncoding} />
+      <SelectInput label='Séparateur de ligne' ariaLabel='Sélectionner le séparateur de ligne' value={linebreak} autodetected={autodetected.linebreak} options={linebreakOptions} handleChange={handleLinebreak} isDisabled />
+      <SelectInput label='Séparateur de colonne' ariaLabel='Sélectionner le séparateur de colonne' value={delimiter} autodetected={autodetected.delimiter} options={delimiterOptions} handleChange={handleDelimeter} />
+      <SelectInput label='Caractère d’échappement' ariaLabel='Sélectionner le caractère d’échappement' value={quoteChar} autodetected={autodetected.quoteChar} options={quoteCharOptions} handleChange={handleQuoteChar} />
     </div>
 
     <style jsx>{`

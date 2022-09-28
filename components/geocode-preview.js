@@ -24,6 +24,7 @@ const GeocodePreview = ({columns, rows, maxRow}) => {
     <div className='container'>
       <SelectInput
         label='Ligne'
+        ariaLabel='Sélectionner la ligne à afficher'
         value={row.toString()}
         options={rowOptions}
         handleChange={handleRow}
