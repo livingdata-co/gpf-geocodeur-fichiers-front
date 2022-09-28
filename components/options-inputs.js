@@ -41,7 +41,7 @@ const OptionsInputs = ({
 
     <div className='inputs'>
       <SelectInput label='Encodage' value={encoding} autodetected={autodetected.encoding} options={encodingOptions} auto handleChange={handleEncoding} />
-      <SelectInput label='Séparateur de ligne' value={linebreak} autodetected={autodetected.linebreak} options={linebreakOptions} handleChange={handleLinebreak} />
+      <SelectInput label='Séparateur de ligne' value={linebreak} autodetected={autodetected.linebreak} options={linebreakOptions} handleChange={handleLinebreak} isDisabled />
       <SelectInput label='Séparateur de colonne' value={delimiter} autodetected={autodetected.delimiter} options={delimiterOptions} handleChange={handleDelimeter} />
       <SelectInput label='Caractère d’échappement' value={quoteChar} autodetected={autodetected.quoteChar} options={quoteCharOptions} handleChange={handleQuoteChar} />
     </div>
