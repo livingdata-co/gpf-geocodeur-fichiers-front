@@ -22,7 +22,6 @@ const DropzoneContainer = ({file, isLoading, maxSize, error, onFileDrop, onFileD
 
         <div className='file-handler-container'>
           <Dropzone
-            autoFocus
             onDrop={onFileDrop}
             onDropRejected={onFileDropRejected}
             multiple={false}

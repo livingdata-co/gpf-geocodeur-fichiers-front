@@ -2,7 +2,7 @@ import {useState} from 'react'
 import {Resizable} from 're-resizable'
 
 const Iframe = () => {
-  const [size, setSize] = useState({width: 200, height: 200})
+  const [size, setSize] = useState({width: 1428, height: 774})
 
   const getSize = resizeEvent => {
     const {clientY, clientX} = resizeEvent

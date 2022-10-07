@@ -43,7 +43,7 @@ export default ({
   successPublish: colors.darkGreen,
   warningBorder: colors.darkerOrange,
   warningBg: colors.lightOrange,
-  errorBorder: colors.red,
+  error: colors.error,
   errorBg: colors.lightRed,
   infoBorder: colors.blue,
   infoBg: colors.lighterBlue

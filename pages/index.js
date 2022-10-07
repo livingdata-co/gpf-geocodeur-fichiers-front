@@ -1,8 +1,10 @@
-import {useState, useCallback, useEffect} from 'react'
+import {useState, useCallback, useEffect, useContext} from 'react'
 import {faCircleChevronRight, faCircleChevronLeft} from '@fortawesome/free-solid-svg-icons'
 import {previewCsvFromBlob} from '@livingdata/tabular-data-helpers'
 
-import Main from '@/layouts/main'
+import ScreenContext from '@/contexts/screen-frame'
+
+import Layout from '@/layouts/main'
 
 import StepsProgress from '@/components/steps-progress'
 import FileHandler from '@/components/file-handler'
@@ -17,6 +19,8 @@ import Geocoding from '@/components/geocoding'
 import UnderlineTitle from '@/components/underline-title'
 
 const Home = () => {
+  const {isFrame, screenSize} = useContext(ScreenContext)
+
   const [file, setFile] = useState()
   const [preview, setPreview] = useState()
   const [formatOptions, setFormatOptions] = useState({})
@@ -78,8 +82,14 @@ const Home = () => {
     }
   }
 
+  useEffect(() => {
+    window.addEventListener('beforeunload', () => {
+      window.scrollTo(0, 0)
+    })
+  }, [])
+
   return (
-    <Main>
+    <Layout isFrame={isFrame} screenSize={screenSize}>
       <div className='container'>
         <StepsProgress step={step} handleStep={setStep} />
 
@@ -181,8 +191,9 @@ const Home = () => {
         <div className='loading'>
           {isLoading && <Spinner />}
         </div>
+      </div>
 
-        <style jsx>{`
+      <style jsx>{`
           .container {
             display: flex;
             flex-direction: column;
@@ -212,9 +223,9 @@ const Home = () => {
             justify-items: center;
           }
         `}
-        </style>
-      </div>
-    </Main>
+      </style>
+
+    </Layout>
   )
 }
 
