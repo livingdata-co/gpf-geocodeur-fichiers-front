@@ -24,9 +24,11 @@ const SectionHeader = ({stepType, handleStep, children}) => {
 
       <style jsx>{`
         .section-header {
-          display: grid;
-          grid-template-columns: 1fr auto;
+          display: flex;
+          justify-content: space-between;
           align-items: center;
+          flex-wrap: wrap;
+          margin-bottom: 1em;
         }
 
         h2 {

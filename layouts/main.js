@@ -21,6 +21,7 @@ class Layout extends React.Component {
 
   render() {
     const {isFrame, screenSize, children} = this.props
+    const isMobile = screenSize <= 320
 
     return (
       <>
@@ -30,11 +31,11 @@ class Layout extends React.Component {
           <meta name='viewport' content='width=device-width, initial-scale=1' />
         </Head>
 
-        {!isFrame && <Header />}
+        {!isMobile && <Header isFrame={isFrame} />}
 
         <main>
           <React.StrictMode>
-            {isFrame && screenSize <= 320 ? (
+            {isFrame && isMobile ? (
               <div className='too-small-screen'>
                 <FontAwesomeIcon icon={faFaceSadTear} size='3x' />
                 Le géocodeur de fichier n’est pas adapté à cette taille d’écran
@@ -59,7 +60,9 @@ class Layout extends React.Component {
             justify-content: center;
             gap: 1em;
             text-align: center;
-            color: ${theme.error};
+            color: ${theme.primaryDark};
+            box-sizing: border-box;
+            padding: 1em;
           }
         `}
         </style>

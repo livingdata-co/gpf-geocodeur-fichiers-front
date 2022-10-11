@@ -64,7 +64,7 @@ const DropzoneContainer = ({file, isLoading, maxSize, error, onFileDrop, onFileD
                           display: isHovered || isDragActive ? 'block' : 'none',
                           margin: '0 1em'
                         }}
-                        ><FontAwesomeIcon icon={faRotate} size='3x' />
+                        ><FontAwesomeIcon icon={faRotate} size='2x' />
                         </div>
                       )}
                     </div>
@@ -118,13 +118,14 @@ const DropzoneContainer = ({file, isLoading, maxSize, error, onFileDrop, onFileD
           }
 
           .file-sumup {
+            min-height: 70px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             text-align: left;
             background: ${theme.backgroundDarkColor};
             color: #fff;
-            padding: 1em;
+            padding: .5em;
             border-radius: 8px;
           }
 

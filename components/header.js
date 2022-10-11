@@ -1,24 +1,45 @@
+import PropTypes from 'prop-types'
 import Image from 'next/image'
 
 import colors from '@/styles/colors'
 
-const Header = () => (
+const Header = ({isFrame}) => (
   <header>
-    <div className='container'>
-      <div className='logo-container'>
-        <Image src='/images/logo-ign.png' width={130} height={138} layout='fixed' />
+    {isFrame ? (
+      <div className='iframe-header'>
+        <Image src='/images/marianne.png' width={123} height={45} layout='fixed' />
+        <h1 className='iframe-title'>Géocodeur de fichiers</h1>
       </div>
-      <div className='title'>
-        <h1>Géocodeur</h1>
+
+    ) : (
+      <div className='header-container'>
+        <div className='logo-container'>
+          <Image src='/images/logo-ign.png' width={130} height={138} layout='fixed' />
+        </div>
+        <div className='title'>
+          <h1>Géocodeur de fichiers</h1>
+        </div>
       </div>
-    </div>
+    )}
 
     <style jsx>{`
       header {
-        min-height: 200px;
+        min-height: ${isFrame ? 50 : 200}px;
         width: 100vw;
         background-color: ${colors.darkBlue};
         color: #fff;
+        padding: 1em;
+      }
+
+      .iframe-header {
+        display: flex;
+        align-items: end;
+        gap: 1em;
+      }
+
+      .iframe-title {
+        font-size: 1em;
+        margin: 0;
       }
 
       .container {
@@ -53,5 +74,9 @@ const Header = () => (
     </style>
   </header>
 )
+
+Header.propTypes = {
+  isFrame: PropTypes.bool.isRequired
+}
 
 export default Header
