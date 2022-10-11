@@ -59,7 +59,9 @@ class Layout extends React.Component {
             justify-content: center;
             gap: 1em;
             text-align: center;
-            color: ${theme.error};
+            color: ${theme.primaryDark};
+            box-sizing: border-box;
+            padding: 1em;
           }
         `}
         </style>

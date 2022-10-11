@@ -221,6 +221,7 @@ const Home = () => {
             display: grid;
             grid-template-columns: auto 1fr;
             justify-items: center;
+            gap: 1em;
           }
         `}
       </style>
