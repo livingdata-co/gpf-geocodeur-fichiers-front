@@ -1,16 +1,15 @@
 import PropTypes from 'prop-types'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 
-import colors from '@/styles/colors'
+import theme from '@/styles/theme'
 
-const Button = ({label, children, icon, ...props}) => (
-  <button type='submit' aria-label={label} {...props}>
+const Button = ({label, color, children, icon, ...props}) => (
+  <button type='submit' className={color} aria-label={label} {...props}>
     {icon && <FontAwesomeIcon icon={icon} color='#fff' size='xl' />}
     {children}
 
     <style jsx>{`
       button {
-        background: ${colors.blue};
         color: #fff;
         padding: 10px 20px;
         border: none;
@@ -21,17 +20,28 @@ const Button = ({label, children, icon, ...props}) => (
         align-items: center;
       }
 
-      button:hover {
+      .primary {
+        background: ${theme.bkgPrimary};
+      }
+
+      .secondary {
+        background: ${theme.bkgSecondary};
+      }
+
+      .secondary:hover {
         cursor: pointer;
+        background: ${theme.secondaryHover};
       }
 
-      button:disabled {
-        background-color: ${colors.darkGrey};
+      .primary:hover {
+        cursor: pointer;
+        background: ${theme.primaryHover};
       }
 
-      button:disabled:hover {
+      .secondary:disabled, .primary:disabled {
+        background: ${theme.bkgDisable};
+        color: ${theme.txtDisable};
         cursor: not-allowed;
-        background-color: ${colors.darkGrey};
       }
     `}</style>
   </button>
@@ -40,12 +50,17 @@ const Button = ({label, children, icon, ...props}) => (
 Button.defaultProps = {
   label: null,
   icon: null,
+  color: 'primary',
   children: null
 }
 
 Button.propTypes = {
   label: PropTypes.string,
   icon: PropTypes.object,
+  color: PropTypes.oneOf([
+    'primary',
+    'secondary'
+  ]),
   children: PropTypes.node
 }
 export default Button

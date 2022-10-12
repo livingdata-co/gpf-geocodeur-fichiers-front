@@ -22,7 +22,9 @@ export default ({
 
   // Backgrounds
   bkgPrimary: colors.blue,
+  primaryHover: colors.shadowBlue,
   bkgSecondary: colors.orange,
+  secondaryHover: colors.shadowOrange,
   bkgDisable: colors.grey,
   bkgDark: colors.darkBlue,
   bkgLight: colors.lightBlue,

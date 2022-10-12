@@ -144,6 +144,7 @@ const Home = () => {
                   onClick={() => changeStep(2)}
                   label='Aller à l’étape précédente'
                   icon={faCircleChevronLeft}
+                  color='secondary'
                 >
                   Étape précédente
                 </Button>

@@ -1,6 +1,7 @@
 import {useState, useCallback, useEffect, useMemo} from 'react'
 import PropTypes from 'prop-types'
 import {difference} from 'lodash'
+import {faEdit} from '@fortawesome/free-solid-svg-icons'
 
 import SelectInput from '@/components/select-input'
 import OptionsInputs from '@/components/options-inputs'
@@ -61,7 +62,13 @@ const FormatOptionsForm = ({formatOptions, detectedFormatOptions, previewCount, 
           handleChange={v => setRowsCount(Number.parseInt(v.target.value, 10))}
         />
 
-        <Button onClick={handleSubmit} disabled={!isChangedDetected}>Modifier les paramètres</Button>
+        <Button
+          onClick={handleSubmit}
+          disabled={!isChangedDetected}
+          icon={faEdit}
+        >
+          Modifier les paramètres
+        </Button>
       </div>
 
       <style jsx>{`

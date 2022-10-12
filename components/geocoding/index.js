@@ -30,7 +30,7 @@ const Geocoding = ({file, formatOptions, advancedParams}) => {
 
   return (
     <div className='geocoding-container'>
-      <Button onClick={validate}>Lancer le géocodage</Button>
+      <Button onClick={validate} disabled={Boolean(validation)}>Lancer le géocodage</Button>
       {validation && <ValidationProgress {...validation} isValidationComplete={isValidationComplete} />}
       {isValidationComplete && (
         <div className='valide'>
