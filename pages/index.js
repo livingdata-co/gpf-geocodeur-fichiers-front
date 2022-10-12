@@ -172,38 +172,39 @@ const Home = () => {
       </div>
 
       <style jsx>{`
-          .container {
-            display: flex;
-            flex-direction: column;
-            gap: 1em;
-            padding: 2rem;
-          }
+        .container {
+          height: 100%;
+          box-sizing: border-box;
+          display: flex;
+          flex-direction: column;
+          gap: 1em;
+          padding: 2rem;
+        }
 
-          section, .table-container {
-            margin-top: 2em;
-          }
+        .table-container {
+          margin-top: 2em;
+        }
 
-          .button-position {
-            display: flex;
-            justify-content: flex-end;
-          }
+        .button-position {
+          display: flex;
+          justify-content: flex-end;
+        }
 
-          .loading {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          }
+        .loading {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
 
-          .actions-buttons {
-            margin-top: 1.5em;
-            display: grid;
-            grid-template-columns: auto 1fr;
-            justify-items: center;
-            gap: 1em;
-          }
-        `}
+        .actions-buttons {
+          margin-top: 1.5em;
+          display: grid;
+          grid-template-columns: auto 1fr;
+          justify-items: center;
+          gap: 1em;
+        }
+      `}
       </style>
-
     </Layout>
   )
 }
