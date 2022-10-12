@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-import colors from '@/styles/colors'
+import theme from '@/styles/theme'
 
 const STEPS = {
   1: 'Dépôt du fichier',
@@ -13,7 +13,7 @@ const STEP_COUNT = Object.keys(STEPS).length
 const StepsProgress = ({step}) => (
   <div className='container'>
     <div>Étape {step} sur {STEP_COUNT}</div>
-    <h3>{STEPS[step]}</h3>
+    <div className='step-label'>{STEPS[step]}</div>
     <div className='progress'>
       {Object.keys(STEPS).map((stepLabel, idx) => <div key={stepLabel} className={`step ${idx < step ? 'active' : ''}`} />)}
     </div>
@@ -24,23 +24,21 @@ const StepsProgress = ({step}) => (
             display: grid;
             grid-template-columns: repeat(${STEP_COUNT}, 1fr);
             gap: 1em;
+            margin-bottom: 5px;
         }
 
-        h4 {
-          margin-bottom: .5em;
+        .step-label {
+          margin: 1em 0;
+          font-weight: bold;
         }
 
         .step {
             height: 10px;
-            background: ${colors.lightGrey};
+            background: ${theme.bkgDisable};
         }
 
         .step.active {
-            background: ${colors.blue};
-        }
-
-        .next-step {
-          font-weight: 100;
+            background: ${theme.bkgPrimary};
         }
         `}
     </style>
