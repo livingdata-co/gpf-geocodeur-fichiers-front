@@ -34,7 +34,7 @@ const Geocoding = ({file, formatOptions, advancedParams}) => {
       {validation && <ValidationProgress {...validation} isValidationComplete={isValidationComplete} />}
       {isValidationComplete && (
         <div className='valide'>
-          <div className='valide-message'><FontAwesomeIcon icon={faSquareCheck} color={`${theme.successPublish}`} /> fichier CSV valide</div>
+          <div className='valide-message'><FontAwesomeIcon icon={faSquareCheck} color={`${theme.success}`} /> fichier CSV valide</div>
           <div className='rows'>{validation.readRows} lignes traitées</div>
         </div>
       )}
@@ -51,20 +51,19 @@ const Geocoding = ({file, formatOptions, advancedParams}) => {
         }
 
         .valide {
-          margin-top: 1em;
+          margin-top: 1.5em;
           display: flex;
           flex-direction: column;
           text-align: center;
-          gap: 5px;
+          gap: 10px;
         }
 
         .valide-message {
           font-weight: bold;
-          color: ${theme.successPublish};
+          color: ${theme.success};
         }
 
         .rows {
-          font-weight: bold;
           font-style: italic;
         }
       `}</style>
