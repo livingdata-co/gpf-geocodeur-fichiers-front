@@ -19,11 +19,9 @@ export const ScreenFrameContextProvider = props => {
   }, [])
 
   useEffect(() => {
-    if (isFrame) {
-      window.addEventListener('resize', handleResize)
+    window.addEventListener('resize', handleResize)
 
-      handleResize()
-    }
+    handleResize()
 
     return () => {
       window.removeEventListener('resize', handleResize)

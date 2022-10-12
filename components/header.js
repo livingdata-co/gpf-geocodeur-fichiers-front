@@ -3,14 +3,13 @@ import Image from 'next/image'
 
 import colors from '@/styles/colors'
 
-const Header = ({isFrame}) => (
+const Header = ({isFrame, isMobile}) => (
   <header>
-    {isFrame ? (
+    {isFrame || isMobile ? (
       <div className='iframe-header'>
         <Image src='/images/marianne.png' width={123} height={45} layout='fixed' />
         <h1 className='iframe-title'>Géocodeur de fichiers</h1>
       </div>
-
     ) : (
       <div className='header-container'>
         <div className='logo-container'>
@@ -24,7 +23,7 @@ const Header = ({isFrame}) => (
 
     <style jsx>{`
       header {
-        min-height: ${isFrame ? 50 : 200}px;
+        min-height: ${isFrame || isMobile ? 50 : 200}px;
         width: 100vw;
         background-color: ${colors.darkBlue};
         color: #fff;
@@ -42,7 +41,7 @@ const Header = ({isFrame}) => (
         margin: 0;
       }
 
-      .container {
+      .header-container {
         display: flex;
         flex-flow: wrap;
         height: 100%;
@@ -76,7 +75,8 @@ const Header = ({isFrame}) => (
 )
 
 Header.propTypes = {
-  isFrame: PropTypes.bool.isRequired
+  isFrame: PropTypes.bool.isRequired,
+  isMobile: PropTypes.bool.isRequired
 }
 
 export default Header

@@ -4,8 +4,9 @@ import Head from 'next/head'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faFaceSadTear} from '@fortawesome/free-solid-svg-icons'
 
-import Header from '@/components/header'
 import theme from '@/styles/theme'
+
+import Header from '@/components/header'
 
 class Layout extends React.Component {
   static propTypes = {
@@ -21,7 +22,8 @@ class Layout extends React.Component {
 
   render() {
     const {isFrame, screenSize, children} = this.props
-    const isMobile = screenSize <= 320
+    const isMobile = screenSize < 480
+    const isScreenTooSmall = screenSize && screenSize < 320
 
     return (
       <>
@@ -31,11 +33,11 @@ class Layout extends React.Component {
           <meta name='viewport' content='width=device-width, initial-scale=1' />
         </Head>
 
-        {!isMobile && <Header isFrame={isFrame} />}
+        {!isScreenTooSmall && <Header isFrame={isFrame} isMobile={isMobile} />}
 
         <main>
           <React.StrictMode>
-            {isFrame && isMobile ? (
+            {isScreenTooSmall ? (
               <div className='too-small-screen'>
                 <FontAwesomeIcon icon={faFaceSadTear} size='3x' />
                 Le géocodeur de fichier n’est pas adapté à cette taille d’écran
