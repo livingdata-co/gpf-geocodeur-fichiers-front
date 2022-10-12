@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types'
 
-import colors from '@/styles/colors'
+import theme from '@/styles/theme'
 
 const ProgressBar = ({label, min, max}) => {
   const percent = Math.round(min / max * 100)
+
   return (
     <div className='progress-bar-container'>
       <h3>{label}</h3>
@@ -22,8 +23,9 @@ const ProgressBar = ({label, min, max}) => {
           display: flex;
           justify-content: center;
           position: relative;
-          height: 40px;
+          height: 25px;
           width: 100%;
+          border-radius: 50px;
         }
 
         {/* width: 100% en attendant correction percent */}
@@ -32,18 +34,20 @@ const ProgressBar = ({label, min, max}) => {
           top: 0;
           height: 100%;
           width: ${percent}%;
-          background-color: ${colors.darkBlue};
+          background-color: ${theme.bkgPrimary};
+          border-radius: 50px;
         }
 
         .text {
           position: absolute;
           text-align: center;
+          font-weight: bold;
           width: 100%;
           height: 100%;
           display: flex;
           justify-content: center;
           align-items: center;
-          color: #fff;
+          color: ${theme.txtNeutral};
         }
       `}</style>
     </div>

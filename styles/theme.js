@@ -19,6 +19,7 @@ export default ({
   txtColor: colors.orange,
   txtDisable: colors.lightGrey,
   titlePrimary: colors.blue,
+  txtNeutral: colors.white,
 
   // Backgrounds
   bkgPrimary: colors.blue,
