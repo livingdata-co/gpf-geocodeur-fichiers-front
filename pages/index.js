@@ -14,7 +14,6 @@ import FormatOptionsForm from '@/components/format-options-form'
 import ErrorMessage from '@/components/error-message'
 import Table from '@/components/table'
 import Button from '@/components/button'
-import SectionHeader from '@/components/section-header'
 import Geocoding from '@/components/geocoding'
 import UnderlineTitle from '@/components/underline-title'
 
@@ -93,22 +92,11 @@ const Home = () => {
       <div className='container'>
         <StepsProgress step={step} handleStep={setStep} />
 
-        {step === 1 ? (
-          <>
-            <SectionHeader>1 - Déposer un fichier</SectionHeader>
-            <FileHandler file={file} handleFile={setFile} />
-          </>
-        ) : (
-          <FileHandler file={file} handleFile={setFile} />
-        )}
+        <FileHandler file={file} handleFile={setFile} />
 
         {step === 2 && (
           <>
             <section>
-              <SectionHeader handleStep={() => changeStep(3)} stepType='next'>
-                2 - Aperçu du fichier et vérification de l’encodage
-              </SectionHeader>
-
               <FormatOptionsForm
                 previewCount={previewCount}
                 formatOptions={formatOptions}
@@ -141,7 +129,6 @@ const Home = () => {
         {step === 3 && (
           <>
             <section>
-              <SectionHeader>3 - Construire les adresses</SectionHeader>
               <BuildAddress
                 columns={preview.columns}
                 rows={preview.rows}
@@ -172,20 +159,11 @@ const Home = () => {
         )}
 
         {step === 4 && (
-          <>
-            <SectionHeader
-              handleStep={() => changeStep(3)}
-              stepType='previous'
-            >
-              4 - Géocodage
-            </SectionHeader>
-
-            <Geocoding
-              file={file}
-              formatOptions={formatOptions}
-              advancedParams={advancedParams}
-            />
-          </>
+          <Geocoding
+            file={file}
+            formatOptions={formatOptions}
+            advancedParams={advancedParams}
+          />
         )}
 
         <div className='loading'>

@@ -37,4 +37,21 @@ html,
   padding: 0;
   font-family: 'FiraSans';
   font-weight: normal;
+  font-size: 1em;
+}
+
+h1,
+h2 {
+  padding: 0;
+  margin: 0;
+}
+
+h1 {
+  font-size: 1.6em;
+  color: #3993F3;
+  text-transform: uppercase;
+}
+
+h2 {
+  font-size: 1.1em;
 }

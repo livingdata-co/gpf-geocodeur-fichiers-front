@@ -10,7 +10,6 @@ import {formatFileSize} from '@/lib/file'
 import theme from '@/styles/theme'
 
 import Spinner from '@/components/spinner'
-import UnderlineTitle from '@/components/underline-title'
 
 const DropzoneContainer = ({file, isLoading, maxSize, error, onFileDrop, onFileDropRejected}) => {
   const [isHovered, setIsHovered] = useState(false)
@@ -18,8 +17,6 @@ const DropzoneContainer = ({file, isLoading, maxSize, error, onFileDrop, onFileD
   return (
     <>
       <div>
-        {file ? <UnderlineTitle>Fichier sélectionné</UnderlineTitle> : <UnderlineTitle>Choisir un fichier</UnderlineTitle> }
-
         <div className='file-handler-container'>
           <Dropzone
             onDrop={onFileDrop}

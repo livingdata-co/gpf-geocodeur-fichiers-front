@@ -4,6 +4,7 @@ import {useEffect, useState} from 'react'
 import {formatFileSize} from '@/lib/file'
 
 import DropzoneContainer from '@/components/file-handler/dropzone-container'
+import UnderlineTitle from '@/components/underline-title'
 
 const FILE_MAX_SIZE = 50 * 1024 * 1024
 const acceptedFormats = {
@@ -47,6 +48,8 @@ const FileHandler = ({file, handleFile}) => {
 
   return (
     <section>
+      {file && <UnderlineTitle>Fichier sélectionné</UnderlineTitle>}
+
       <DropzoneContainer
         file={file}
         maxSize={FILE_MAX_SIZE}
