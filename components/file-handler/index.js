@@ -4,6 +4,7 @@ import {useEffect, useState} from 'react'
 import {formatFileSize} from '@/lib/file'
 
 import DropzoneContainer from '@/components/file-handler/dropzone-container'
+import UnderlineTitle from '@/components/underline-title'
 
 const FILE_MAX_SIZE = 50 * 1024 * 1024
 const acceptedFormats = {
@@ -46,7 +47,9 @@ const FileHandler = ({file, handleFile}) => {
   }, [error, handleFile])
 
   return (
-    <section>
+    <section className={file ? '' : 'first-step-section'}>
+      {file && <UnderlineTitle>Fichier sélectionné</UnderlineTitle>}
+
       <DropzoneContainer
         file={file}
         maxSize={FILE_MAX_SIZE}
@@ -54,6 +57,16 @@ const FileHandler = ({file, handleFile}) => {
         onFileDrop={handleDrop}
         onFileDropRejected={handleDropRejected}
       />
+
+      <style jsx>{`
+        .first-step-section {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      `}</style>
     </section>
   )
 }

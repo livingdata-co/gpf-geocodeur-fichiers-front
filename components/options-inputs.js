@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-import colors from '@/styles/colors'
+import theme from '@/styles/theme'
 
 import SelectInput from '@/components/select-input'
 import UnderlineTitle from '@/components/underline-title'
@@ -52,7 +52,7 @@ const OptionsInputs = ({
         align-items: center;
         justify-content: center;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        background: ${colors.darkBlue};
+        background: ${theme.bkgPrimary};
         color: white;
         border-radius: 10px;
         padding: 2em 3em;

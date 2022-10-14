@@ -13,38 +13,33 @@ export default ({
 
   breakPoints,
 
-  primary: colors.blue,
-  primaryLight: colors.lightBlue,
-  primaryLighter: colors.lighterBlue,
-  primaryDark: colors.darkBlue,
-  secondary: colors.blue,
-  secondaryDarken: colors.darkBlue,
-  disable: colors.lightGrey,
+  // Texts
+  txtPrimary: colors.almostBlack,
+  txtSecondary: colors.white,
+  txtColor: colors.orange,
+  txtDisable: colors.lightGrey,
+  titlePrimary: colors.blue,
+  txtNeutral: colors.white,
 
-  border: colors.darkGrey,
+  // Backgrounds
+  bkgPrimary: colors.blue,
+  primaryHover: colors.shadowBlue,
+  bkgSecondary: colors.orange,
+  secondaryHover: colors.shadowOrange,
+  bkgDisable: colors.grey,
+  bkgDark: colors.darkBlue,
+  bkgLight: colors.lightBlue,
+  bkgNeutral: colors.white,
+
+  // Borders
+
+  borderPrimary: colors.blue,
+  borderSecondary: colors.orange,
+  borderDisable: colors.grey,
   borderDark: colors.darkBlue,
-  borderDarker: colors.darkerGrey,
-  borderLight: colors.blue,
-  borderLighter: colors.lightGrey,
-  borderActive: colors.lightBlue,
-  borderRadius: '5px',
+  borderLight: colors.lightGrey,
 
-  backgroundWhite: colors.white,
-  backgroundGrey: colors.lighterGrey,
-  backgroundColor: colors.lighterBlue,
-  backgroundDarkColor: colors.darkBlue,
-  backgroundDark: colors.black,
-  backgroundDisable: colors.darkGrey,
-  boxShadow: colors.lightGrey,
-  darkText: colors.almostBlack,
-
-  successBorder: colors.green,
-  successBg: colors.lightGreen,
-  successPublish: colors.darkGreen,
-  warningBorder: colors.darkerOrange,
-  warningBg: colors.lightOrange,
-  error: colors.error,
-  errorBg: colors.lightRed,
-  infoBorder: colors.blue,
-  infoBg: colors.lighterBlue
+  // States
+  success: colors.green,
+  error: colors.red
 })

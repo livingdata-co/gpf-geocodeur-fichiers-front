@@ -12,6 +12,7 @@ const ValidationProgress = ({readBytes, totalBytes, isValidationComplete}) => (
 
     <style jsx>{`
       .validation-progress {
+        margin-top: 1em;
         width: 100%;
         text-align: center;
       }

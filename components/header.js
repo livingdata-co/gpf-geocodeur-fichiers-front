@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import Image from 'next/image'
 
-import colors from '@/styles/colors'
+import theme from '@/styles/theme'
 
 const Header = ({isFrame, isMobile}) => (
   <header>
@@ -12,21 +12,24 @@ const Header = ({isFrame, isMobile}) => (
       </div>
     ) : (
       <div className='header-container'>
-        <div className='logo-container'>
-          <Image src='/images/logo-ign.png' width={130} height={138} layout='fixed' />
-        </div>
-        <div className='title'>
-          <h1>Géocodeur de fichiers</h1>
-        </div>
+        <Image src='/images/repfr_logo.png' width={114} height={100} layout='fixed' />
+        <h1>Géocodeur de fichiers</h1>
       </div>
     )}
 
     <style jsx>{`
       header {
-        min-height: ${isFrame || isMobile ? 50 : 200}px;
+        min-height: ${isFrame || isMobile ? '50px' : ''};
         width: 100vw;
-        background-color: ${colors.darkBlue};
-        color: #fff;
+        border-bottom: 1px solid ${theme.borderLight};
+      }
+
+      .header-container {
+        display: flex;
+        align-items: flex-end;
+        width: fit-content;
+        gap: 2em;
+        border-right: 1px solid ${theme.borderLight};
         padding: 1em;
       }
 
@@ -39,35 +42,6 @@ const Header = ({isFrame, isMobile}) => (
       .iframe-title {
         font-size: 1em;
         margin: 0;
-      }
-
-      .header-container {
-        display: flex;
-        flex-flow: wrap;
-        height: 100%;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 2em;
-      }
-
-      .logo-container {
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-content: center;
-        border-radius: 10px;
-        background-color: #fff;
-        padding: 4px;
-      }
-
-      .title {
-        width: 35%;
-        text-align: end;
-        border-bottom: 4px solid;
-      }
-
-      h1 {
-        text-transform: uppercase;
       }
     `}
     </style>

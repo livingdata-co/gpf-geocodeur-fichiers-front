@@ -39,15 +39,18 @@ const SelectInput = ({label, name, value, ariaLabel, autodetected, options, isDi
         }
 
         select {
-          background: #fff;
+          background: ${theme.bkgNeutral};
           border: none;
-          border-bottom: 3px solid ${theme.borderDarker};
           padding: .5em;
-          border-radius: 3px 3px 0 0;
+          border-bottom: solid 3px ${theme.borderSecondary};
+          cursor: pointer;
         }
 
         select:disabled {
-          background-color: ${theme.disable};
+          background-color: ${theme.bkgDisable};
+          color: ${theme.txtDisable};
+          border-bottom: solid 3px ${theme.borderLight};
+          cursor: not-allowed;
         }
       `}</style>
     </div>
