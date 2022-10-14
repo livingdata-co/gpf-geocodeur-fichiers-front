@@ -2,6 +2,7 @@ import {useState, useCallback, useEffect, useContext} from 'react'
 import {faCircleChevronRight, faCircleChevronLeft} from '@fortawesome/free-solid-svg-icons'
 import {previewCsvFromBlob} from '@livingdata/tabular-data-helpers'
 
+import outputPreviewObj from '../output-preview.json'
 import ScreenContext from '@/contexts/screen-frame'
 
 import Layout from '@/layouts/main'
@@ -16,6 +17,7 @@ import Table from '@/components/table'
 import Button from '@/components/button'
 import Geocoding from '@/components/geocoding'
 import UnderlineTitle from '@/components/underline-title'
+import BuildOutputAddress from '@/components/build-output-address'
 
 const Home = () => {
   const {isFrame, screenSize} = useContext(ScreenContext)
@@ -32,8 +34,25 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [step, setStep] = useState(1)
 
+  const [detectedOutputFormat, setDetectedOutputFormat] = useState()
+  const [outputFormat, setOutputFormat] = useState()
+  const [detectedOutputParams, setDetectedOutputParams] = useState()
+  const [outputParams, setOutputParams] = useState({})
+  const [geocodePreview, setGeocodePreview] = useState()
+  const [outputSelectedColumns, setOutputSelectedColumns] = useState([])
+
+  const resetOutputOptions = () => {
+    setDetectedOutputFormat(null)
+    setOutputFormat(null)
+    setOutputParams(null)
+    setDetectedOutputParams(null)
+    setGeocodePreview(null)
+    setOutputSelectedColumns([])
+  }
+
   const handlePreview = useCallback(async params => {
     setError(null)
+
     if (file) {
       setIsLoading(true)
       const {formatOptions = {}, previewCount} = params || {}
@@ -62,6 +81,28 @@ const Home = () => {
     }
   }, [file])
 
+  const handleGeocodePreview = params => {
+    setError(null)
+    setIsLoading(true)
+
+    const geoPreview = outputPreviewObj
+    if (!params) {
+      setGeocodePreview(geoPreview)
+      setDetectedOutputFormat(geoPreview.format)
+      setDetectedOutputParams(geoPreview.formatOptions)
+      setOutputSelectedColumns(geoPreview.columns)
+      setOutputParams(geoPreview.formatOptions)
+      setOutputFormat(geoPreview.format)
+    }
+
+    if (geoPreview.parseErrors) {
+      throw new Error(geoPreview.parseErrors[0])
+    }
+
+    setIsLoading(false)
+    changeStep(4)
+  }
+
   const changeStep = step => {
     setStep(step)
     setError(null)
@@ -69,15 +110,16 @@ const Home = () => {
   }
 
   useEffect(() => {
+    resetOutputOptions()
     handlePreview()
   }, [file, handlePreview])
 
-  const handleValidation = () => {
+  const handleParamsValidation = () => {
     const isLatLongComplete = (advancedParams.long && advancedParams.lat) || (!advancedParams.long && !advancedParams.lat)
 
     setError(null)
     if (isLatLongComplete) {
-      setStep(4)
+      handleGeocodePreview()
     } else {
       setError('Renseigner la longitude nécessite de renseigner la longitude et vice-versa')
     }
@@ -151,7 +193,7 @@ const Home = () => {
                   Étape précédente
                 </Button>
 
-                <Button onClick={handleValidation} disabled={selectedColumns.length === 0}>
+                <Button onClick={handleParamsValidation} disabled={selectedColumns.length === 0}>
                   Valider les paramètres
                 </Button>
               </div>
@@ -162,52 +204,68 @@ const Home = () => {
         )}
 
         {step === 4 && (
+          <BuildOutputAddress
+            format={outputFormat}
+            params={outputParams}
+            detectedFormat={detectedOutputFormat}
+            detectedParams={detectedOutputParams}
+            columns={geocodePreview.columns}
+            rows={geocodePreview.rows}
+            handleOutputFormat={setOutputFormat}
+            handleParams={setOutputParams}
+            handleColumns={setOutputSelectedColumns}
+            selectedColumns={outputSelectedColumns}
+            handleStep={changeStep}
+          />
+        )}
+
+        {step === 5 && (
           <Geocoding
             file={file}
-            formatOptions={formatOptions}
-            advancedParams={advancedParams}
+            outputFormat={outputFormat}
+            outputParams={outputParams}
+            outputSelectedColumns={outputSelectedColumns}
+            handleStep={changeStep}
           />
         )}
 
         <div className='loading'>
           {isLoading && <Spinner />}
         </div>
+
+        <style jsx>{`
+          .container {
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+            padding: 2rem;
+          }
+
+          section, .table-container {
+            margin-top: 2em;
+          }
+
+          .button-position {
+            display: flex;
+            justify-content: flex-end;
+          }
+
+          .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+
+          .actions-buttons {
+            margin-top: 1.5em;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            justify-items: center;
+            gap: 1;
+          }
+        `}
+        </style>
       </div>
-
-      <style jsx>{`
-        .container {
-          height: 100%;
-          box-sizing: border-box;
-          display: flex;
-          flex-direction: column;
-          gap: 1em;
-          padding: 2rem;
-        }
-
-        .table-container {
-          margin-top: 2em;
-        }
-
-        .button-position {
-          display: flex;
-          justify-content: flex-end;
-        }
-
-        .loading {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .actions-buttons {
-          margin-top: 1.5em;
-          display: grid;
-          grid-template-columns: auto 1fr;
-          justify-items: center;
-          gap: 1em;
-        }
-      `}
-      </style>
     </Layout>
   )
 }

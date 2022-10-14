@@ -7,12 +7,12 @@ import SelectInput from '@/components/select-input'
 import OptionsInputs from '@/components/options-inputs'
 import Button from '@/components/button'
 
-const FormatOptionsForm = ({formatOptions, detectedFormatOptions, previewCount, submitOptions}) => {
+const FormatOptionsForm = ({formatOptions, detectedFormatOptions, previewCount, isCsvPreview, submitOptions}) => {
   const [encoding, setEncoding] = useState(detectedFormatOptions.encoding)
   const [delimiter, setDelimiter] = useState(detectedFormatOptions.delimiter)
   const [linebreak, setLinebreak] = useState(detectedFormatOptions.linebreak)
   const [quoteChar, setQuoteChar] = useState(detectedFormatOptions.quoteChar)
-  const [rowsCount, setRowsCount] = useState(previewCount)
+  const [rowsCount, setRowsCount] = useState(previewCount || null)
 
   const isChangedDetected = useMemo(() => {
     const hasOptionsChanged = difference(
@@ -26,12 +26,9 @@ const FormatOptionsForm = ({formatOptions, detectedFormatOptions, previewCount, 
 
   const handleSubmit = useCallback(e => {
     e.preventDefault()
-
-    submitOptions({
-      formatOptions: {encoding, delimiter, linebreak, quoteChar},
-      previewCount: rowsCount
-    })
-  }, [encoding, delimiter, linebreak, quoteChar, rowsCount, submitOptions])
+    const options = isCsvPreview ? {formatOptions: {encoding, delimiter, linebreak, quoteChar}, previewCount: rowsCount} : {encoding, delimiter, linebreak, quoteChar}
+    submitOptions(options)
+  }, [encoding, delimiter, linebreak, quoteChar, rowsCount, submitOptions, isCsvPreview])
 
   // Reset options states when preview is updated
   useEffect(() => {
@@ -54,14 +51,15 @@ const FormatOptionsForm = ({formatOptions, detectedFormatOptions, previewCount, 
       />
 
       <div className='submit-options'>
-        <SelectInput
-          label='Lignes'
-          ariaLabel='Sélectionner le nombre de lignes à afficher'
-          value={rowsCount.toString()}
-          options={[10, 50, 100].map(v => ({label: v.toString(), value: v.toString()}))}
-          handleChange={v => setRowsCount(Number.parseInt(v.target.value, 10))}
-        />
-
+        {isCsvPreview && (
+          <SelectInput
+            label='Lignes'
+            ariaLabel='Sélectionner le nombre de lignes à afficher'
+            value={rowsCount.toString()}
+            options={[10, 50, 100].map(v => ({label: v.toString(), value: v.toString()}))}
+            handleChange={v => setRowsCount(Number.parseInt(v.target.value, 10))}
+          />
+        )}
         <Button
           onClick={handleSubmit}
           disabled={!isChangedDetected}
@@ -93,8 +91,14 @@ const FormatOptionsForm = ({formatOptions, detectedFormatOptions, previewCount, 
 FormatOptionsForm.propTypes = {
   formatOptions: PropTypes.object.isRequired,
   detectedFormatOptions: PropTypes.object.isRequired,
-  previewCount: PropTypes.number.isRequired,
+  previewCount: PropTypes.number,
+  isCsvPreview: PropTypes.bool,
   submitOptions: PropTypes.func.isRequired
+}
+
+FormatOptionsForm.defaultProps = {
+  previewCount: null,
+  isCsvPreview: true
 }
 
 export default FormatOptionsForm

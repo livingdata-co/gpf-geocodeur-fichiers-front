@@ -1,7 +1,7 @@
 import {useState, useCallback} from 'react'
 import PropTypes from 'prop-types'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faSquareCheck} from '@fortawesome/free-solid-svg-icons'
+import {faSquareCheck, faCircleChevronLeft} from '@fortawesome/free-solid-svg-icons'
 
 import {validateCsvFromBlob} from '@livingdata/tabular-data-helpers'
 
@@ -10,7 +10,7 @@ import ErrorMessage from '@/components/error-message'
 import Button from '@/components/button'
 import theme from '@/styles/theme'
 
-const Geocoding = ({file, formatOptions, advancedParams}) => {
+const Geocoding = ({file, outputFormat, outputParams, outputSelectedColumns, handleStep}) => {
   const [validation, setValidation] = useState()
   const [error, setError] = useState()
   const [isValidationComplete, setIsValidationComplete] = useState(false)
@@ -21,16 +21,22 @@ const Geocoding = ({file, formatOptions, advancedParams}) => {
   }, [])
 
   const validate = useCallback(() => {
-    const validation = validateCsvFromBlob(file, {formatOptions: {...formatOptions, ...advancedParams}})
+    const validation = validateCsvFromBlob(file, {outputFormat, outputParams, outputSelectedColumns})
 
     validation.addListener('progress', setValidation)
     validation.addListener('complete', handleValidationComplete)
     validation.addListener('error', setError)
-  }, [file, formatOptions, advancedParams, handleValidationComplete])
+  }, [file, outputFormat, outputParams, outputSelectedColumns, handleValidationComplete])
 
   return (
     <div className='geocoding-container'>
-      <Button onClick={validate} disabled={Boolean(validation)}>Lancer le géocodage</Button>
+      <div className='action-buttons'>
+        <Button onClick={() => handleStep(4)} label='Aller à l’étape précédente' icon={faCircleChevronLeft} color='secondary'>
+          Étape précédente
+        </Button>
+        <Button onClick={validate} disabled={Boolean(validation)}>Lancer le géocodage</Button>
+      </div>
+
       {validation && <ValidationProgress {...validation} isValidationComplete={isValidationComplete} />}
       {isValidationComplete && (
         <div className='valide'>
@@ -48,6 +54,15 @@ const Geocoding = ({file, formatOptions, advancedParams}) => {
           display: flex;
           flex-direction: column;
           align-items: center;
+        }
+
+        .action-buttons {
+          width: 100%;
+          margin-top: 1.5em;
+          display: grid;
+          grid-template-columns: auto 1fr;
+          justify-items: center;
+          gap: 1;
         }
 
         .valide {
@@ -73,8 +88,10 @@ const Geocoding = ({file, formatOptions, advancedParams}) => {
 
 Geocoding.propTypes = {
   file: PropTypes.object.isRequired,
-  formatOptions: PropTypes.object.isRequired,
-  advancedParams: PropTypes.object.isRequired
+  outputFormat: PropTypes.string.isRequired,
+  outputParams: PropTypes.object.isRequired,
+  outputSelectedColumns: PropTypes.array.isRequired,
+  handleStep: PropTypes.func.isRequired
 }
 
 export default Geocoding
