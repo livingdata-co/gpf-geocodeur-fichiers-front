@@ -19,6 +19,7 @@ import UnderlineTitle from '@/components/underline-title'
 
 const Home = () => {
   const {isFrame, screenSize} = useContext(ScreenContext)
+  const scrollToTop = () => window.scrollTo(0, 0)
 
   const [file, setFile] = useState()
   const [preview, setPreview] = useState()
@@ -64,6 +65,7 @@ const Home = () => {
   const changeStep = step => {
     setStep(step)
     setError(null)
+    scrollToTop()
   }
 
   useEffect(() => {
@@ -83,7 +85,7 @@ const Home = () => {
 
   useEffect(() => {
     window.addEventListener('beforeunload', () => {
-      window.scrollTo(0, 0)
+      scrollToTop()
     })
   }, [])
 
