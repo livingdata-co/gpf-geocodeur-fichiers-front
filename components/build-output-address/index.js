@@ -1,6 +1,4 @@
-import {useCallback} from 'react'
 import PropTypes from 'prop-types'
-import {difference} from 'lodash'
 import {faCircleChevronRight, faCircleChevronLeft} from '@fortawesome/free-solid-svg-icons'
 
 import FormatOptionsForm from '../format-options-form'
@@ -19,10 +17,8 @@ const formatOptions = [
 const BuildOutputAddress = ({
   format,
   params,
-  detectedParams,
-  selectedColumns,
   columns,
-  rows,
+  selectedColumns,
   handleOutputFormat,
   handleParams,
   handleColumns,
@@ -48,7 +44,7 @@ const BuildOutputAddress = ({
         <section>
           <FormatOptionsForm
             formatOptions={params}
-            detectedFormatOptions={detectedParams}
+            detectedFormatOptions={params}
             submitOptions={handleParams}
             isCsvPreview={false}
           />

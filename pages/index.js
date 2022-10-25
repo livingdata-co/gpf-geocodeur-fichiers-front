@@ -34,19 +34,13 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [step, setStep] = useState(1)
 
-  const [detectedOutputFormat, setDetectedOutputFormat] = useState()
   const [outputFormat, setOutputFormat] = useState()
-  const [detectedOutputParams, setDetectedOutputParams] = useState()
   const [outputParams, setOutputParams] = useState({})
-  const [geocodePreview, setGeocodePreview] = useState()
   const [outputSelectedColumns, setOutputSelectedColumns] = useState([])
 
   const resetOutputOptions = () => {
-    setDetectedOutputFormat(null)
     setOutputFormat(null)
     setOutputParams(null)
-    setDetectedOutputParams(null)
-    setGeocodePreview(null)
     setOutputSelectedColumns([])
   }
 
@@ -81,28 +75,6 @@ const Home = () => {
     }
   }, [file])
 
-  const handleGeocodePreview = params => {
-    setError(null)
-    setIsLoading(true)
-
-    const geoPreview = outputPreviewObj
-    if (!params) {
-      setGeocodePreview(geoPreview)
-      setDetectedOutputFormat(geoPreview.format)
-      setDetectedOutputParams(geoPreview.formatOptions)
-      setOutputSelectedColumns(geoPreview.columns)
-      setOutputParams(geoPreview.formatOptions)
-      setOutputFormat(geoPreview.format)
-    }
-
-    if (geoPreview.parseErrors) {
-      throw new Error(geoPreview.parseErrors[0])
-    }
-
-    setIsLoading(false)
-    changeStep(4)
-  }
-
   const changeStep = step => {
     setStep(step)
     setError(null)
@@ -119,7 +91,9 @@ const Home = () => {
 
     setError(null)
     if (isLatLongComplete) {
-      handleGeocodePreview()
+      setOutputFormat('csv')
+      setOutputParams(formatOptions)
+      changeStep(4)
     } else {
       setError('Renseigner la longitude nécessite de renseigner la longitude et vice-versa')
     }

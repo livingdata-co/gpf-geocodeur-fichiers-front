@@ -50,7 +50,7 @@ const FormatOptionsForm = ({formatOptions, detectedFormatOptions, previewCount, 
         quoteChar={quoteChar} handleQuoteChar={e => setQuoteChar(e.target.value)}
       />
 
-      <div className='submit-options'>
+      <div className='update-buttons'>
         {isCsvPreview && (
           <SelectInput
             label='Lignes'
@@ -60,6 +60,7 @@ const FormatOptionsForm = ({formatOptions, detectedFormatOptions, previewCount, 
             handleChange={v => setRowsCount(Number.parseInt(v.target.value, 10))}
           />
         )}
+
         <Button
           onClick={handleSubmit}
           disabled={!isChangedDetected}
@@ -79,6 +80,12 @@ const FormatOptionsForm = ({formatOptions, detectedFormatOptions, previewCount, 
           display: flex;
           justify-content: space-between;
           flex-flow: wrap;
+        }
+
+        .update-buttons {
+          display: flex;
+          flex-flow: wrap;
+          justify-content: ${isCsvPreview ? 'space-between' : 'flex-end'};
           align-items: center;
           gap: .5rem;
           padding: .5rem;
