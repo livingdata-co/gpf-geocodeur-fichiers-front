@@ -13,8 +13,8 @@ const GEOCODE_ADDED_COLUMNS = [
   'result_oldcitycode',
   'result_oldcity',
   'result_district',
-  'result_latitude',
-  'result_longitude'
+  'latitude',
+  'longitude'
 ]
 
 export default GEOCODE_ADDED_COLUMNS
