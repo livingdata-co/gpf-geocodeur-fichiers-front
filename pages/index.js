@@ -207,7 +207,6 @@ const Home = () => {
           <BuildOutputAddress
             format={outputFormat}
             params={outputParams}
-            detectedFormat={detectedOutputFormat}
             detectedParams={detectedOutputParams}
             columns={geocodePreview.columns}
             rows={geocodePreview.rows}

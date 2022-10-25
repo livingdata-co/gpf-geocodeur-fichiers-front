@@ -19,7 +19,6 @@ const formatOptions = [
 const BuildOutputAddress = ({
   format,
   params,
-  detectedFormat,
   detectedParams,
   selectedColumns,
   columns,
@@ -46,7 +45,6 @@ const BuildOutputAddress = ({
             ariaLabel='Sélectionner le format de sortie'
             value={format}
             options={formatOptions}
-            autodetected={detectedFormat}
             handleChange={e => handleOutputFormat(e.target.value)}
           />
         </div>
@@ -107,7 +105,6 @@ const BuildOutputAddress = ({
 BuildOutputAddress.propTypes = {
   format: PropTypes.string.isRequired,
   params: PropTypes.object.isRequired,
-  detectedFormat: PropTypes.string.isRequired,
   detectedParams: PropTypes.object.isRequired,
   columns: PropTypes.array.isRequired,
   rows: PropTypes.array.isRequired,
