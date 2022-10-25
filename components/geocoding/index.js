@@ -1,28 +1,31 @@
 import {useState, useCallback} from 'react'
 import PropTypes from 'prop-types'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faSquareCheck, faCircleChevronLeft} from '@fortawesome/free-solid-svg-icons'
+import {faDownload, faSquareCheck, faCircleChevronLeft} from '@fortawesome/free-solid-svg-icons'
 
-import {validateCsvFromBlob, geocode} from '@livingdata/tabular-data-helpers'
+import {geocodeFile} from '@/lib/api.js'
 
-import ValidationProgress from '@/components/validation-progress'
+import ProgressBar from '@/components/progress-bar'
 import ErrorMessage from '@/components/error-message'
 import Button from '@/components/button'
 
 import theme from '@/styles/theme'
 
 const Geocoding = ({file, format, formatOptions, addressCompositors, advancedParams, outputFormat, outputParams, outputSelectedColumns, handleStep}) => {
-  const [validationProcess, setValidationProcess] = useState()
+  const [geocodeProcess, setGeocodeProcess] = useState()
   const [error, setError] = useState()
-  const [isValidationComplete, setIsValidationComplete] = useState(false)
+  const [resultFileUrl, setResultFileUrl] = useState()
+  const [validationProgress, setValidationProgress] = useState()
+  const [validationCompleted, setValidationCompleted] = useState(false)
+  const [uploadProgress, setUploadProgress] = useState()
+  const [uploadCompleted, setUploadCompleted] = useState(false)
+  const [downloadStarted, setDownloadStarted] = useState(false)
+  const [downloadProgress, setDownloadProgress] = useState()
+  const [downloadCompleted, setDownloadCompleted] = useState(false)
 
-  const handleValidationComplete = useCallback(() => {
-    setIsValidationComplete(true)
-    geocoding()
-  }, [geocoding])
-
-  const geocoding = useCallback(() => {
+  const startGeocode = useCallback(() => {
     const {codeINSEE, lat, long} = advancedParams
+
     const options = {
       format,
       formatOptions,
@@ -39,38 +42,59 @@ const Geocoding = ({file, format, formatOptions, addressCompositors, advancedPar
       }
     }
 
-    const geocodingProgress = geocode(file, options)
-    console.log(geocodingProgress)
+    const geocodeProcess = geocodeFile(file, options)
+
+    geocodeProcess.on('error', error => setError(error.message))
+    geocodeProcess.on('complete', ({file}) => setResultFileUrl(URL.createObjectURL(file)))
+
+    geocodeProcess.on('validate:progress', p => setValidationProgress(p))
+    geocodeProcess.on('validate:complete', () => setValidationCompleted(true))
+
+    geocodeProcess.on('upload:progress', p => setUploadProgress(p))
+    geocodeProcess.on('upload:complete', () => setUploadCompleted(true))
+
+    geocodeProcess.on('download:start', () => setDownloadStarted(true))
+    geocodeProcess.on('download:progress', p => setDownloadProgress(p))
+    geocodeProcess.on('download:complete', () => setDownloadCompleted(true))
+
+    setGeocodeProcess(geocodeProcess)
   }, [file, addressCompositors, advancedParams, format, formatOptions, outputFormat, outputSelectedColumns, outputParams])
-
-  const validate = useCallback(() => {
-    const validationProgress = validateCsvFromBlob(file, {outputFormat, outputParams, outputSelectedColumns})
-
-    validationProgress.addListener('progress', setValidationProcess)
-    validationProgress.addListener('complete', handleValidationComplete)
-    validationProgress.addListener('error', setError)
-  }, [file, outputFormat, outputParams, outputSelectedColumns, handleValidationComplete])
 
   return (
     <div className='geocoding-container'>
-      <div className='action-buttons'>
+      {!geocodeProcess && <div className='action-buttons'>
         <Button onClick={() => handleStep(4)} label='Aller à l’étape précédente' icon={faCircleChevronLeft} color='secondary'>
           Étape précédente
         </Button>
-        <Button onClick={validate} disabled={Boolean(validationProcess)}>Lancer le géocodage</Button>
-      </div>
+        <Button onClick={startGeocode}>Lancer le géocodage</Button>
+      </div>}
 
-      {validationProcess && <ValidationProgress {...validationProcess} isValidationComplete={isValidationComplete} />}
-      {isValidationComplete && (
+      {validationProgress && <ProgressBar
+        label={`${validationCompleted ? 'Vérification du fichier terminée' : 'Vérification en cours…'}`}
+        min={validationProgress.readBytes}
+        max={validationProgress.totalBytes}
+      />}
+
+      {validationCompleted && (
         <div className='valide'>
           <div className='valide-message'><FontAwesomeIcon icon={faSquareCheck} color={`${theme.success}`} /> fichier CSV valide</div>
-          <div className='rows'>{validationProcess.readRows} lignes traitées</div>
+          <div className='rows'>{validationProgress.readRows} lignes traitées</div>
         </div>
       )}
 
-      {/* geocoding processing => <Spinner label='Traitement en cours'/> */}
-      {/* geocoding complete => <Button label='Télécharger le fichier' icon={faDownload}>Télécharger le fichier</Button> */}
-      {error && <ErrorMessage>Le géocodage du fichier a échoué</ErrorMessage>}
+      {uploadProgress && <ProgressBar
+        label={`${uploadCompleted ? 'Envoi du fichier terminé' : 'Envoi en cours…'}`}
+        min={uploadProgress.loaded}
+        max={uploadProgress.total}
+      />}
+
+      {downloadStarted && !downloadCompleted && <div>Géocodage en cours…</div>}
+      {downloadProgress && !downloadCompleted && <div>{downloadProgress.loaded} déjà téléchargés</div>}
+      {downloadCompleted && <div>Géocodage terminé !</div>}
+
+      {resultFileUrl && <Button label='Télécharger le fichier' icon={faDownload}>Télécharger le fichier</Button>}
+
+      {error && <ErrorMessage>Le géocodage du fichier a échoué : {error}</ErrorMessage>}
 
       <style jsx>{`
         .geocoding-container {
