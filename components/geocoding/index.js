@@ -11,21 +11,20 @@ import Button from '@/components/button'
 import theme from '@/styles/theme'
 
 const Geocoding = ({file, outputFormat, outputParams, outputSelectedColumns, handleStep}) => {
-  const [validation, setValidation] = useState()
+  const [validationProcess, setValidationProcess] = useState()
   const [error, setError] = useState()
   const [isValidationComplete, setIsValidationComplete] = useState(false)
 
   const handleValidationComplete = useCallback(() => {
-    // Lancer le géocodage
     setIsValidationComplete(true)
   }, [])
 
   const validate = useCallback(() => {
-    const validation = validateCsvFromBlob(file, {outputFormat, outputParams, outputSelectedColumns})
+    const validationProgress = validateCsvFromBlob(file, {outputFormat, outputParams, outputSelectedColumns})
 
-    validation.addListener('progress', setValidation)
-    validation.addListener('complete', handleValidationComplete)
-    validation.addListener('error', setError)
+    validationProgress.addListener('progress', setValidationProcess)
+    validationProgress.addListener('complete', handleValidationComplete)
+    validationProgress.addListener('error', setError)
   }, [file, outputFormat, outputParams, outputSelectedColumns, handleValidationComplete])
 
   return (
@@ -34,20 +33,20 @@ const Geocoding = ({file, outputFormat, outputParams, outputSelectedColumns, han
         <Button onClick={() => handleStep(4)} label='Aller à l’étape précédente' icon={faCircleChevronLeft} color='secondary'>
           Étape précédente
         </Button>
-        <Button onClick={validate} disabled={Boolean(validation)}>Lancer le géocodage</Button>
+        <Button onClick={validate} disabled={Boolean(validationProcess)}>Lancer le géocodage</Button>
       </div>
 
-      {validation && <ValidationProgress {...validation} isValidationComplete={isValidationComplete} />}
+      {validationProcess && <ValidationProgress {...validationProcess} isValidationComplete={isValidationComplete} />}
       {isValidationComplete && (
         <div className='valide'>
           <div className='valide-message'><FontAwesomeIcon icon={faSquareCheck} color={`${theme.success}`} /> fichier CSV valide</div>
-          <div className='rows'>{validation.readRows} lignes traitées</div>
+          <div className='rows'>{validationProcess.readRows} lignes traitées</div>
         </div>
       )}
 
-      {error && (
-        <ErrorMessage>Le géocodage du fichier a échoué</ErrorMessage>
-      )}
+      {/* geocoding processing => <Spinner label='Traitement en cours'/> */}
+      {/* geocoding complete => <Button label='Télécharger le fichier' icon={faDownload}>Télécharger le fichier</Button> */}
+      {error && <ErrorMessage>Le géocodage du fichier a échoué</ErrorMessage>}
 
       <style jsx>{`
         .geocoding-container {
