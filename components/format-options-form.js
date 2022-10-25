@@ -40,12 +40,6 @@ const FormatOptionsForm = ({formatOptions, detectedFormatOptions, previewCount, 
     setQuoteChar(quoteChar)
   }, [formatOptions])
 
-  useEffect(() => {
-    if (!isCsvPreview) {
-      submitOptions({encoding, delimiter, linebreak, quoteChar})
-    }
-  }, [isCsvPreview, encoding, delimiter, linebreak, quoteChar, submitOptions])
-
   return (
     <div className='options-form'>
       <OptionsInputs
