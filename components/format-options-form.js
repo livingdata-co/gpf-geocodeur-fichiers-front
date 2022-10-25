@@ -40,6 +40,12 @@ const FormatOptionsForm = ({formatOptions, detectedFormatOptions, previewCount, 
     setQuoteChar(quoteChar)
   }, [formatOptions])
 
+  useEffect(() => {
+    if (!isCsvPreview) {
+      submitOptions({encoding, delimiter, linebreak, quoteChar})
+    }
+  }, [isCsvPreview, encoding, delimiter, linebreak, quoteChar, submitOptions])
+
   return (
     <div className='options-form'>
       <OptionsInputs
@@ -51,8 +57,8 @@ const FormatOptionsForm = ({formatOptions, detectedFormatOptions, previewCount, 
         quoteChar={quoteChar} handleQuoteChar={e => setQuoteChar(e.target.value)}
       />
 
-      <div className='update-buttons'>
-        {isCsvPreview && (
+      {isCsvPreview && (
+        <div className='update-buttons'>
           <SelectInput
             label='Lignes'
             ariaLabel='Sélectionner le nombre de lignes à afficher'
@@ -60,16 +66,16 @@ const FormatOptionsForm = ({formatOptions, detectedFormatOptions, previewCount, 
             options={[10, 50, 100].map(v => ({label: v.toString(), value: v.toString()}))}
             handleChange={v => setRowsCount(Number.parseInt(v.target.value, 10))}
           />
-        )}
 
-        <Button
-          onClick={handleSubmit}
-          disabled={!isChangedDetected}
-          icon={faEdit}
-        >
-          Modifier les paramètres
-        </Button>
-      </div>
+          <Button
+            onClick={handleSubmit}
+            disabled={!isChangedDetected}
+            icon={faEdit}
+          >
+            Modifier les paramètres
+          </Button>
+        </div>
+      )}
 
       <style jsx>{`
         .options-form {
@@ -86,7 +92,7 @@ const FormatOptionsForm = ({formatOptions, detectedFormatOptions, previewCount, 
         .update-buttons {
           display: flex;
           flex-flow: wrap;
-          justify-content: ${isCsvPreview ? 'space-between' : 'flex-end'};
+          justify-content: space-between;
           align-items: center;
           gap: .5rem;
           padding: .5rem;

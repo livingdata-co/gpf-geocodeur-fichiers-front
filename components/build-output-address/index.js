@@ -17,6 +17,7 @@ const formatOptions = [
 const BuildOutputAddress = ({
   format,
   params,
+  detectedParams,
   columns,
   selectedColumns,
   handleOutputFormat,
@@ -44,7 +45,7 @@ const BuildOutputAddress = ({
         <section>
           <FormatOptionsForm
             formatOptions={params}
-            detectedFormatOptions={params}
+            detectedFormatOptions={detectedParams}
             submitOptions={handleParams}
             isCsvPreview={false}
           />
@@ -87,6 +88,7 @@ const BuildOutputAddress = ({
 BuildOutputAddress.propTypes = {
   format: PropTypes.string.isRequired,
   params: PropTypes.object.isRequired,
+  detectedParams: PropTypes.object.isRequired,
   columns: PropTypes.object.isRequired,
   selectedColumns: PropTypes.array.isRequired,
   handleOutputFormat: PropTypes.func.isRequired,

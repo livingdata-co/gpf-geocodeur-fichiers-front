@@ -181,6 +181,7 @@ const Home = () => {
           <BuildOutputAddress
             format={outputFormat}
             params={outputParams}
+            detectedParams={detectedFormatOptions}
             columns={{initialsColumns: preview.columns, geocodeAddedColumns}}
             selectedColumns={outputSelectedColumns}
             handleOutputFormat={setOutputFormat}
