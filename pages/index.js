@@ -76,8 +76,12 @@ const Home = () => {
     }
   }, [file])
 
-  const changeStep = step => {
-    setStep(step)
+  const changeStep = selectedStep => {
+    if (selectedStep === 1) {
+      setFile()
+    }
+
+    setStep(selectedStep)
     setError(null)
     scrollToTop()
   }

@@ -1,5 +1,6 @@
 import {useState, useCallback} from 'react'
 import PropTypes from 'prop-types'
+import prettyBytes from 'pretty-bytes'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faDownload, faSquareCheck, faCircleChevronLeft} from '@fortawesome/free-solid-svg-icons'
 
@@ -8,6 +9,8 @@ import {geocodeFile} from '@/lib/api.js'
 import ProgressBar from '@/components/progress-bar'
 import ErrorMessage from '@/components/error-message'
 import Button from '@/components/button'
+import ButtonLink from '@/components/button-link'
+import Loader from '@/components/loader'
 
 import theme from '@/styles/theme'
 
@@ -63,9 +66,11 @@ const Geocoding = ({file, format, formatOptions, addressCompositors, advancedPar
   return (
     <div className='geocoding-container'>
       {!geocodeProcess && <div className='action-buttons'>
-        <Button onClick={() => handleStep(4)} label='Aller à l’étape précédente' icon={faCircleChevronLeft} color='secondary'>
-          Étape précédente
-        </Button>
+        <div className='restart-button'>
+          <Button onClick={() => handleStep(4)} label='Aller à l’étape précédente' icon={faCircleChevronLeft} color='secondary'>
+            Étape précédente
+          </Button>
+        </div>
         <Button onClick={startGeocode}>Lancer le géocodage</Button>
       </div>}
 
@@ -88,13 +93,26 @@ const Geocoding = ({file, format, formatOptions, addressCompositors, advancedPar
         max={uploadProgress.total}
       />}
 
-      {downloadStarted && !downloadCompleted && <div>Géocodage en cours…</div>}
-      {downloadProgress && !downloadCompleted && <div>{downloadProgress.loaded} déjà téléchargés</div>}
-      {downloadCompleted && <div>Géocodage terminé !</div>}
+      <div className='geocodage-progress'>
+        {downloadStarted && !downloadCompleted && <div><Loader label='Géocodage en cours' /></div>}
+        {downloadProgress && !downloadCompleted && <div>{prettyBytes(downloadProgress.loaded, {locale: 'fr'}).replace('B', 'o')} déjà téléchargés</div>}
+        {downloadCompleted && <div>Géocodage terminé !</div>}
 
-      {resultFileUrl && <Button label='Télécharger le fichier' icon={faDownload}>Télécharger le fichier</Button>}
+        {resultFileUrl && (
+          <div className='action-buttons'>
+            <div className='restart-button'>
+              <Button onClick={() => handleStep(1)} label='Géocoder un nouveau fichier' icon={faCircleChevronLeft} color='secondary'>
+                Géocoder un nouveau fichier
+              </Button>
+            </div>
+            <ButtonLink href={resultFileUrl} download={computeGeocodedFileName(file, outputFormat)} isExternal label='Télécharger le fichier' icon={faDownload}>
+              Télécharger le fichier
+            </ButtonLink>
+          </div>
+        )}
 
-      {error && <ErrorMessage>Le géocodage du fichier a échoué : {error}</ErrorMessage>}
+        {error && <ErrorMessage>Le géocodage du fichier a échoué : {error}</ErrorMessage>}
+      </div>
 
       <style jsx>{`
         .geocoding-container {
@@ -103,13 +121,8 @@ const Geocoding = ({file, format, formatOptions, addressCompositors, advancedPar
           align-items: center;
         }
 
-        .action-buttons {
+        .action-download {
           width: 100%;
-          margin-top: 1.5em;
-          display: grid;
-          grid-template-columns: auto 1fr;
-          justify-items: center;
-          gap: 1;
         }
 
         .valide {
@@ -128,6 +141,46 @@ const Geocoding = ({file, format, formatOptions, addressCompositors, advancedPar
         .rows {
           font-style: italic;
         }
+
+        .geocodage-progress {
+          width: 100%;
+          margin-top: 1.5em;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 1em;
+        }
+
+        a {
+          text-decoration: none;
+          display: flex;
+        }
+
+        .action-buttons {
+          width: 100%;
+          position: relative;
+          display: flex;
+          justify-content: center;
+        }
+
+        .restart-button {
+          position: absolute;
+          left: 0;
+        }
+
+        @media only screen and (max-width: 770px) {
+          .action-buttons {
+            position: initial;
+            flex-direction: column;
+            gap: 1em;
+          }
+
+          .restart-button {
+            position: initial;
+          }
+        }
+
       `}</style>
     </div>
   )
@@ -143,6 +196,10 @@ Geocoding.propTypes = {
   outputParams: PropTypes.object.isRequired,
   outputSelectedColumns: PropTypes.array.isRequired,
   handleStep: PropTypes.func.isRequired
+}
+
+function computeGeocodedFileName(file, outputFormat) {
+  return `geocode-result.${outputFormat}`
 }
 
 export default Geocoding

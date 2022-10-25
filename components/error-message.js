@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-import colors from '@/styles/colors'
+import theme from '@/styles/theme'
 
 const ErrorMessage = ({children}) => (
   <div className='error'>
@@ -8,9 +8,10 @@ const ErrorMessage = ({children}) => (
 
     <style jsx>{`
       .error {
+        color: ${theme.error};
+        font-weight: bold;
         width: 100%;
         text-align: center;
-        color: ${colors.error};
         margin: 10px 0;
       }
     `}</style>

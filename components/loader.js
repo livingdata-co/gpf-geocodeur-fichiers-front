@@ -20,7 +20,7 @@ const Loader = ({label}) => (
       }
 
       .loader {
-        font-size: 20px;
+        font-size: 16px;
         color: ${theme.txtColor};
         font-weight: bold;
       }
@@ -28,7 +28,7 @@ const Loader = ({label}) => (
       .loader span {
         font-style: normal;
         color: ${theme.txtColor};
-        font-size: 50px;
+        font-size: 20px;
         animation-name: blink;
         animation-duration: 1.2s;
         animation-iteration-count: infinite;
