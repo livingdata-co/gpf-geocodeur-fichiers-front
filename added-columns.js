@@ -12,7 +12,9 @@ const GEOCODE_ADDED_COLUMNS = [
   'result_citycode',
   'result_oldcitycode',
   'result_oldcity',
-  'result_district'
+  'result_district',
+  'result_latitude',
+  'result_longitude'
 ]
 
 export default GEOCODE_ADDED_COLUMNS
