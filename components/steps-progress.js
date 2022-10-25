@@ -6,7 +6,8 @@ const STEPS = {
   1: 'Dépôt du fichier',
   2: 'Aperçu du fichier et vérification de l’encodage',
   3: 'Construire les adresses',
-  4: 'Géocodage'
+  4: 'Paramétrer le fichier de sortie',
+  5: 'Géocodage'
 }
 const STEP_COUNT = Object.keys(STEPS).length
 

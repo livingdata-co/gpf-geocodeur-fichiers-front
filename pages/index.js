@@ -1,7 +1,9 @@
 import {useState, useCallback, useEffect, useContext} from 'react'
+import {concat} from 'lodash'
 import {faCircleChevronRight, faCircleChevronLeft} from '@fortawesome/free-solid-svg-icons'
 import {previewCsvFromBlob} from '@livingdata/tabular-data-helpers'
 
+import geocodeAddedColumns from '../added-columns'
 import ScreenContext from '@/contexts/screen-frame'
 
 import Layout from '@/layouts/main'
@@ -16,6 +18,7 @@ import Table from '@/components/table'
 import Button from '@/components/button'
 import Geocoding from '@/components/geocoding'
 import UnderlineTitle from '@/components/underline-title'
+import BuildOutputAddress from '@/components/build-output-address'
 
 const Home = () => {
   const {isFrame, screenSize} = useContext(ScreenContext)
@@ -32,8 +35,19 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [step, setStep] = useState(1)
 
+  const [outputFormat, setOutputFormat] = useState()
+  const [outputParams, setOutputParams] = useState({})
+  const [outputSelectedColumns, setOutputSelectedColumns] = useState([])
+
+  const resetOutputOptions = () => {
+    setOutputFormat(null)
+    setOutputParams(null)
+    setOutputSelectedColumns([])
+  }
+
   const handlePreview = useCallback(async params => {
     setError(null)
+
     if (file) {
       setIsLoading(true)
       const {formatOptions = {}, previewCount} = params || {}
@@ -69,15 +83,19 @@ const Home = () => {
   }
 
   useEffect(() => {
+    resetOutputOptions()
     handlePreview()
   }, [file, handlePreview])
 
-  const handleValidation = () => {
+  const handleParamsValidation = () => {
     const isLatLongComplete = (advancedParams.long && advancedParams.lat) || (!advancedParams.long && !advancedParams.lat)
 
     setError(null)
     if (isLatLongComplete) {
-      setStep(4)
+      setOutputFormat('csv')
+      setOutputParams(formatOptions)
+      setOutputSelectedColumns(concat(preview.columns, geocodeAddedColumns))
+      changeStep(4)
     } else {
       setError('Renseigner la longitude nécessite de renseigner la longitude et vice-versa')
     }
@@ -151,8 +169,8 @@ const Home = () => {
                   Étape précédente
                 </Button>
 
-                <Button onClick={handleValidation} disabled={selectedColumns.length === 0}>
-                  Valider les paramètres
+                <Button onClick={handleParamsValidation} disabled={selectedColumns.length === 0} icon={faCircleChevronRight}>
+                  Étape suivante
                 </Button>
               </div>
 
@@ -162,52 +180,64 @@ const Home = () => {
         )}
 
         {step === 4 && (
+          <BuildOutputAddress
+            format={outputFormat}
+            params={outputParams}
+            detectedParams={detectedFormatOptions}
+            columns={{fileColumns: preview.columns, geocodeColumns: geocodeAddedColumns}}
+            selectedColumns={outputSelectedColumns}
+            handleOutputFormat={setOutputFormat}
+            handleParams={setOutputParams}
+            handleColumns={setOutputSelectedColumns}
+            handleStep={changeStep}
+          />
+        )}
+
+        {step === 5 && (
           <Geocoding
             file={file}
-            formatOptions={formatOptions}
-            advancedParams={advancedParams}
+            outputFormat={outputFormat}
+            outputParams={outputParams}
+            outputSelectedColumns={outputSelectedColumns}
+            handleStep={changeStep}
           />
         )}
 
         <div className='loading'>
           {isLoading && <Spinner />}
         </div>
+
+        <style jsx>{`
+          .container {
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+            padding: 2rem;
+          }
+
+          section, .table-container {
+            margin-top: 2em;
+          }
+
+          .button-position {
+            display: flex;
+            justify-content: flex-end;
+          }
+
+          .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+
+          .actions-buttons {
+            margin-top: 1.5em;
+            display: flex;
+            justify-content: space-between;
+          }
+        `}
+        </style>
       </div>
-
-      <style jsx>{`
-        .container {
-          height: 100%;
-          box-sizing: border-box;
-          display: flex;
-          flex-direction: column;
-          gap: 1em;
-          padding: 2rem;
-        }
-
-        .table-container {
-          margin-top: 2em;
-        }
-
-        .button-position {
-          display: flex;
-          justify-content: flex-end;
-        }
-
-        .loading {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .actions-buttons {
-          margin-top: 1.5em;
-          display: grid;
-          grid-template-columns: auto 1fr;
-          justify-items: center;
-          gap: 1em;
-        }
-      `}
-      </style>
     </Layout>
   )
 }

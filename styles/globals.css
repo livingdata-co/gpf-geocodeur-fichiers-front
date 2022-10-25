@@ -41,7 +41,8 @@ html,
 }
 
 h1,
-h2 {
+h2,
+h4 {
   padding: 0;
   margin: 0;
 }

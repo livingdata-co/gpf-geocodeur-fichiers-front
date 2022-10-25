@@ -7,12 +7,13 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 
-import colors from '@/styles/colors'
+import theme from '@/styles/theme'
 
 const CELL_HEIGHT = 40
 
-const Table = ({columns, rows, selectedColumns, onSelect}) => {
+const Table = ({columns, rows, isSelectExcludes, selectedColumns, onSelect}) => {
   const columnHelper = createColumnHelper()
+  const selectColor = isSelectExcludes ? theme.unselected : theme.selected
 
   const tableColumns = useMemo(() => (
     columns.map(column => columnHelper.accessor(column))
@@ -102,11 +103,11 @@ const Table = ({columns, rows, selectedColumns, onSelect}) => {
 
         th:hover::after,
         th.selected::after {
-          background-color: ${onSelect ? `${colors.lightBlue}30` : ''};
+          background-color: ${onSelect ? selectColor : ''};
         }
 
         th.selected:hover::after {
-          background-color: ${onSelect ? `${colors.lightBlue}40` : ''};
+          background-color: ${onSelect ? selectColor : ''};
         }
 
         tr {
@@ -119,12 +120,14 @@ const Table = ({columns, rows, selectedColumns, onSelect}) => {
 
 Table.defaultProps = {
   selectedColumns: [],
+  isSelectExcludes: false,
   onSelect: null
 }
 
 Table.propTypes = {
   columns: PropTypes.arrayOf(PropTypes.string).isRequired,
   rows: PropTypes.arrayOf(PropTypes.object).isRequired,
+  isSelectExcludes: PropTypes.bool,
   selectedColumns: PropTypes.array,
   onSelect: PropTypes.func
 }

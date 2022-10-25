@@ -30,6 +30,8 @@ export default ({
   bkgDark: colors.darkBlue,
   bkgLight: colors.lightBlue,
   bkgNeutral: colors.white,
+  selected: colors.lighterBlue,
+  unselected: colors.lightRed,
 
   // Borders
 
