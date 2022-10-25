@@ -1,3 +1,4 @@
+import {useState, useCallback} from 'react'
 import PropTypes from 'prop-types'
 import {faCircleChevronRight, faCircleChevronLeft} from '@fortawesome/free-solid-svg-icons'
 
@@ -24,7 +25,22 @@ const BuildOutputAddress = ({
   handleParams,
   handleColumns,
   handleStep}) => {
-  const {initialsColumns, geocodeAddedColumns} = columns
+  const {fileColumns, geocodeColumns} = columns
+  const [exclusionList, setExclusionList] = useState([])
+
+  const toggleExclusionList = useCallback(column => {
+    if (exclusionList.includes(column)) {
+      setExclusionList(exclusionList.filter(c => c !== column))
+      handleColumns([...fileColumns, ...geocodeColumns].filter(c => !exclusionList.includes(c)))
+    } else {
+      setExclusionList([...exclusionList, column])
+    }
+  }, [exclusionList, fileColumns, geocodeColumns, handleColumns])
+
+  const onValidate = () => {
+    handleColumns(selectedColumns.filter(c => !exclusionList.includes(c)))
+    handleStep(5)
+  }
 
   return (
     <div>
@@ -54,14 +70,20 @@ const BuildOutputAddress = ({
 
       <section>
         <UnderlineTitle>Sélection des colonnes</UnderlineTitle>
-        <ColumnsLists initials={initialsColumns} added={geocodeAddedColumns} selectedColumns={selectedColumns} onSelect={handleColumns} />
+        <ColumnsLists
+          exclusionList={exclusionList}
+          fileColumns={fileColumns}
+          geocodeColumns={geocodeColumns}
+          selectedColumns={selectedColumns}
+          isAllFilesSelected={exclusionList.length === 0}
+          onSelect={toggleExclusionList} />
       </section>
 
       <div className='actions-buttons'>
         <Button onClick={() => handleStep(3)} label='Aller à l’étape précédente' icon={faCircleChevronLeft} color='secondary'>
           Étape précédente
         </Button>
-        <Button onClick={() => handleStep(5)} label='Aller à l’étape suivante' icon={faCircleChevronRight}>
+        <Button onClick={onValidate} label='Aller à l’étape suivante' icon={faCircleChevronRight}>
           Étape suivante
         </Button>
       </div>

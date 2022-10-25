@@ -1,4 +1,5 @@
 import {useState, useCallback, useEffect, useContext} from 'react'
+import {concat} from 'lodash'
 import {faCircleChevronRight, faCircleChevronLeft} from '@fortawesome/free-solid-svg-icons'
 import {previewCsvFromBlob} from '@livingdata/tabular-data-helpers'
 
@@ -93,6 +94,7 @@ const Home = () => {
     if (isLatLongComplete) {
       setOutputFormat('csv')
       setOutputParams(formatOptions)
+      setOutputSelectedColumns(concat(preview.columns, geocodeAddedColumns))
       changeStep(4)
     } else {
       setError('Renseigner la longitude nécessite de renseigner la longitude et vice-versa')
@@ -182,7 +184,7 @@ const Home = () => {
             format={outputFormat}
             params={outputParams}
             detectedParams={detectedFormatOptions}
-            columns={{initialsColumns: preview.columns, geocodeAddedColumns}}
+            columns={{fileColumns: preview.columns, geocodeColumns: geocodeAddedColumns}}
             selectedColumns={outputSelectedColumns}
             handleOutputFormat={setOutputFormat}
             handleParams={setOutputParams}

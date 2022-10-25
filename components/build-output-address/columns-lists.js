@@ -1,48 +1,38 @@
-import {useCallback} from 'react'
 import PropTypes from 'prop-types'
 import {faPlus, faMinus} from '@fortawesome/free-solid-svg-icons'
 
 import ColumnSelector from '../build-address/column-selector'
 import theme from '@/styles/theme'
 
-const ColumnsLists = ({initials, added, selectedColumns, onSelect}) => {
-  const handleColumn = useCallback(column => {
-    if (selectedColumns.includes(column)) {
-      onSelect(selectedColumns.filter(c => c !== column))
-    } else {
-      onSelect([...selectedColumns, column])
-    }
-  }, [selectedColumns, onSelect])
-
-  return (
-    <div className='columns-lists'>
-      <div className='columns-to-select'>
-        <h4>Colonnes du fichier d’origine</h4>
-        <div className='columns'>
-          {initials.filter(c => !selectedColumns.includes(c)).map(column => (
-            <ColumnSelector key={column} label={column} icon={faMinus} handleClick={() => handleColumn(column)} />
-          ))}
-        </div>
-
-        <h4>Colonnes issues du géocodage</h4>
-        <div className='columns'>
-          {added.filter(c => !selectedColumns.includes(c)).map(column => (
-            <ColumnSelector key={column} label={column} icon={faMinus} handleClick={() => handleColumn(column)} />
-          ))}
-        </div>
+const ColumnsLists = ({exclusionList, fileColumns, geocodeColumns, isAllFilesSelected, onSelect}) => (
+  <div className='columns-lists'>
+    <div className='columns-to-select'>
+      <h4>Colonnes du fichier d’origine</h4>
+      <div className='columns'>
+        {fileColumns.filter(c => !exclusionList.includes(c)).map(column => (
+          <ColumnSelector key={column} label={column} icon={faMinus} handleClick={() => onSelect(column)} />
+        ))}
       </div>
 
-      <div className='excluded-columns'>
-        <h4>Colonnes à exclure du traitement</h4>
-        <div className='selected columns'>
-          {selectedColumns.length === 0 && <div className='empty'>Toutes les colonnes sont conservées par défaut. <br /> Sélectionnez les colonnes à exclure</div>}
-          {selectedColumns.map(column => (
-            <ColumnSelector key={column} label={column} icon={faPlus} handleClick={() => handleColumn(column)} />
-          ))}
-        </div>
+      <h4>Colonnes issues du géocodage</h4>
+      <div className='columns'>
+        {geocodeColumns.filter(c => !exclusionList.includes(c)).map(column => (
+          <ColumnSelector key={column} label={column} icon={faMinus} handleClick={() => onSelect(column)} />
+        ))}
       </div>
+    </div>
 
-      <style jsx>{`
+    <div className='excluded-columns'>
+      <h4>Colonnes à exclure du traitement</h4>
+      <div className='selected columns'>
+        {isAllFilesSelected && <div className='empty'>Toutes les colonnes sont conservées par défaut. <br /> Sélectionnez les colonnes à exclure</div>}
+        {exclusionList.map(column => (
+          <ColumnSelector key={column} label={column} icon={faPlus} handleClick={() => onSelect(column)} />
+        ))}
+      </div>
+    </div>
+
+    <style jsx>{`
       .columns-to-select {
        display: flex;
        flex-direction: column;
@@ -63,7 +53,7 @@ const ColumnsLists = ({initials, added, selectedColumns, onSelect}) => {
       .selected {
         margin-top: 1em;
         border: 1px dashed ${theme.borderPrimary};
-        grid-template-columns: ${selectedColumns.length === 0 ? '1fr' : 'repeat(auto-fill, minmax(240px, 1fr))'};
+        grid-template-columns: ${isAllFilesSelected ? '1fr' : 'repeat(auto-fill, minmax(240px, 1fr))'};
       }
 
       .empty {
@@ -75,14 +65,14 @@ const ColumnsLists = ({initials, added, selectedColumns, onSelect}) => {
         text-align: center;
       }
     `}</style>
-    </div>
-  )
-}
+  </div>
+)
 
 ColumnsLists.propTypes = {
-  initials: PropTypes.array.isRequired,
-  added: PropTypes.array.isRequired,
-  selectedColumns: PropTypes.array.isRequired,
+  fileColumns: PropTypes.array.isRequired,
+  geocodeColumns: PropTypes.array.isRequired,
+  exclusionList: PropTypes.array.isRequired,
+  isAllFilesSelected: PropTypes.bool.isRequired,
   onSelect: PropTypes.func.isRequired
 }
 
