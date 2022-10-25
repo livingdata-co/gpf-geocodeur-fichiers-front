@@ -76,7 +76,7 @@ const BuildOutputAddress = ({
           Étape précédente
         </Button>
         <Button onClick={() => handleStep(5)} label='Aller à l’étape suivante' icon={faCircleChevronRight}>
-          Valider les paramètres
+          Étape suivante
         </Button>
       </div>
 
@@ -92,10 +92,8 @@ const BuildOutputAddress = ({
         .actions-buttons {
           margin-top: 1.5em;
           margin-bottom: 2em;
-          display: grid;
-          grid-template-columns: auto 1fr;
-          justify-items: center;
-          gap: 1;
+          display: flex;
+          justify-content: space-between;
         }
       `}</style>
     </div>

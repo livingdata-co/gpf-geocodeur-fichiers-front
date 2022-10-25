@@ -193,8 +193,8 @@ const Home = () => {
                   Étape précédente
                 </Button>
 
-                <Button onClick={handleParamsValidation} disabled={selectedColumns.length === 0}>
-                  Valider les paramètres
+                <Button onClick={handleParamsValidation} disabled={selectedColumns.length === 0} icon={faCircleChevronRight}>
+                  Étape suivante
                 </Button>
               </div>
 
@@ -257,10 +257,8 @@ const Home = () => {
 
           .actions-buttons {
             margin-top: 1.5em;
-            display: grid;
-            grid-template-columns: auto 1fr;
-            justify-items: center;
-            gap: 1;
+            display: flex;
+            justify-content: space-between;
           }
         `}
         </style>
