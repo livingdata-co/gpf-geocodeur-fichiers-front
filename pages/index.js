@@ -2,7 +2,7 @@ import {useState, useCallback, useEffect, useContext} from 'react'
 import {faCircleChevronRight, faCircleChevronLeft} from '@fortawesome/free-solid-svg-icons'
 import {previewCsvFromBlob} from '@livingdata/tabular-data-helpers'
 
-import outputPreviewObj from '../output-preview.json'
+import geocodeAddedColumns from '../added-columns'
 import ScreenContext from '@/contexts/screen-frame'
 
 import Layout from '@/layouts/main'
@@ -207,13 +207,11 @@ const Home = () => {
           <BuildOutputAddress
             format={outputFormat}
             params={outputParams}
-            detectedParams={detectedOutputParams}
-            columns={geocodePreview.columns}
-            rows={geocodePreview.rows}
+            columns={{initialsColumns: preview.columns, geocodeAddedColumns}}
+            selectedColumns={outputSelectedColumns}
             handleOutputFormat={setOutputFormat}
             handleParams={setOutputParams}
             handleColumns={setOutputSelectedColumns}
-            selectedColumns={outputSelectedColumns}
             handleStep={changeStep}
           />
         )}

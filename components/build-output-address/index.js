@@ -5,9 +5,9 @@ import {faCircleChevronRight, faCircleChevronLeft} from '@fortawesome/free-solid
 
 import FormatOptionsForm from '../format-options-form'
 
+import ColumnsLists from './columns-lists'
 import SelectInput from '@/components/select-input'
 import UnderlineTitle from '@/components/underline-title'
-import Table from '@/components/table'
 import Button from '@/components/button'
 
 const formatOptions = [
@@ -27,13 +27,7 @@ const BuildOutputAddress = ({
   handleParams,
   handleColumns,
   handleStep}) => {
-  const handleColumn = useCallback(column => {
-    if (selectedColumns.includes(column)) {
-      handleColumns(selectedColumns.filter(c => c !== column))
-    } else {
-      handleColumns([...selectedColumns, column])
-    }
-  }, [selectedColumns, handleColumns])
+  const {initialsColumns, geocodeAddedColumns} = columns
 
   return (
     <div>
@@ -62,13 +56,7 @@ const BuildOutputAddress = ({
       )}
 
       <section>
-        <Table
-          columns={columns}
-          rows={rows}
-          selectedColumns={difference(columns, selectedColumns)}
-          isSelectExcludes
-          onSelect={handleColumn}
-        />
+        <ColumnsLists initials={initialsColumns} added={geocodeAddedColumns} selectedColumns={selectedColumns} onSelect={handleColumns} />
       </section>
 
       <div className='actions-buttons'>
@@ -103,9 +91,7 @@ const BuildOutputAddress = ({
 BuildOutputAddress.propTypes = {
   format: PropTypes.string.isRequired,
   params: PropTypes.object.isRequired,
-  detectedParams: PropTypes.object.isRequired,
-  columns: PropTypes.array.isRequired,
-  rows: PropTypes.array.isRequired,
+  columns: PropTypes.object.isRequired,
   selectedColumns: PropTypes.array.isRequired,
   handleOutputFormat: PropTypes.func.isRequired,
   handleParams: PropTypes.func.isRequired,
