@@ -196,6 +196,10 @@ const Home = () => {
         {step === 5 && (
           <Geocoding
             file={file}
+            format={preview.format}
+            formatOptions={formatOptions}
+            addressCompositors={selectedColumns}
+            advancedParams={advancedParams}
             outputFormat={outputFormat}
             outputParams={outputParams}
             outputSelectedColumns={outputSelectedColumns}

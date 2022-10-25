@@ -3,21 +3,45 @@ import PropTypes from 'prop-types'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faSquareCheck, faCircleChevronLeft} from '@fortawesome/free-solid-svg-icons'
 
-import {validateCsvFromBlob} from '@livingdata/tabular-data-helpers'
+import {validateCsvFromBlob, geocode} from '@livingdata/tabular-data-helpers'
 
 import ValidationProgress from '@/components/validation-progress'
 import ErrorMessage from '@/components/error-message'
 import Button from '@/components/button'
+
 import theme from '@/styles/theme'
 
-const Geocoding = ({file, outputFormat, outputParams, outputSelectedColumns, handleStep}) => {
+const Geocoding = ({file, format, formatOptions, addressCompositors, advancedParams, outputFormat, outputParams, outputSelectedColumns, handleStep}) => {
   const [validationProcess, setValidationProcess] = useState()
   const [error, setError] = useState()
   const [isValidationComplete, setIsValidationComplete] = useState(false)
 
   const handleValidationComplete = useCallback(() => {
     setIsValidationComplete(true)
-  }, [])
+    geocoding()
+  }, [geocoding])
+
+  const geocoding = useCallback(() => {
+    const {codeINSEE, lat, long} = advancedParams
+    const options = {
+      format,
+      formatOptions,
+      geocodeOptions: {
+        q: addressCompositors,
+        citycode: codeINSEE,
+        longitude: lat,
+        latitude: long
+      },
+      outputFormat,
+      outputFormatOptions: outputParams,
+      ouputOptions: {
+        columnsToInclude: outputSelectedColumns
+      }
+    }
+
+    const geocodingProgress = geocode(file, options)
+    console.log(geocodingProgress)
+  }, [file, addressCompositors, advancedParams, format, formatOptions, outputFormat, outputSelectedColumns, outputParams])
 
   const validate = useCallback(() => {
     const validationProgress = validateCsvFromBlob(file, {outputFormat, outputParams, outputSelectedColumns})
@@ -87,6 +111,10 @@ const Geocoding = ({file, outputFormat, outputParams, outputSelectedColumns, han
 
 Geocoding.propTypes = {
   file: PropTypes.object.isRequired,
+  format: PropTypes.string.isRequired,
+  formatOptions: PropTypes.object.isRequired,
+  addressCompositors: PropTypes.array.isRequired,
+  advancedParams: PropTypes.object.isRequired,
   outputFormat: PropTypes.string.isRequired,
   outputParams: PropTypes.object.isRequired,
   outputSelectedColumns: PropTypes.array.isRequired,
