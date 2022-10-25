@@ -53,6 +53,7 @@ const BuildOutputAddress = ({
       )}
 
       <section>
+        <UnderlineTitle>Sélection des colonnes</UnderlineTitle>
         <ColumnsLists initials={initialsColumns} added={geocodeAddedColumns} selectedColumns={selectedColumns} onSelect={handleColumns} />
       </section>
 
