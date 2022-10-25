@@ -44,6 +44,7 @@ const FormatOptionsForm = ({formatOptions, detectedFormatOptions, previewCount, 
     <div className='options-form'>
       <OptionsInputs
         autodetected={detectedFormatOptions}
+        isCsvPreview={isCsvPreview}
         encoding={encoding} handleEncoding={e => setEncoding(e.target.value)}
         delimiter={delimiter} handleDelimeter={e => setDelimiter(e.target.value)}
         linebreak={linebreak} handleLinebreak={e => setLinebreak(e.target.value)}

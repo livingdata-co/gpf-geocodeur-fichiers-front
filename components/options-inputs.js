@@ -30,7 +30,7 @@ const encodingOptions = [
 ]
 
 const OptionsInputs = ({
-  autodetected,
+  autodetected, isCsvPreview,
   encoding, handleEncoding,
   delimiter, handleDelimeter,
   linebreak, handleLinebreak,
@@ -41,7 +41,7 @@ const OptionsInputs = ({
 
     <div className='inputs'>
       <SelectInput label='Encodage' ariaLabel='Sélectionner le type d’encodage' value={encoding} autodetected={autodetected.encoding} options={encodingOptions} auto handleChange={handleEncoding} />
-      <SelectInput label='Séparateur de ligne' ariaLabel='Sélectionner le séparateur de ligne' value={linebreak} autodetected={autodetected.linebreak} options={linebreakOptions} handleChange={handleLinebreak} isDisabled />
+      <SelectInput label='Séparateur de ligne' ariaLabel='Sélectionner le séparateur de ligne' value={linebreak} autodetected={autodetected.linebreak} options={linebreakOptions} handleChange={handleLinebreak} isDisabled={isCsvPreview} />
       <SelectInput label='Séparateur de colonne' ariaLabel='Sélectionner le séparateur de colonne' value={delimiter} autodetected={autodetected.delimiter} options={delimiterOptions} handleChange={handleDelimeter} />
       <SelectInput label='Caractère d’échappement' ariaLabel='Sélectionner le caractère d’échappement' value={quoteChar} autodetected={autodetected.quoteChar} options={quoteCharOptions} handleChange={handleQuoteChar} />
     </div>
@@ -69,6 +69,7 @@ OptionsInputs.propTypes = {
     delimiter: PropTypes.string.isRequired,
     quoteChar: PropTypes.string.isRequired
   }),
+  isCsvPreview: PropTypes.bool,
   encoding: PropTypes.string.isRequired,
   handleEncoding: PropTypes.func.isRequired,
   delimiter: PropTypes.string.isRequired,
@@ -77,6 +78,10 @@ OptionsInputs.propTypes = {
   handleLinebreak: PropTypes.func.isRequired,
   quoteChar: PropTypes.string.isRequired,
   handleQuoteChar: PropTypes.func.isRequired
+}
+
+OptionsInputs.defaultProps = {
+  isCsvPreview: true
 }
 
 export default OptionsInputs
