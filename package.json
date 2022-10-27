@@ -13,16 +13,19 @@
     "@fortawesome/free-regular-svg-icons": "^6.2.0",
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "@livingdata/tabular-data-helpers": "^0.0.3",
+    "@livingdata/tabular-data-helpers": "^0.0.5",
     "@tanstack/react-table": "^8.5.13",
+    "events": "^3.3.0",
     "lodash": "^4.17.21",
     "next": "12.2.5",
+    "pretty-bytes": "^6.0.0",
     "prop-types": "^15.8.1",
     "re-resizable": "^6.9.9",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.2",
-    "sharp": "^0.31.0"
+    "sharp": "^0.31.0",
+    "superagent": "^8.0.2"
   },
   "devDependencies": {
     "eslint-config-xo": "^0.42.0",
@@ -43,11 +46,15 @@
       "react/jsx-sort-props": "off",
       "import/no-anonymous-default-export": "off",
       "unicorn/prevent-abbreviations": "off",
-      "comma-dangle": "off",
+      "comma-dangle": [
+        "error",
+        "never"
+      ],
       "import/extensions": "off",
-      "node/prefer-global/process": "off",
+      "n/prefer-global/process": "off",
       "unicorn/no-array-for-each": "off",
       "unicorn/prefer-switch": "off",
+      "unicorn/prefer-node-protocol": "off",
       "react/no-unknown-property": [
         "error",
         {

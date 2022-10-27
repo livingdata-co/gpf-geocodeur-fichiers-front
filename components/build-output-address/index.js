@@ -11,7 +11,6 @@ import Button from '@/components/button'
 
 const formatOptions = [
   {value: 'csv', label: 'CSV'},
-  {value: 'gpkg', label: 'GPKG'},
   {value: 'geojson', label: 'GeoJSON'}
 ]
 

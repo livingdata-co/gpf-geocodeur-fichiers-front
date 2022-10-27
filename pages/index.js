@@ -76,8 +76,12 @@ const Home = () => {
     }
   }, [file])
 
-  const changeStep = step => {
-    setStep(step)
+  const changeStep = selectedStep => {
+    if (selectedStep === 1) {
+      setFile()
+    }
+
+    setStep(selectedStep)
     setError(null)
     scrollToTop()
   }
@@ -196,6 +200,10 @@ const Home = () => {
         {step === 5 && (
           <Geocoding
             file={file}
+            format={preview.format}
+            formatOptions={formatOptions}
+            addressCompositors={selectedColumns}
+            advancedParams={advancedParams}
             outputFormat={outputFormat}
             outputParams={outputParams}
             outputSelectedColumns={outputSelectedColumns}
