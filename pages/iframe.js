@@ -1,6 +1,8 @@
 import {useState} from 'react'
 import {Resizable} from 're-resizable'
 
+const ROOT_URL = process.env.NEXT_PUBLIC_ROOT_URL
+
 const Iframe = () => {
   const [size, setSize] = useState({width: 1428, height: 774})
 
@@ -13,7 +15,7 @@ const Iframe = () => {
     <>
       <div>{`hauteur : ${size.height} x largeur : ${size.width}`}</div>
       <Resizable defaultSize={size} onResize={e => getSize(e)}>
-        <iframe src='http://localhost:3000' width='100%' height='100%' sandbox />
+        <iframe src={ROOT_URL} width='100%' height='100%' sandbox />
       </Resizable>
     </>
   )
