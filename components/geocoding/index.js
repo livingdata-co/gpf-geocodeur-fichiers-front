@@ -35,8 +35,8 @@ const Geocoding = ({file, format, formatOptions, addressCompositors, advancedPar
       geocodeOptions: {
         q: addressCompositors,
         citycode: codeINSEE,
-        longitude: lat,
-        latitude: long
+        lat,
+        lon: long
       },
       outputFormat,
       outputFormatOptions: outputParams,
