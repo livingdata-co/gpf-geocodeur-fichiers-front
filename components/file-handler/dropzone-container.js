@@ -64,7 +64,7 @@ const DropzoneContainer = ({file, isLoading, maxSize, error, onFileDrop, onFileD
                       </div>
                     )}
                   </div>
-                ) : `Sélectionner ou glisser ici votre fichier BAL au format CSV (maximum ${formatFileSize(maxSize, {round: true})})`}
+                ) : `Sélectionner ou glisser ici votre fichier à géocoder au format CSV (maximum ${formatFileSize(maxSize, {round: true})})`}
                 </div>
               </div>
             )
