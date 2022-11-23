@@ -1,6 +1,5 @@
 import {useState, useEffect, useContext, useMemo} from 'react'
 import Router from 'next/router'
-import {includes} from 'lodash'
 import {faPlus} from '@fortawesome/free-solid-svg-icons'
 
 import {getProjects} from '@/lib/api'
@@ -11,7 +10,7 @@ import Layout from '@/layouts/main'
 
 import Spinner from '@/components/spinner'
 import Button from '@/components/button'
-import Project from '@/components/project'
+import ProjectsList from '@/components/projects-list'
 import ErrorMessage from '@/components/error-message'
 
 const Home = () => {
@@ -22,8 +21,8 @@ const Home = () => {
 
   const isProjectInProgress = useMemo(() => {
     if (projects) {
-      const allStatus = projects.map(({status}) => status)
-      return includes(allStatus, 'waiting') || includes(allStatus, 'processing')
+      const allStatus = new Set(projects.map(({status}) => status))
+      return allStatus.has('waiting') || allStatus.has('processing')
     }
 
     return false
@@ -47,19 +46,14 @@ const Home = () => {
     <Layout isFrame={isFrame} screenSize={screenSize}>
       <div className='container'>
         <h2>Vos géocodages</h2>
-        <div className='container'>
-          {projects && (
-            <ul>
-              {projects.map(project => (
-                <Project key={project.id} {...project} />
-              ))}
-            </ul>
-          )}
-
-          {projects?.length === 0 && (
-            <div>Vous n’avez aucun géocodage</div>
-          )}
-        </div>
+        {}
+        {projects ? (
+          <ProjectsList projects={projects} />
+        ) : (
+          <div className='loading'>
+            <Spinner />
+          </div>
+        )}
 
         <Button
           icon={faPlus}
@@ -68,10 +62,6 @@ const Home = () => {
         >
           Nouveau géocodage
         </Button>
-
-        {<div className='loading'>
-          {!projects && !error && <Spinner />}
-        </div>}
 
         {error && <ErrorMessage>{error}</ErrorMessage>}
 
