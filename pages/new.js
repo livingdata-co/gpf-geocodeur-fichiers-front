@@ -1,10 +1,12 @@
 import {useState, useCallback, useEffect, useContext} from 'react'
 import {concat} from 'lodash'
-import {faCircleChevronRight, faCircleChevronLeft} from '@fortawesome/free-solid-svg-icons'
+import {faCircleChevronRight, faCircleChevronLeft, faArrowAltCircleLeft} from '@fortawesome/free-solid-svg-icons'
 import {previewCsvFromBlob} from '@livingdata/tabular-data-helpers'
 
 import geocodeAddedColumns from '../added-columns'
 import ScreenContext from '@/contexts/screen-frame'
+
+import {getProjects} from '@/lib/api'
 
 import Layout from '@/layouts/main'
 
@@ -19,11 +21,13 @@ import Button from '@/components/button'
 import Geocoding from '@/components/geocoding'
 import UnderlineTitle from '@/components/underline-title'
 import BuildOutputAddress from '@/components/build-output-address'
+import ButtonLink from '@/components/button-link'
 
 const New = () => {
   const {isFrame, screenSize} = useContext(ScreenContext)
   const scrollToTop = () => window.scrollTo(0, 0)
 
+  const [hasConcurrentProject, setHasConcurrentProject] = useState()
   const [file, setFile] = useState()
   const [preview, setPreview] = useState()
   const [formatOptions, setFormatOptions] = useState({})
@@ -110,6 +114,38 @@ const New = () => {
       scrollToTop()
     })
   }, [])
+
+  // Ensure no project is already in progress
+  useEffect(() => {
+    async function fetchCurrentProject() {
+      setIsLoading(true)
+      const projects = await getProjects()
+      const allStatus = new Set(projects.map(({status}) => status))
+      const hasConcurrentProject = allStatus.has('waiting') || allStatus.has('processing')
+      setHasConcurrentProject(hasConcurrentProject)
+
+      setIsLoading(false)
+    }
+
+    fetchCurrentProject()
+  }, [])
+
+  if (hasConcurrentProject === undefined && isLoading) {
+    return (
+      <Layout isFrame={isFrame} screenSize={screenSize}>
+        {isLoading && <Spinner />}
+      </Layout>
+    )
+  }
+
+  if (hasConcurrentProject) {
+    return (
+      <Layout isFrame={isFrame} screenSize={screenSize}>
+        <ErrorMessage>Un géocodage est déjà en cours. Veuillez attendre ou annuler ce géocodage pour en demander un nouveau.</ErrorMessage>
+        <ButtonLink href='/' icon={faArrowAltCircleLeft}>Retour</ButtonLink>
+      </Layout>
+    )
+  }
 
   return (
     <Layout isFrame={isFrame} screenSize={screenSize}>
@@ -236,6 +272,7 @@ const New = () => {
             display: flex;
             align-items: center;
             justify-content: center;
+            margin: 0 auto;
           }
 
           .actions-buttons {
