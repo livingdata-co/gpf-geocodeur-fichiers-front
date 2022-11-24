@@ -1,0 +1,14 @@
+.gitignore
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+*.log
+*.sample
+
+README.md
+
+.git
+.next
+
+node_modules
