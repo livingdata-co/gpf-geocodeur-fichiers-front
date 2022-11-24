@@ -9,13 +9,13 @@ import colors from '@/styles/colors'
 import Button from '@/components/button'
 import ProjectStatus from '@/components/project-status'
 
-const Project = ({id, status, createdAt, updatedAt, inputFile, processing}) => {
+const Project = ({id, status, createdAt, updatedAt, inputFile}) => {
   const isInProgress = ['waiting', 'processing'].includes(status)
   const isAvailable = ['waiting', 'completed', 'failed'].includes(status)
 
   return (
     <div className='grid'>
-      <ProjectStatus status={status} error={processing.error} />
+      <ProjectStatus status={status} />
       <div>{formatDate(createdAt)}</div>
       <div>{formatDate(updatedAt)}</div>
       <div>{inputFile.filename}</div>
@@ -50,9 +50,6 @@ Project.propTypes = {
   updatedAt: PropTypes.string.isRequired,
   inputFile: PropTypes.shape({
     filename: PropTypes.string.isRequired
-  }).isRequired,
-  processing: PropTypes.shape({
-    error: PropTypes.string
   }).isRequired
 }
 
