@@ -3,12 +3,13 @@ import PropTypes from 'prop-types'
 import Image from 'next/image'
 import Dropzone from 'react-dropzone'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faRotate, faFileCsv} from '@fortawesome/free-solid-svg-icons'
+import {faRotate} from '@fortawesome/free-solid-svg-icons'
 
 import {formatFileSize} from '@/lib/file'
 
 import theme from '@/styles/theme'
 
+import FileDetails from '@/components/file-details'
 import Spinner from '@/components/spinner'
 
 const DropzoneContainer = ({file, isLoading, maxSize, error, onFileDrop, onFileDropRejected}) => {
@@ -44,13 +45,7 @@ const DropzoneContainer = ({file, isLoading, maxSize, error, onFileDrop, onFileD
                 )}
                 <div className='file-container'>{file ? (
                   <div className='file-sumup'>
-                    <div className='file-details'>
-                      <FontAwesomeIcon icon={faFileCsv} size='3x' />
-                      <div className='file-infos'>
-                        <div className='name'>{file.name}</div>
-                        <div className='size'>{formatFileSize(file.size)}</div>
-                      </div>
-                    </div>
+                    <FileDetails name={file.name} size={file.size} />
                     {isLoading ? (
                       <div className='loading'>
                         Chargement du fichier… <span><Spinner alt aria-hidden='true' /></span>
@@ -127,27 +122,6 @@ const DropzoneContainer = ({file, isLoading, maxSize, error, onFileDrop, onFileD
           color: #fff;
           padding: 0 1em;
           border-radius: 3px;
-        }
-
-        .file-details {
-          display: flex;
-          align-items: center;
-          gap: 1em;
-        }
-
-        .file-infos {
-          border-left: 3px solid;
-          margin-left: 5px;
-          padding: 0 10px;
-        }
-
-        .name {
-          font-weight: bolder;
-        }
-
-        .size {
-          font-style: italic;
-          font-size: 14px;
         }
 
         .active {
