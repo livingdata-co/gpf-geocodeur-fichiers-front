@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import Router from 'next/router'
-import {faTimesCircle} from '@fortawesome/free-regular-svg-icons'
+import {faTimesCircle, faTrashAlt} from '@fortawesome/free-regular-svg-icons'
 
 import {formatDate} from '@/lib/date'
 
@@ -9,9 +9,9 @@ import colors from '@/styles/colors'
 import Button from '@/components/button'
 import ProjectStatus from '@/components/project-status'
 
-const Project = ({id, status, createdAt, updatedAt, inputFile}) => {
+const Project = ({id, status, createdAt, updatedAt, inputFile, onDelete}) => {
   const isInProgress = ['waiting', 'processing'].includes(status)
-  const isAvailable = ['waiting', 'completed', 'failed'].includes(status)
+  const isAvailable = ['waiting', 'processing', 'completed', 'failed'].includes(status)
 
   return (
     <div className='grid'>
@@ -19,8 +19,12 @@ const Project = ({id, status, createdAt, updatedAt, inputFile}) => {
       <div>{formatDate(createdAt)}</div>
       <div>{formatDate(updatedAt)}</div>
       <div>{inputFile.filename}</div>
-      <div>{isInProgress && <Button icon={faTimesCircle} color='secondary'>Annuler</Button>}</div>
-      <div>{isAvailable && <Button onClick={() => Router.push(`/project/${id}`)}>Consulter</Button>}</div>
+      <div>{isInProgress ? (
+        <Button icon={faTimesCircle} color='secondary'>Annuler</Button>
+      ) : (
+        <Button icon={faTrashAlt} color='secondary' onClick={onDelete}>Supprimer</Button>
+      )}</div>
+      <div>{isAvailable && <Button onClick={() => Router.push(`/project?projectId=${id}`)}>Consulter</Button>}</div>
 
       <style jsx>{`
       .grid {
@@ -50,7 +54,8 @@ Project.propTypes = {
   updatedAt: PropTypes.string.isRequired,
   inputFile: PropTypes.shape({
     filename: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  onDelete: PropTypes.func.isRequired
 }
 
 export default Project

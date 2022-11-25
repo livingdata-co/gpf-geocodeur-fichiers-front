@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
 
-import Project from '@/components/project'
+import ProjectSummary from '@/components/project-summary'
 import colors from '@/styles/colors'
 
-const ProjectsList = ({projects}) => (
+const ProjectsList = ({projects, handleDelete}) => (
   <div className='projects-container'>
     <div className='grid'>
       <div>Statut</div>
@@ -16,7 +16,7 @@ const ProjectsList = ({projects}) => (
 
     <div className='list'>
       {projects.map(project => (
-        <Project key={project.id} {...project} />
+        <ProjectSummary key={project.id} {...project} onDelete={() => handleDelete(project.id)} />
       ))}
     </div>
 
@@ -48,7 +48,8 @@ const ProjectsList = ({projects}) => (
 )
 
 ProjectsList.propTypes = {
-  projects: PropTypes.array.isRequired
+  projects: PropTypes.array.isRequired,
+  handleDelete: PropTypes.func.isRequired
 }
 
 export default ProjectsList

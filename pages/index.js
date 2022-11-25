@@ -1,8 +1,8 @@
-import {useState, useEffect, useContext, useMemo} from 'react'
+import {useState, useCallback, useEffect, useContext, useMemo} from 'react'
 import Router from 'next/router'
 import {faPlus} from '@fortawesome/free-solid-svg-icons'
 
-import {getProjects} from '@/lib/api'
+import {deleteProject, getProjects} from '@/lib/api'
 
 import ScreenContext from '@/contexts/screen-frame'
 
@@ -28,19 +28,25 @@ const Home = () => {
     return false
   }, [projects])
 
-  useEffect(() => {
-    async function getAvailableProjects() {
-      try {
-        const projects = await getProjects()
-        const availableProjects = projects.filter(({status}) => status !== 'idle')
-        setProjects(availableProjects)
-      } catch (error) {
-        setError(`Impossible de récupérer vos géocodages : ${error}`)
-      }
-    }
-
+  const onDeleteProject = projectId => {
+    deleteProject(projectId)
     getAvailableProjects()
+  }
+
+  const getAvailableProjects = useCallback(async () => {
+    try {
+      const projects = await getProjects()
+      const availableProjects = projects.filter(project => project && project.status !== 'idle')
+      setProjects(availableProjects)
+    } catch (error) {
+      setError(`Impossible de récupérer vos géocodages : ${error}`)
+    }
   }, [])
+
+  // Fetch projects on page loading
+  useEffect(() => {
+    getAvailableProjects()
+  }, [getAvailableProjects])
 
   return (
     <Layout isFrame={isFrame} screenSize={screenSize}>
@@ -48,7 +54,7 @@ const Home = () => {
         <h2>Vos géocodages</h2>
         {}
         {projects ? (
-          <ProjectsList projects={projects} />
+          <ProjectsList projects={projects} handleDelete={onDeleteProject} />
         ) : (
           <div className='loading'>
             <Spinner />
