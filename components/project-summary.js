@@ -2,9 +2,10 @@ import PropTypes from 'prop-types'
 import Router from 'next/router'
 import {faTimesCircle, faTrashAlt} from '@fortawesome/free-regular-svg-icons'
 
-import {formatDate} from '@/lib/date'
-
 import colors from '@/styles/colors'
+
+import {abortGeocoding} from '@/lib/api'
+import {formatDate} from '@/lib/date'
 
 import Button from '@/components/button'
 import ProjectStatus from '@/components/project-status'
@@ -20,7 +21,7 @@ const Project = ({id, status, createdAt, updatedAt, inputFile, onDelete}) => {
       <div>{formatDate(updatedAt)}</div>
       <div>{inputFile.filename}</div>
       <div>{isInProgress ? (
-        <Button icon={faTimesCircle} color='secondary'>Annuler</Button>
+        <Button icon={faTimesCircle} color='secondary' onClick={() => abortGeocoding(id)}>Annuler</Button>
       ) : (
         <Button icon={faTrashAlt} color='secondary' onClick={onDelete}>Supprimer</Button>
       )}</div>
