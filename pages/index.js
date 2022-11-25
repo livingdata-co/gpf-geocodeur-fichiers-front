@@ -37,7 +37,7 @@ const Home = () => {
     try {
       const projects = await getProjects()
       const availableProjects = projects.filter(project => project && project.status !== 'idle')
-      setProjects(availableProjects)
+      setProjects(availableProjects.sort((a, b) => a.updatedAt < b.updatedAt))
     } catch (error) {
       setError(`Impossible de récupérer vos géocodages : ${error}`)
     }
