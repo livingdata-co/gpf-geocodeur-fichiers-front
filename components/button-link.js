@@ -8,13 +8,13 @@ const ButtonLink = ({label, color, isExternal, href, children, icon, ...props}) 
   <div>
     {isExternal ? (
       <a href={href} className={color} aria-label={label} {...props} target='_blank' rel='noreferrer'>
-        {icon && <FontAwesomeIcon icon={icon} color='#fff' size={25} />}
+        {icon && <FontAwesomeIcon icon={icon} color='#fff' size='1x' />}
         {children}
       </a>
     ) : (
       <Link href={href}>
         <button type='button' className={color} {...props}>
-          {icon && <FontAwesomeIcon icon={icon} color='#fff' size={25} />}
+          {icon && <FontAwesomeIcon icon={icon} color='#fff' size='1x' />}
           {children}
         </button>
       </Link>
