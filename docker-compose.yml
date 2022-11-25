@@ -5,7 +5,7 @@ services:
     build: .
     container_name: gpf-geocodeur
     environment:
-      - NEXT_PUBLIC_API_URL=http://gpf-geocodeur-back
+      - NEXT_PUBLIC_API_URL=http://gpf-geocodeur-api
       - NEXT_PUBLIC_ROOT_URL=http://gpf-geocodeur
     env_file:
       - .env
