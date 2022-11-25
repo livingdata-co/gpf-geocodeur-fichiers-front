@@ -5,7 +5,7 @@ import Spinner from '@/components/spinner'
 const Loading = ({label}) => (
   <div className='loading'>
     <Spinner />
-    {label && <label>Téléversement du fichier…</label>}
+    {label && <label>{label}</label>}
 
     <style jsx>{`
         .loading {

@@ -21,16 +21,13 @@ const ProgressBar = ({label, min, max}) => {
 
         .progress-bar {
           display: flex;
-          justify-content: center;
-          position: relative;
           height: 25px;
           width: 100%;
           border-radius: 50px;
         }
 
-        {/* width: 100% en attendant correction percent */}
         .progress {
-          position: absolute;
+          position: relative;
           top: 0;
           height: 100%;
           width: ${percent}%;
