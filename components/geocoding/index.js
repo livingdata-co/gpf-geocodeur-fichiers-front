@@ -1,30 +1,24 @@
 import {useState, useCallback} from 'react'
 import PropTypes from 'prop-types'
-import prettyBytes from 'pretty-bytes'
+import Router from 'next/router'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faDownload, faSquareCheck, faCircleChevronLeft} from '@fortawesome/free-solid-svg-icons'
+import {faSquareCheck, faCircleChevronLeft} from '@fortawesome/free-solid-svg-icons'
+
+import theme from '@/styles/theme'
 
 import {geocodeFile} from '@/lib/api.js'
 
 import ProgressBar from '@/components/progress-bar'
-import ErrorMessage from '@/components/error-message'
 import Button from '@/components/button'
-import ButtonLink from '@/components/button-link'
-import Loader from '@/components/loader'
-
-import theme from '@/styles/theme'
+import ErrorMessage from '@/components/error-message'
+import Loading from '@/components/loading'
 
 const Geocoding = ({file, format, formatOptions, addressCompositors, advancedParams, outputFormat, outputParams, outputSelectedColumns, handleStep}) => {
   const [geocodeProcess, setGeocodeProcess] = useState()
   const [error, setError] = useState()
-  const [resultFileUrl, setResultFileUrl] = useState()
+  const [isUploading, setIsUploading] = useState(false)
   const [validationProgress, setValidationProgress] = useState()
   const [validationCompleted, setValidationCompleted] = useState(false)
-  const [uploadProgress, setUploadProgress] = useState()
-  const [uploadCompleted, setUploadCompleted] = useState(false)
-  const [downloadStarted, setDownloadStarted] = useState(false)
-  const [downloadProgress, setDownloadProgress] = useState()
-  const [downloadCompleted, setDownloadCompleted] = useState(false)
 
   const startGeocode = useCallback(() => {
     const {codeINSEE, lat, long} = advancedParams
@@ -45,27 +39,23 @@ const Geocoding = ({file, format, formatOptions, addressCompositors, advancedPar
       }
     }
 
-    const geocodeProcess = geocodeFile(file, options)
+    const validateProcess = geocodeFile(file, options)
 
-    geocodeProcess.on('error', error => setError(error.message))
-    geocodeProcess.on('complete', ({file}) => setResultFileUrl(URL.createObjectURL(file)))
+    validateProcess.on('error', error => setError(error.message))
+    validateProcess.on('uploading', () => setIsUploading(true))
+    validateProcess.on('complete', ({id}) => {
+      Router.push(`/project?projectId=${id}`)
+    })
 
-    geocodeProcess.on('validate:progress', p => setValidationProgress(p))
-    geocodeProcess.on('validate:complete', () => setValidationCompleted(true))
-
-    geocodeProcess.on('upload:progress', p => setUploadProgress(p))
-    geocodeProcess.on('upload:complete', () => setUploadCompleted(true))
-
-    geocodeProcess.on('download:start', () => setDownloadStarted(true))
-    geocodeProcess.on('download:progress', p => setDownloadProgress(p))
-    geocodeProcess.on('download:complete', () => setDownloadCompleted(true))
+    validateProcess.on('validate:progress', p => setValidationProgress(p))
+    validateProcess.on('validate:complete', () => setValidationCompleted(true))
 
     setGeocodeProcess(geocodeProcess)
-  }, [file, addressCompositors, advancedParams, format, formatOptions, outputFormat, outputSelectedColumns, outputParams])
+  }, [file, addressCompositors, advancedParams, format, formatOptions, outputFormat, outputSelectedColumns, outputParams, geocodeProcess])
 
   return (
     <div className='geocoding-container'>
-      {!geocodeProcess && <div className='action-buttons'>
+      {!validationProgress && <div className='action-buttons'>
         <div className='restart-button'>
           <Button onClick={() => handleStep(4)} label='Aller à l’étape précédente' icon={faCircleChevronLeft} color='secondary'>
             Étape précédente
@@ -87,32 +77,13 @@ const Geocoding = ({file, format, formatOptions, addressCompositors, advancedPar
         </div>
       )}
 
-      {uploadProgress && <ProgressBar
-        label={`${uploadCompleted ? 'Envoi du fichier terminé' : 'Envoi en cours…'}`}
-        min={uploadProgress.loaded}
-        max={uploadProgress.total}
-      />}
+      {isUploading && (
+        <div className='uploading'>
+          <Loading label='Téléversement du fichier en cours…' />
+        </div>
+      )}
 
-      <div className='geocodage-progress'>
-        {downloadStarted && !downloadCompleted && <div><Loader label='Géocodage en cours' /></div>}
-        {downloadProgress && !downloadCompleted && <div>{prettyBytes(downloadProgress.loaded, {locale: 'fr'}).replace('B', 'o')} déjà téléchargés</div>}
-        {downloadCompleted && <div>Géocodage terminé !</div>}
-
-        {resultFileUrl && (
-          <div className='action-buttons'>
-            <div className='restart-button'>
-              <Button onClick={() => handleStep(1)} label='Géocoder un nouveau fichier' icon={faCircleChevronLeft} color='secondary'>
-                Géocoder un nouveau fichier
-              </Button>
-            </div>
-            <ButtonLink href={resultFileUrl} download={computeGeocodedFileName(file, outputFormat)} isExternal label='Télécharger le fichier' icon={faDownload}>
-              Télécharger le fichier
-            </ButtonLink>
-          </div>
-        )}
-
-        {error && <ErrorMessage>Le géocodage du fichier a échoué : {error}</ErrorMessage>}
-      </div>
+      {error && <ErrorMessage>Le géocodage du fichier a échoué : {error}</ErrorMessage>}
 
       <style jsx>{`
         .geocoding-container {
@@ -142,16 +113,6 @@ const Geocoding = ({file, format, formatOptions, addressCompositors, advancedPar
           font-style: italic;
         }
 
-        .geocodage-progress {
-          width: 100%;
-          margin-top: 1.5em;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          gap: 1em;
-        }
-
         a {
           text-decoration: none;
           display: flex;
@@ -167,6 +128,10 @@ const Geocoding = ({file, format, formatOptions, addressCompositors, advancedPar
         .restart-button {
           position: absolute;
           left: 0;
+        }
+
+        .uploading {
+          margin-top: 2em;
         }
 
         @media only screen and (max-width: 770px) {
@@ -196,10 +161,6 @@ Geocoding.propTypes = {
   outputParams: PropTypes.object.isRequired,
   outputSelectedColumns: PropTypes.array.isRequired,
   handleStep: PropTypes.func.isRequired
-}
-
-function computeGeocodedFileName(file, outputFormat) {
-  return `geocode-result.${outputFormat}`
 }
 
 export default Geocoding

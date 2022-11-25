@@ -22,6 +22,7 @@ import Geocoding from '@/components/geocoding'
 import UnderlineTitle from '@/components/underline-title'
 import BuildOutputAddress from '@/components/build-output-address'
 import ButtonLink from '@/components/button-link'
+import Loading from '@/components/loading'
 
 const New = () => {
   const {isFrame, screenSize} = useContext(ScreenContext)
@@ -133,7 +134,7 @@ const New = () => {
   if (hasConcurrentProject === undefined && isLoading) {
     return (
       <Layout isFrame={isFrame} screenSize={screenSize}>
-        {isLoading && <Spinner />}
+        {isLoading && <Loading label='Chargement…' />}
       </Layout>
     )
   }
