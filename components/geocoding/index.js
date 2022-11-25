@@ -1,17 +1,12 @@
 import {useState, useCallback} from 'react'
 import PropTypes from 'prop-types'
-import Router from 'next/router'
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faSquareCheck, faCircleChevronLeft} from '@fortawesome/free-solid-svg-icons'
-
-import theme from '@/styles/theme'
 
 import {geocodeFile} from '@/lib/api.js'
 
 import ProgressBar from '@/components/progress-bar'
-import Button from '@/components/button'
 import ErrorMessage from '@/components/error-message'
 import Loading from '@/components/loading'
+import FormStepsNav from '@/components/form-steps-nav'
 
 const Geocoding = ({file, format, formatOptions, addressCompositors, advancedParams, outputFormat, outputParams, outputSelectedColumns, handleStep}) => {
   const [geocodeProcess, setGeocodeProcess] = useState()
@@ -55,26 +50,17 @@ const Geocoding = ({file, format, formatOptions, addressCompositors, advancedPar
 
   return (
     <div className='geocoding-container'>
-      {!validationProgress && <div className='action-buttons'>
-        <div className='restart-button'>
-          <Button onClick={() => handleStep(4)} label='Aller à l’étape précédente' icon={faCircleChevronLeft} color='secondary'>
-            Étape précédente
-          </Button>
-        </div>
-        <Button onClick={startGeocode}>Lancer le géocodage</Button>
-      </div>}
-
-      {validationProgress && <ProgressBar
+      {validationProgress ? (
+        <>
+          <ProgressBar
         label={`${validationCompleted ? 'Vérification du fichier terminée' : 'Vérification en cours…'}`}
         min={validationProgress.readBytes}
         max={validationProgress.totalBytes}
-      />}
-
-      {validationCompleted && (
-        <div className='valide'>
-          <div className='valide-message'><FontAwesomeIcon icon={faSquareCheck} color={`${theme.success}`} /> fichier CSV valide</div>
-          <div className='rows'>{validationProgress.readRows} lignes traitées</div>
-        </div>
+          />
+          <i>{validationProgress.readRows} lignes traitées</i>
+        </>
+      ) : (
+        <FormStepsNav previous={() => handleStep(4)} next={startGeocode} />
       )}
 
       {isUploading && (
@@ -89,63 +75,11 @@ const Geocoding = ({file, format, formatOptions, addressCompositors, advancedPar
         .geocoding-container {
           display: flex;
           flex-direction: column;
-          align-items: center;
-        }
-
-        .action-download {
-          width: 100%;
-        }
-
-        .valide {
-          margin-top: 1.5em;
-          display: flex;
-          flex-direction: column;
-          text-align: center;
-          gap: 10px;
-        }
-
-        .valide-message {
-          font-weight: bold;
-          color: ${theme.success};
-        }
-
-        .rows {
-          font-style: italic;
-        }
-
-        a {
-          text-decoration: none;
-          display: flex;
-        }
-
-        .action-buttons {
-          width: 100%;
-          position: relative;
-          display: flex;
-          justify-content: center;
-        }
-
-        .restart-button {
-          position: absolute;
-          left: 0;
         }
 
         .uploading {
           margin-top: 2em;
         }
-
-        @media only screen and (max-width: 770px) {
-          .action-buttons {
-            position: initial;
-            flex-direction: column;
-            gap: 1em;
-          }
-
-          .restart-button {
-            position: initial;
-          }
-        }
-
       `}</style>
     </div>
   )

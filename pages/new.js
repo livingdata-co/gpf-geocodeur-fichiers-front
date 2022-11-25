@@ -1,6 +1,6 @@
 import {useState, useCallback, useEffect, useContext} from 'react'
 import {concat} from 'lodash'
-import {faCircleChevronRight, faCircleChevronLeft, faArrowAltCircleLeft} from '@fortawesome/free-solid-svg-icons'
+import {faArrowAltCircleLeft} from '@fortawesome/free-solid-svg-icons'
 import {previewCsvFromBlob} from '@livingdata/tabular-data-helpers'
 
 import geocodeAddedColumns from '../added-columns'
@@ -17,7 +17,7 @@ import Spinner from '@/components/spinner'
 import FormatOptionsForm from '@/components/format-options-form'
 import ErrorMessage from '@/components/error-message'
 import Table from '@/components/table'
-import Button from '@/components/button'
+import FormStepsNav from '@/components/form-steps-nav'
 import Geocoding from '@/components/geocoding'
 import UnderlineTitle from '@/components/underline-title'
 import BuildOutputAddress from '@/components/build-output-address'
@@ -173,17 +173,9 @@ const New = () => {
                   <Table columns={preview.columns} rows={preview.rows} />
                 </div>
               )}
-
             </section>
-            <div className='button-position'>
-              <Button
-                onClick={() => changeStep(3)}
-                label='Aller à l’étape suivante'
-                icon={faCircleChevronRight}
-              >
-                Étape suivante
-              </Button>
-            </div>
+
+            <FormStepsNav next={() => changeStep(3)} />
           </>
         )}
 
@@ -200,21 +192,7 @@ const New = () => {
             </section>
 
             <div className='submit'>
-              <div className='actions-buttons'>
-                <Button
-                  onClick={() => changeStep(2)}
-                  label='Aller à l’étape précédente'
-                  icon={faCircleChevronLeft}
-                  color='secondary'
-                >
-                  Étape précédente
-                </Button>
-
-                <Button onClick={handleParamsValidation} disabled={selectedColumns.length === 0} icon={faCircleChevronRight}>
-                  Étape suivante
-                </Button>
-              </div>
-
+              <FormStepsNav previous={() => changeStep(2)} next={selectedColumns.length > 0 ? handleParamsValidation : null} />
               {error && <ErrorMessage>{error}</ErrorMessage>}
             </div>
           </>
@@ -264,22 +242,11 @@ const New = () => {
             margin-top: 2em;
           }
 
-          .button-position {
-            display: flex;
-            justify-content: flex-end;
-          }
-
           .loading {
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto;
-          }
-
-          .actions-buttons {
-            margin-top: 1.5em;
-            display: flex;
-            justify-content: space-between;
           }
         `}
         </style>

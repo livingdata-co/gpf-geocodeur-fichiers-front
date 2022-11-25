@@ -3,13 +3,16 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 
 import theme from '@/styles/theme'
 
-const Button = ({label, color, children, icon, ...props}) => (
+const Button = ({label, color, children, icon, isIconAfter, ...props}) => (
   <button type='submit' className={color} aria-label={label} {...props}>
-    {icon && <FontAwesomeIcon icon={icon} color='#fff' size='xl' />}
-    {children}
+    <div className='label'>
+      {icon && <FontAwesomeIcon icon={icon} color='#fff' size='xl' />}
+      {children}
+    </div>
 
     <style jsx>{`
       button {
+        display: grid;
         color: #fff;
         padding: 10px 20px;
         border: none;
@@ -18,6 +21,13 @@ const Button = ({label, color, children, icon, ...props}) => (
         display: flex;
         gap: 5px;
         align-items: center;
+      }
+
+      .label {
+        display: flex;
+        align-items: center;
+        gap: .5em;
+        flex-flow: ${isIconAfter ? 'row-reverse' : 'row'};
       }
 
       .primary {
@@ -51,6 +61,7 @@ Button.defaultProps = {
   label: null,
   icon: null,
   color: 'primary',
+  isIconAfter: false,
   children: null
 }
 
@@ -61,6 +72,7 @@ Button.propTypes = {
     'primary',
     'secondary'
   ]),
+  isIconAfter: PropTypes.bool,
   children: PropTypes.node
 }
 export default Button

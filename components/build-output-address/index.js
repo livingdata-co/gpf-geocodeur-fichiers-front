@@ -1,13 +1,12 @@
 import {useState, useCallback} from 'react'
 import PropTypes from 'prop-types'
-import {faCircleChevronRight, faCircleChevronLeft} from '@fortawesome/free-solid-svg-icons'
 
 import FormatOptionsForm from '../format-options-form'
 
-import ColumnsLists from './columns-lists'
+import FormStepsNav from '@/components/form-steps-nav'
+import ColumnsLists from '@/components/build-output-address/columns-lists'
 import SelectInput from '@/components/select-input'
 import UnderlineTitle from '@/components/underline-title'
-import Button from '@/components/button'
 
 const formatOptions = [
   {value: 'csv', label: 'CSV'},
@@ -78,14 +77,7 @@ const BuildOutputAddress = ({
           onSelect={toggleExclusionList} />
       </section>
 
-      <div className='actions-buttons'>
-        <Button onClick={() => handleStep(3)} label='Aller à l’étape précédente' icon={faCircleChevronLeft} color='secondary'>
-          Étape précédente
-        </Button>
-        <Button onClick={onValidate} label='Aller à l’étape suivante' icon={faCircleChevronRight}>
-          Étape suivante
-        </Button>
-      </div>
+      <FormStepsNav previous={() => handleStep(3)} next={onValidate} />
 
       <style jsx>{`
         .format-select {
@@ -94,13 +86,6 @@ const BuildOutputAddress = ({
 
         section {
           margin-top: 2em;
-        }
-
-        .actions-buttons {
-          margin-top: 1.5em;
-          margin-bottom: 2em;
-          display: flex;
-          justify-content: space-between;
         }
       `}</style>
     </div>
