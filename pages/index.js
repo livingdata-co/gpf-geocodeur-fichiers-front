@@ -28,9 +28,9 @@ const Home = () => {
     return false
   }, [projects])
 
-  const onDeleteProject = projectId => {
-    deleteProject(projectId)
-    getAvailableProjects()
+  const onDeleteProject = async projectId => {
+    await deleteProject(projectId)
+    await getAvailableProjects()
   }
 
   const getAvailableProjects = useCallback(async () => {

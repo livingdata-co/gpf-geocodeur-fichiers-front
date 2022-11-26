@@ -5,7 +5,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {formatFileSize} from '@/lib/file'
 
 const FileDetails = ({name, size}) => (
-  <div className='file-details'>
+  <div className='file-details-container'>
     <FontAwesomeIcon icon={faFile} size='3x' />
     <div className='file-infos'>
       <div className='name'>{name}</div>
@@ -13,27 +13,27 @@ const FileDetails = ({name, size}) => (
     </div>
 
     <style jsx>{`
-    .file-details {
+      .file-details-container {
         display: flex;
         align-items: center;
         gap: 1em;
-        }
+      }
 
-        .file-infos {
+      .file-infos {
         border-left: 3px solid;
         margin-left: 5px;
         padding: 0 10px;
-        }
+      }
 
-        .name {
+      .name {
         font-weight: bolder;
-        }
+      }
 
-        .size {
+      .size {
         font-style: italic;
         font-size: 14px;
-        }
-        `}</style>
+      }
+      `}</style>
   </div>
 )
 

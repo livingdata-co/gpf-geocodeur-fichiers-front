@@ -227,7 +227,7 @@ const New = () => {
         )}
 
         <div className='loading'>
-          {isLoading && <Spinner />}
+          {isLoading && <Loading label='Chargement du fichier' />}
         </div>
 
         <style jsx>{`
