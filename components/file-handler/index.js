@@ -17,7 +17,7 @@ const ERROR_LABEL = {
   'too-many-files': 'Vous ne pouvez déposer qu’un seul fichier.',
   'file-invalid-type': `Ce type de fichier n’est pas supporté. Vous devez déposer un fichier au format ${acceptedExtension.join(', ')}.`,
   'file-too-large': `Ce fichier est trop volumineux. Vous devez déposer un fichier de moins de ${formatFileSize(FILE_MAX_SIZE, {round: true})}.`,
-  'file-too-small': 'Ce fichier est vide.',
+  'file-too-small': 'Ce fichier est vide.'
 }
 
 const FileHandler = ({file, handleFile}) => {
