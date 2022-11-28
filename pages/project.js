@@ -20,7 +20,6 @@ const Project = () => {
   const router = useRouter()
 
   const [project, setProject] = useState()
-  console.log("🚀 ~ file: project.js ~ line 23 ~ Project ~ project", project)
   const [processing, setProcessing] = useState()
   const [isCompleted, setIsCompleted] = useState()
   const [error, setError] = useState()
