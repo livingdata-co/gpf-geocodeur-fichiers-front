@@ -1,8 +1,12 @@
 import {useState, useCallback, useEffect, useContext, useMemo} from 'react'
 import Router from 'next/router'
-import {faPlus} from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faPlus, faInfoCircle} from '@fortawesome/free-solid-svg-icons'
 
 import {deleteProject, getProjects} from '@/lib/api'
+
+import colors from '@/styles/colors'
+import theme from '@/styles/theme'
 
 import ScreenContext from '@/contexts/screen-frame'
 
@@ -50,6 +54,7 @@ const Home = () => {
 
   return (
     <Layout isFrame={isFrame} screenSize={screenSize}>
+      <div className='info-container'><FontAwesomeIcon icon={faInfoCircle} size='lg' />&nbsp;&nbsp;Les géocodages terminés sont conservés pendant 14 jours</div>
       <div className='container'>
         <h2>Vos géocodages</h2>
         {}
@@ -70,23 +75,33 @@ const Home = () => {
         </Button>
 
         {error && <ErrorMessage>{error}</ErrorMessage>}
-
-        <style jsx>{`
-          .container {
-            display: flex;
-            flex-direction: column;
-            gap: 1em;
-            padding: 2rem;
-          }
-
-          .loading {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          }
-        `}
-        </style>
       </div>
+
+      <style jsx>{`
+        .info-container {
+          border: solid 2px ${theme.borderPrimary};
+          background: ${theme.bkgLight};
+          color: ${colors.blue};
+          font-weight: bold;
+          font-size: .9rem;
+          padding: .5em;
+          text-align: center;
+        }
+
+        .container {
+          display: flex;
+          flex-direction: column;
+          gap: 1em;
+          padding: 2rem;
+        }
+
+        .loading {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      `}
+      </style>
     </Layout>
   )
 }
