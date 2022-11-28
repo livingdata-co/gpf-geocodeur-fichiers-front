@@ -2,18 +2,20 @@ version: '3.9'
 
 services:
   frontend:
+    image: ${REGISTRY}gpf-geocodeur:v1
     build: .
     container_name: gpf-geocodeur
     environment:
-      - NEXT_PUBLIC_API_URL=http://gpf-geocodeur-api
-      - NEXT_PUBLIC_ROOT_URL=http://gpf-geocodeur
+      - NEXT_PUBLIC_API_URL=http://gpf-geocodeur-api-network
+      - NEXT_PUBLIC_ROOT_URL=http://gpf-geocodeur-network
     env_file:
       - .env
     ports:
-      - 3000:3000
+      - '3000:3000'
     networks:
-      - gpf-geocodeur
+      - gpf-geocodeur-api-network
+      - gpf-geocodeur-network
 
 networks:
-  gpf-geocodeur:
-    name: gpf-geocodeur-network
+  gpf-geocodeur-api-network:
+  gpf-geocodeur-network:
