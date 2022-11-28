@@ -7,10 +7,14 @@ export default ({
   lighterBlue: 'rgba(57, 147, 243, 0.15)',
   orange: '#F18345',
   shadowOrange: '#CD6F3A',
+  lightOrange: '#feecc2',
   green: '#219807',
+  lightGreen: '#b8fec9',
   red: '#D91616',
   lightRed: 'rgba(217, 22, 22, 0.15)',
+  lighterRed: '#fddede',
   grey: '#788089',
   lightGrey: '#E9ECEF',
+  lighterGrey: '#FAFAFA',
   white: '#FFFF'
 })

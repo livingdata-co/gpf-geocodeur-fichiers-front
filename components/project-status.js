@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types'
 
 import colors from '@/styles/colors'
+import theme from '@/styles/theme'
 
 const STATUS = {
-  waiting: {bgColor: colors.grey, label: 'En file d’attente'},
-  processing: {bgColor: colors.blue, label: 'En cours…'},
-  completed: {bgColor: colors.green, label: 'Terminé'},
-  failed: {bgColor: colors.red, label: 'Échec'}
+  waiting: {bgColor: colors.lightOrange, label: 'En file d’attente'},
+  processing: {bgColor: colors.lightBlue, label: 'En cours…'},
+  completed: {bgColor: colors.lightGreen, label: 'Terminé'},
+  failed: {bgColor: colors.lighterRed, label: 'Échec'}
 }
 
 const StatusTag = ({status}) => (
@@ -15,18 +16,19 @@ const StatusTag = ({status}) => (
 
     <style jsx>{`
       .status-tag {
-          display: inherit;
-          align-items: center;
-          background-color: ${STATUS[status].bgColor};
-          color: ${colors.white};
-          padding: 5px 10px; 
-          border-radius: 4px;
-          text-align: center;
-          vertical-align: baseline;
-          text-overflow: ellipsis;
-          overflow: hidden;
+        font-style: normal;
+        align-items: center;
+        background-color: ${STATUS[status].bgColor};
+        font-weight: bold;
+        color: ${theme.txtPrimary};
+        padding: 5px 10px;
+        border-radius: 4px;
+        text-align: center;
+        vertical-align: baseline;
+        text-overflow: ellipsis;
+        overflow: hidden;
       }
-      `}</style>
+    `}</style>
   </div>
 )
 

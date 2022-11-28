@@ -73,6 +73,7 @@ const Home = () => {
           >
             Nouveau géocodage
           </Button>
+          {isProjectInProgress && <div>Vous devez attendre la fin du traitement du fichier avant de pouvoir géocodager de nouveau</div>}
         </div>
 
         {error && <ErrorMessage>{error}</ErrorMessage>}
@@ -99,7 +100,12 @@ const Home = () => {
         .new-button {
           width: 100%;
           display: flex;
+          flex-direction: column;
           justify-content: center;
+          color: ${theme.txtColor};
+          font-weight: bold;
+          align-items: center;
+          gap: 1em;
         }
 
         .loading {

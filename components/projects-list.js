@@ -1,27 +1,33 @@
 import PropTypes from 'prop-types'
 
+import UnderlineTitle from './underline-title'
 import ProjectSummary from '@/components/project-summary'
-import colors from '@/styles/colors'
+
+import theme from '@/styles/theme'
 
 const ProjectsList = ({projects, handleDelete}) => (
   <div className='projects-container'>
     {projects.length > 0 && (
       <>
-        <h2>Vos géocodages</h2>
-        <div className='grid'>
-          <div>Statut</div>
-          <div>Créé le </div>
-          <div>Mis à jour le</div>
-          <div>Nom du fichier</div>
-          <div />
-          <div />
-        </div>
+        <UnderlineTitle>Vos géocodages</UnderlineTitle>
+        <table cellSpacing='0'>
+          <thead >
+            <tr>
+              <th>Fichier</th>
+              <th>Taille</th>
+              <th>Date de création</th>
+              <th>Date de fin de traitement</th>
+              <th>Statut</th>
+              <th />
+            </tr>
+          </thead>
 
-        <div className='list'>
-          {projects.map(project => (
-            <ProjectSummary key={project.id} {...project} onDelete={() => handleDelete(project.id)} />
-          ))}
-        </div>
+          <tbody>
+            {projects.map(project => (
+              <ProjectSummary key={project.id} {...project} onDelete={() => handleDelete(project.id)} />
+            ))}
+          </tbody>
+        </table>
       </>
     )}
 
@@ -50,6 +56,7 @@ const ProjectsList = ({projects, handleDelete}) => (
       .projects-container {
         display: flex;
         flex-direction: column;
+        margin-bottom: 3em;
       }
 
       .intro {
@@ -60,21 +67,18 @@ const ProjectsList = ({projects, handleDelete}) => (
         font-size: 1.5rem;
       }
 
-      .grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 116px 100px;
-        background-color: ${colors.blue};
-        color: ${colors.white};
-        grid-gap: 1em;
-        padding: 10px 20px;
+      table {
+        border-collapse: collapse;
+        background: ${theme.bkgSecondary};
       }
 
-      .grid div {
-        font-weight: bold;
+      th {
+        padding: 1em;
+        color: white;
       }
 
       .projects-empty-list {
-        margin: 2em 0;
+        margin-top: 2em;
         text-align: center;
       }
 
