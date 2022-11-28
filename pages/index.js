@@ -56,8 +56,6 @@ const Home = () => {
     <Layout isFrame={isFrame} screenSize={screenSize}>
       <div className='info-container'><FontAwesomeIcon icon={faInfoCircle} size='lg' />&nbsp;&nbsp;Les géocodages terminés sont conservés pendant 14 jours</div>
       <div className='container'>
-        <h2>Vos géocodages</h2>
-        {}
         {projects ? (
           <ProjectsList projects={projects} handleDelete={onDeleteProject} />
         ) : (
@@ -66,13 +64,16 @@ const Home = () => {
           </div>
         )}
 
-        <Button
-          icon={faPlus}
-          disabled={isProjectInProgress}
-          onClick={() => Router.push('/new')}
-        >
-          Nouveau géocodage
-        </Button>
+        <div className='new-button'>
+          <Button
+            size='large'
+            icon={faPlus}
+            disabled={isProjectInProgress}
+            onClick={() => Router.push('/new')}
+          >
+            Nouveau géocodage
+          </Button>
+        </div>
 
         {error && <ErrorMessage>{error}</ErrorMessage>}
       </div>
@@ -93,6 +94,12 @@ const Home = () => {
           flex-direction: column;
           gap: 1em;
           padding: 2rem;
+        }
+
+        .new-button {
+          width: 100%;
+          display: flex;
+          justify-content: center;
         }
 
         .loading {
