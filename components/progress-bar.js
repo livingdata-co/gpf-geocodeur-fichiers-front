@@ -1,41 +1,52 @@
 import PropTypes from 'prop-types'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faSquareCheck} from '@fortawesome/free-solid-svg-icons'
 
+import colors from '@/styles/colors'
 import theme from '@/styles/theme'
 
 const ProgressBar = ({label, min, max}) => {
   const percent = Math.round(min / max * 100)
+  const isCompleted = min === max
 
   return (
     <div className='progress-bar-container'>
-      <h3>{label}</h3>
+      <h4>
+        {label} {isCompleted && <FontAwesomeIcon icon={faSquareCheck} color={colors.green} />}
+      </h4>
+
       <div className='progress-bar'>
         <span className='progress'>
-          <span className='text'>{percent}%</span>
+          {percent > 0 && <span className='text'>{percent}%</span>}
         </span>
       </div>
 
       <style jsx>{`
         .progress-bar-container {
           width: 100%;
+          margin: 1em 0;
+        }
+
+        h4 {
+          margin-bottom: .4em;
         }
 
         .progress-bar {
           display: flex;
-          justify-content: center;
-          position: relative;
           height: 25px;
           width: 100%;
           border-radius: 50px;
+          background-color: ${theme.bkgLight};
         }
 
-        {/* width: 100% en attendant correction percent */}
         .progress {
-          position: absolute;
+          position: relative;
           top: 0;
           height: 100%;
           width: ${percent}%;
-          background-color: ${theme.bkgPrimary};
+          background-color: ${isCompleted ? theme.success : theme.bkgPrimary};
           border-radius: 50px;
+          transition: width 500ms ease-in;
         }
 
         .text {

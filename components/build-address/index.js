@@ -44,7 +44,7 @@ BuildAddress.propTypes = {
   rows: PropTypes.array.isRequired,
   selectedColumns: PropTypes.array.isRequired,
   handleColumns: PropTypes.func.isRequired,
-  handleAdvancedParams: PropTypes.func.isRequired,
+  handleAdvancedParams: PropTypes.func.isRequired
 }
 
 export default BuildAddress

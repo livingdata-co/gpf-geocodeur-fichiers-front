@@ -4,7 +4,7 @@ import {
   createColumnHelper,
   flexRender,
   getCoreRowModel,
-  useReactTable,
+  useReactTable
 } from '@tanstack/react-table'
 
 import theme from '@/styles/theme'
@@ -22,7 +22,7 @@ const Table = ({columns, rows, isSelectExcludes, selectedColumns, onSelect}) => 
   const table = useReactTable({
     data: rows,
     columns: tableColumns,
-    getCoreRowModel: getCoreRowModel(),
+    getCoreRowModel: getCoreRowModel()
   })
 
   return (

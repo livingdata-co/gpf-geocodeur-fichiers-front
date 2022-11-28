@@ -3,13 +3,16 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 
 import theme from '@/styles/theme'
 
-const Button = ({label, color, children, icon, ...props}) => (
-  <button type='submit' className={color} aria-label={label} {...props}>
-    {icon && <FontAwesomeIcon icon={icon} color='#fff' size='xl' />}
-    {children}
+const Button = ({label, color, size, children, icon, isIconAfter, ...props}) => (
+  <button type='submit' className={`${color} ${size}`} aria-label={label} {...props}>
+    <div className='label'>
+      {icon && <FontAwesomeIcon icon={icon} color='#fff' size='xl' />}
+      {children}
+    </div>
 
     <style jsx>{`
       button {
+        display: grid;
         color: #fff;
         padding: 10px 20px;
         border: none;
@@ -18,6 +21,13 @@ const Button = ({label, color, children, icon, ...props}) => (
         display: flex;
         gap: 5px;
         align-items: center;
+      }
+
+      .label {
+        display: flex;
+        align-items: center;
+        gap: .5em;
+        flex-flow: ${isIconAfter ? 'row-reverse' : 'row'};
       }
 
       .primary {
@@ -43,6 +53,10 @@ const Button = ({label, color, children, icon, ...props}) => (
         color: ${theme.txtDisable};
         cursor: not-allowed;
       }
+
+      .large {
+        font-size: 1.2em;
+      }
     `}</style>
   </button>
 )
@@ -50,7 +64,9 @@ const Button = ({label, color, children, icon, ...props}) => (
 Button.defaultProps = {
   label: null,
   icon: null,
+  size: 'regular',
   color: 'primary',
+  isIconAfter: false,
   children: null
 }
 
@@ -61,6 +77,11 @@ Button.propTypes = {
     'primary',
     'secondary'
   ]),
+  size: PropTypes.oneOf([
+    'regular',
+    'large'
+  ]),
+  isIconAfter: PropTypes.bool,
   children: PropTypes.node
 }
 export default Button
