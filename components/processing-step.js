@@ -4,14 +4,14 @@ import {faSquareCheck, faSquareXmark} from '@fortawesome/free-solid-svg-icons'
 
 import theme from '@/styles/theme'
 
-const ProcessingStep = ({label, status}) => (
+const ProcessingStep = ({label, step, progress}) => (
   <div className='step'>
-    {status === 'failed' || status === 'aborted' ? (
+    {step === 'failed' || step === 'aborted' ? (
       <FontAwesomeIcon icon={faSquareXmark} color={theme.error} />
     ) : (
-      <FontAwesomeIcon icon={faSquareCheck} color={status === 'completed' ? theme.success : theme.bkgDisable} />
+      <FontAwesomeIcon icon={faSquareCheck} color={step === 'completed' ? theme.success : theme.bkgDisable} />
     )}
-    {label}
+    - {label} {step === 'completed' ? '' : '- en cours…'} {progress ? `${progress}%` : ''}
 
     <style jsx>{`
       .step {
@@ -25,7 +25,8 @@ const ProcessingStep = ({label, status}) => (
 
 ProcessingStep.propTypes = {
   label: PropTypes.string.isRequired,
-  status: PropTypes.oneOf([
+  progress: PropTypes.number,
+  step: PropTypes.oneOf([
     'validating',
     'geocoding',
     'completed',
@@ -34,7 +35,8 @@ ProcessingStep.propTypes = {
 }
 
 ProcessingStep.defaultProps = {
-  status: 'validating'
+  step: 'validating',
+  progress: null
 }
 
 export default ProcessingStep

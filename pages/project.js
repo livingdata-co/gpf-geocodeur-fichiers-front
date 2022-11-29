@@ -99,13 +99,13 @@ const Project = ({projectId}) => {
         <div className='steps-container'>
           {/* Validation et upload déjà effectués */}
           <ProcessingStep
-            label='- Validation du fichier'
-            status='completed'
+            label='Validation du fichier'
+            step='completed'
           />
 
           <ProcessingStep
-            label='- Envoi du fichier'
-            status='completed'
+            label='Envoi du fichier'
+            step='completed'
           />
 
           {/* En attente */}
@@ -116,8 +116,8 @@ const Project = ({projectId}) => {
           {processing && (
             <>
               <ProcessingStep
-                label={processing.step === 'failed' ? 'Le traitement a échoué' : (processing.step === 'completed' ? ' - Traitement du fichier :' : ' - Traitement du fichier - en cours...')}
-                status={processing.step}
+                label={processing.step === 'failed' ? 'Le traitement a échoué' : 'Traitement du fichier'}
+                step={processing.step}
               />
 
               <ProjectProcessing processing={processing} />

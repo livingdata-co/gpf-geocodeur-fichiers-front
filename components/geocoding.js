@@ -65,8 +65,9 @@ const Geocoding = ({file, format, formatOptions, addressCompositors, advancedPar
           <>
             <UnderlineTitle>Traitement du fichier</UnderlineTitle>
             <ProcessingStep
-              status={isValidationComplete ? 'completed' : 'validating'}
-              label={`- Validation du fichier ${!isValidationComplete && ` - en cours... ${Math.round(validationProgress.readBytes / validationProgress.totalBytes * 100)}`}`}
+              label={error ? error : 'Validation du fichier'}
+              progress={!isValidationComplete && Math.round(validationProgress.readBytes / validationProgress.totalBytes * 100)}
+              step={error ? 'failed' : (isValidationComplete ? 'completed' : 'validating')}
             />
           </>
         )}
