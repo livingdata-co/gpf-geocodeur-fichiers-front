@@ -1,7 +1,8 @@
 import {useState, useEffect, useContext, useCallback} from 'react'
 import PropTypes from 'prop-types'
 import {useRouter} from 'next/router'
-import {faDownload, faCircleChevronLeft} from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faDownload, faCircleChevronLeft, faCheckCircle} from '@fortawesome/free-solid-svg-icons'
 
 import {abortGeocoding, API_URL, getProject, getProjectProcessing} from '@/lib/api'
 
@@ -128,9 +129,14 @@ const Project = ({projectId}) => {
           <>
             <div className='action-buttons'>
               {project.outputFile ? (
-                <ButtonLink href={`${API_URL}/projects/${project.id}/output-file/${project.outputFile.token}`} download={project.outputFile.filename} isExternal label='Télécharger le fichier' icon={faDownload} size='large'>
-                  Télécharger le fichier
-                </ButtonLink>
+                <div className='success-action'>
+                  <FontAwesomeIcon icon={faCheckCircle} color={theme.success} size='2x' />
+                  <div>Géocodage terminé avec succès !</div>
+
+                  <ButtonLink href={`${API_URL}/projects/${project.id}/output-file/${project.outputFile.token}`} download={project.outputFile.filename} isExternal label='Télécharger le fichier' icon={faDownload} size='large'>
+                    Télécharger le fichier
+                  </ButtonLink>
+                </div>
               ) : (
                 <Loading label='Mise à disposition du fichier géocodé' />
               )}
@@ -181,6 +187,17 @@ const Project = ({projectId}) => {
           display: flex;
           flex-direction: column;
           gap: 1em;
+        }
+
+        .success-action {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          gap: 1em;
+          font-weight: bold;
+          color: ${theme.success};
         }
       `}</style>
     </Layout>
