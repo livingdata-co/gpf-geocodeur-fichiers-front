@@ -116,7 +116,7 @@ const Project = ({projectId}) => {
           {processing && (
             <>
               <ProcessingStep
-                label={processing.step === 'failed' ? `Votre géocodage a échoué : ${processing.globalError}` : (processing.step === 'completed' ? ' - Traitement du fichier :' : ' - Traitement du fichier - en cours...')}
+                label={processing.step === 'failed' ? 'Le traitement a échoué' : (processing.step === 'completed' ? ' - Traitement du fichier :' : ' - Traitement du fichier - en cours...')}
                 status={processing.step}
               />
 
