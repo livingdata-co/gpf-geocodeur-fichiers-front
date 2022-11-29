@@ -12,7 +12,7 @@ const FormatOptionsForm = ({formatOptions, detectedFormatOptions, previewCount, 
   const [delimiter, setDelimiter] = useState(detectedFormatOptions.delimiter)
   const [linebreak, setLinebreak] = useState(detectedFormatOptions.linebreak)
   const [quoteChar, setQuoteChar] = useState(detectedFormatOptions.quoteChar)
-  const [rowsCount, setRowsCount] = useState(previewCount || null)
+  const [rowsCount, setRowsCount] = useState(previewCount)
 
   const isChangedDetected = useMemo(() => {
     const hasOptionsChanged = difference(
