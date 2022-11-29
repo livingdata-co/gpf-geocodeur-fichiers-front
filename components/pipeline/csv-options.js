@@ -2,6 +2,8 @@ import PropTypes from 'prop-types'
 
 import theme from '@/styles/theme'
 
+import {linebreakOptions, delimiterOptions, quoteCharOptions, encodingOptions} from '@/lib/options-params'
+
 const CSVOptions = ({delimiter, linebreak, encoding, quoteChar}) => (
   <div className='container'>
     <table cellSpacing='0'>
@@ -17,10 +19,10 @@ const CSVOptions = ({delimiter, linebreak, encoding, quoteChar}) => (
       <tbody>
         <tr>
           <td><div className='option'>CSV</div></td>
-          <td><div className='option'>{delimiter}</div></td>
-          <td><div className='option'>{linebreak}</div></td>
-          <td><div className='option'>{encoding}</div></td>
-          <td><div className='option'>{quoteChar}</div></td>
+          <td><div className='option'>{delimiterOptions.find(o => o.value === delimiter).label}</div></td>
+          <td><div className='option'>{linebreakOptions.find(o => o.value === linebreak).label}</div></td>
+          <td><div className='option'>{encodingOptions.find(o => o.value === encoding).label}</div></td>
+          <td><div className='option'>{quoteCharOptions.find(o => o.value === quoteChar).label}</div></td>
         </tr>
       </tbody>
     </table>

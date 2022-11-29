@@ -1,11 +1,9 @@
 import PropTypes from 'prop-types'
 import Router from 'next/router'
 import {faEye, faTrashAlt} from '@fortawesome/free-regular-svg-icons'
-import {faXmark} from '@fortawesome/free-solid-svg-icons'
 
 import colors from '@/styles/colors'
 
-import {abortGeocoding} from '@/lib/api'
 import {formatDate} from '@/lib/date'
 import {formatFileSize} from '@/lib/file'
 
@@ -32,9 +30,7 @@ const ProjectSummary = ({id, status, createdAt, updatedAt, inputFile, onDelete})
       <td><ProjectStatus status={status} /></td>
       <td className='actions'>
         {isAvailable && <ButtonUnderline icon={faEye} color={colors.blue} onClick={handleSelect}>Consulter</ButtonUnderline>}
-        {isInProgress ? (
-          <ButtonUnderline icon={faXmark} color={colors.orange} onClick={() => abortGeocoding(id)}>Annuler</ButtonUnderline>
-        ) : (
+        {!isInProgress && (
           <ButtonUnderline icon={faTrashAlt} color={colors.red} onClick={onDelete}>Supprimer</ButtonUnderline>
         )}
       </td>

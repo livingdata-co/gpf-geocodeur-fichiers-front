@@ -4,7 +4,7 @@ import {useRouter} from 'next/router'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faDownload, faCircleChevronLeft, faCheckCircle} from '@fortawesome/free-solid-svg-icons'
 
-import {abortGeocoding, API_URL, getProject, getProjectProcessing} from '@/lib/api'
+import {API_URL, getProject, getProjectProcessing} from '@/lib/api'
 
 import theme from '@/styles/theme'
 
@@ -125,7 +125,7 @@ const Project = ({projectId}) => {
           )}
         </div>
 
-        {processing.step === 'completed' ? (
+        {processing.step === 'completed' && (
           <>
             <div className='action-buttons'>
               {project.outputFile ? (
@@ -148,8 +148,6 @@ const Project = ({projectId}) => {
               </Button>
             </div>
           </>
-        ) : (
-          <Button onClick={() => abortGeocoding(project.id)} color='secondary'>Annuler</Button>
         )}
 
         {error && <ErrorMessage>{error}</ErrorMessage>}
