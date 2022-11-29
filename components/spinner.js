@@ -13,9 +13,9 @@ const Spinner = ({size}) => (
       .small {
         border: 2px solid ${theme.colors.white};
         border-top: 2px solid #3498db; /* Blue */
-        width: 20px;
-        min-width: 20px;
-        height: 20px;
+        width: 15px;
+        min-width: 15px;
+        height: 15px;
       }
 
       .regular {

@@ -32,9 +32,9 @@ const Pipeline = ({format, formatOptions, geocodeOptions}) => {
       <div className='geocode-options'>
         <UnderlineTitle>Colonnes sélectionnées</UnderlineTitle>
 
-        <div className='options'>
+        <div className='columns'>
           {geocodeOptions.q.map(option => (
-            <div className='option' key={option}>{option}</div>
+            <div className='param' key={option}>{option}</div>
           ))}
         </div>
       </div>
@@ -58,19 +58,17 @@ const Pipeline = ({format, formatOptions, geocodeOptions}) => {
           padding: 1em;
         }
 
-        .toto {
-          background: white;
-          padding: 5px;
-          border-radius: 3px;
-        }
-
-        .options {
-          width: fit-content;
-          display: flex;
-          justify-content: space-between;
+        .param {
           border-radius: 3px;
           background: ${theme.bkgLight};
           border: solid 2px ${theme.borderPrimary};
+          padding: 0.25rem .5rem;
+        }
+
+        .columns {
+          display: flex;
+          gap: 10px;
+          flex-wrap: wrap;
         }
 
         .format-option {

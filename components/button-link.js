@@ -4,16 +4,16 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 
 import theme from '@/styles/theme'
 
-const ButtonLink = ({label, color, isExternal, href, children, icon, ...props}) => (
+const ButtonLink = ({label, color, size, isExternal, href, children, icon, ...props}) => (
   <div>
     {isExternal ? (
-      <a href={href} className={color} aria-label={label} {...props} target='_blank' rel='noreferrer'>
+      <a href={href} className={`${color} ${size}`} aria-label={label} {...props} target='_blank' rel='noreferrer'>
         {icon && <FontAwesomeIcon icon={icon} color='#fff' size='1x' />}
         {children}
       </a>
     ) : (
       <Link href={href}>
-        <button type='button' className={color} {...props}>
+        <button type='button' className={`${color} ${size}`} {...props}>
           {icon && <FontAwesomeIcon icon={icon} color='#fff' size='1x' />}
           {children}
         </button>
@@ -56,6 +56,10 @@ const ButtonLink = ({label, color, isExternal, href, children, icon, ...props}) 
         color: ${theme.txtDisable};
         cursor: not-allowed;
       }
+
+      .large {
+        font-size: 1.2em;
+      }
     `}</style>
   </div>
 )
@@ -64,6 +68,7 @@ ButtonLink.defaultProps = {
   label: null,
   icon: null,
   color: 'primary',
+  size: 'regular',
   isExternal: false,
   children: null
 }
@@ -74,6 +79,10 @@ ButtonLink.propTypes = {
   color: PropTypes.oneOf([
     'primary',
     'secondary'
+  ]),
+  size: PropTypes.oneOf([
+    'regular',
+    'large'
   ]),
   href: PropTypes.string.isRequired,
   isExternal: PropTypes.bool,

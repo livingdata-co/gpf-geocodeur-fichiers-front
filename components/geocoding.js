@@ -1,21 +1,27 @@
 import {useState, useCallback} from 'react'
 import PropTypes from 'prop-types'
 import Router from 'next/router'
-import {faPlay} from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faPlay, faSquareCheck} from '@fortawesome/free-solid-svg-icons'
 
-import Pipeline from '../pipeline'
 import {geocodeFile} from '@/lib/api.js'
 
+import theme from '@/styles/theme'
+
 import ErrorMessage from '@/components/error-message'
-import Loading from '@/components/loading'
 import FormStepsNav from '@/components/form-steps-nav'
 import Button from '@/components/button'
 import InfoMessage from '@/components/info-message'
+import Pipeline from '@/components/pipeline'
+import Spinner from '@/components/spinner'
+import UnderlineTitle from '@/components/underline-title'
 
 const Geocoding = ({file, format, formatOptions, addressCompositors, advancedParams, outputFormat, outputParams, outputSelectedColumns, handleStep}) => {
   const [error, setError] = useState()
   const [isUploading, setIsUploading] = useState(false)
   const [validationProgress, setValidationProgress] = useState()
+
+  const isValidationComplete = validationProgress ? validationProgress.readBytes === validationProgress.totalBytes : false
 
   const startGeocode = useCallback(() => {
     const {codeINSEE, lat, long} = advancedParams
@@ -57,19 +63,21 @@ const Geocoding = ({file, format, formatOptions, addressCompositors, advancedPar
       <div className='progress-steps'>
         {/* Validation */}
         {validationProgress && (
-          validationProgress.readBytes === validationProgress.totalBytes ? (
-            <div>Checkgrey - Validation du fichier {Math.round(validationProgress.readBytes / validationProgress.totalBytes * 100)}%</div>
-          ) : (
-            <div>Checkgreen - Validation du fichier. <InfoMessage info={`${validationProgress.readRows} lignes traitées`} /></div>
-          )
+          <>
+            <UnderlineTitle>Traitement du fichier</UnderlineTitle>
+            <div className={`${isValidationComplete ? 'complete' : 'uncomplete'} validation'`}>
+              <FontAwesomeIcon icon={faSquareCheck} color={isValidationComplete ? theme.success : theme.bkgDisable} /> - Validation du fichier
+              {isValidationComplete ? (
+                <InfoMessage info={`${validationProgress.readRows} lignes traitées`} />
+              ) : (
+                <div>- en cours... {Math.round(validationProgress.readBytes / validationProgress.totalBytes * 100)}</div>
+              )}
+            </div>
+          </>
         )}
 
         {/* Upload */}
-        {isUploading && (
-          <div className='uploading'>
-            <Loading label='Téléversement du fichier en cours…' />
-          </div>
-        )}
+        {isUploading && <div className='uploading'><Spinner size='small' />Téléversement du fichier en cours…</div>}
       </div>
 
       {!validationProgress && (
@@ -86,8 +94,18 @@ const Geocoding = ({file, format, formatOptions, addressCompositors, advancedPar
           flex-direction: column;
         }
 
-        .uploading {
-          margin-top: 2em;
+        .uploading, .validation {
+          display: flex;
+          gap: 5px;
+          font-weight: bold;
+        }
+
+        .validation {
+          margin-bottom: 1em;
+        }
+
+        .percent {
+          color: ${theme.txtColor};
         }
       `}</style>
     </div>

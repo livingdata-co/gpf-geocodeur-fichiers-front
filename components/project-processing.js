@@ -1,38 +1,39 @@
 import PropTypes from 'prop-types'
 
-import ErrorMessage from '@/components/error-message'
 import ProgressBar from '@/components/progress-bar'
-import UnderlineTitle from '@/components/underline-title'
 import InfoMessage from '@/components/info-message'
 
 const ProjectProcessing = ({processing}) => (
   <div className='processing-container'>
-
-    <UnderlineTitle>Traitements du fichier</UnderlineTitle>
     {processing.validationProgress && (
       <ProgressBar
-        label='Validation du fichier'
+        label={processing.step === 'failed' ? processing.globalError : 'Validation du fichier'}
         min={processing.validationProgress.readBytes}
         max={processing.validationProgress.totalBytes}
+        hasFailed={processing.step === 'failed'}
       />
     )}
 
     {processing.geocodingProgress && (
       <>
         <ProgressBar
-          label='Géocodage'
+          label={processing.step === 'failed' ? processing.globalError : 'Géocodage'}
           min={processing.geocodingProgress.readRows}
           max={processing.geocodingProgress.totalRows}
+          hasFailed={processing.step === 'failed'}
         />
+
         {processing.geocodingProgress.readRows === processing.geocodingProgress.totalRows && (
           <InfoMessage info={`${processing.geocodingProgress.totalRows} lignes traitées`} />
         )}
       </>
     )}
 
-    {processing.step === 'failed' && (
-      <ErrorMessage>Votre géocodage a échoué : {processing.globalError}</ErrorMessage>
-    )}
+    <style jsx>{`
+      .processing-container {
+        padding-left: 2em;
+      }
+    `}</style>
   </div>
 )
 
