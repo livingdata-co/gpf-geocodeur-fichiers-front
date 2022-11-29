@@ -84,6 +84,11 @@ const New = () => {
     }
   }, [file])
 
+  const handleFile = file => {
+    setStep(1)
+    setFile(file)
+  }
+
   const changeStep = selectedStep => {
     if (selectedStep === 1) {
       setFile()
@@ -156,7 +161,7 @@ const New = () => {
       <div className='container'>
         <StepsProgress step={step} handleStep={setStep} />
 
-        <FileHandler file={file} handleFile={setFile} />
+        <FileHandler file={file} handleFile={handleFile} />
 
         {step === 2 && (
           <>
