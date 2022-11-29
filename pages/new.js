@@ -196,7 +196,6 @@ const New = () => {
 
             <div className='submit'>
               <FormStepsNav previous={() => changeStep(2)} next={selectedColumns.length > 0 ? handleParamsValidation : null} />
-              {error && <ErrorMessage>{error}</ErrorMessage>}
             </div>
           </>
         )}
@@ -228,6 +227,8 @@ const New = () => {
             handleStep={changeStep}
           />
         )}
+
+        {error && <ErrorMessage>{error}</ErrorMessage>}
 
         <div className='loading'>
           {isLoading && <Loading label='Chargement du fichier' />}
