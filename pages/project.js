@@ -1,4 +1,5 @@
 import {useState, useEffect, useContext, useCallback} from 'react'
+import PropTypes from 'prop-types'
 import {useRouter} from 'next/router'
 import {faDownload, faCircleChevronLeft} from '@fortawesome/free-solid-svg-icons'
 
@@ -15,7 +16,7 @@ import ProjectProcessing from '@/components/project-processing'
 import ButtonLink from '@/components/button-link'
 import ProjectInfos from '@/components/project-infos'
 
-const Project = () => {
+const Project = ({projectId}) => {
   const {isFrame, screenSize} = useContext(ScreenFrameContext)
   const router = useRouter()
 
@@ -36,7 +37,7 @@ const Project = () => {
   }, [project])
 
   useEffect(() => {
-    async function fetchProject(projectId) {
+    async function fetchProject() {
       try {
         const p = await getProject(projectId)
         setProject(p)
@@ -46,10 +47,8 @@ const Project = () => {
       }
     }
 
-    if (router.query.projectId) {
-      fetchProject(router.query.projectId)
-    }
-  }, [router])
+    fetchProject(projectId)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Handle errors
   useEffect(() => {
@@ -143,6 +142,20 @@ const Project = () => {
         `}</style>
     </Layout>
   )
+}
+
+Project.propTypes = {
+  projectId: PropTypes.string.isRequired
+}
+
+Project.getInitialProps = async ({res, query}) => {
+  const {projectId} = query
+
+  if (!projectId) {
+    res.redirect('/404')
+  }
+
+  return {projectId}
 }
 
 export default Project

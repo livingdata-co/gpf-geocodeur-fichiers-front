@@ -1,7 +1,8 @@
 import {useState} from 'react'
 import PropTypes from 'prop-types'
 import Image from 'next/image'
-import Dropzone from 'react-dropzone'
+import {useDropzone} from 'react-dropzone'
+
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faRotate} from '@fortawesome/free-solid-svg-icons'
 
@@ -14,57 +15,51 @@ import Spinner from '@/components/spinner'
 
 const DropzoneContainer = ({file, isLoading, maxSize, error, onFileDrop, onFileDropRejected}) => {
   const [isHovered, setIsHovered] = useState(false)
+  const {getRootProps, getInputProps, isDragActive} = useDropzone({
+    onDrop: onFileDrop,
+    onDropRejected: onFileDropRejected,
+    multiple: false,
+    maxSize,
+    minSize: 1,
+    accept: {'text/plain': ['.txt'], 'text/csv': ['.csv', '.tsv']}
+  })
 
   return (
     <div className='dropzone-wrapper'>
       <div className='file-handler-container'>
-        <Dropzone
-          onDrop={onFileDrop}
-          onDropRejected={onFileDropRejected}
-          multiple={false}
-          maxSize={maxSize}
-          minSize={1}
-          accept={{'text/plain': ['.txt'], 'text/csv': ['.csv', '.tsv']}}
+        <div
+          {...getRootProps()}
+          className={`dropzone ${file ? 'file' : ''} ${isDragActive ? 'active' : ''}`}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
         >
-          {({getRootProps, getInputProps, isDragActive}) => {
-            const rootProps = getRootProps()
-            const inputProps = getInputProps()
+          <input {...getInputProps()} />
 
-            return (
-              <div
-                {...rootProps}
-                className={`dropzone ${file ? 'file' : ''} ${isDragActive ? 'active' : ''}`}
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
-              >
-                <input {...inputProps} />
-                {!file && (
-                  <div>
-                    <Image src='/images/drop-icon.png' height={80} width={80} alt='Glisser un fichier ou l’ajouter en cliquant sur la zone' />
-                  </div>
-                )}
-                <div className='file-container'>{file ? (
-                  <div className='file-sumup'>
-                    <FileDetails name={file.name} size={file.size} />
-                    {isLoading ? (
-                      <div className='loading'>
-                        Chargement du fichier… <span><Spinner alt aria-hidden='true' /></span>
-                      </div>
-                    ) : (
-                      <div style={{
-                        display: isHovered || isDragActive ? 'block' : 'none',
-                        margin: '0 1em'
-                      }}
-                      ><FontAwesomeIcon icon={faRotate} size='2x' />
-                      </div>
-                    )}
-                  </div>
-                ) : `Sélectionner ou glisser ici votre fichier à géocoder au format CSV (maximum ${formatFileSize(maxSize, {round: true})})`}
+          {!file && (
+            <div>
+              <Image src='/images/drop-icon.png' height={80} width={80} alt='Glisser un fichier ou l’ajouter en cliquant sur la zone' />
+            </div>
+          )}
+
+          <div className='file-container'>{file ? (
+            <div className='file-sumup'>
+              <FileDetails name={file.name} size={file.size} />
+              {isLoading ? (
+                <div className='loading'>
+                  Chargement du fichier… <span><Spinner alt aria-hidden='true' /></span>
                 </div>
-              </div>
-            )
-          }}
-        </Dropzone>
+              ) : (
+                <div style={{
+                  display: isHovered || isDragActive ? 'block' : 'none',
+                  margin: '0 1em'
+                }}
+                ><FontAwesomeIcon icon={faRotate} size='2x' />
+                </div>
+              )}
+            </div>
+          ) : `Sélectionner ou glisser ici votre fichier à géocoder au format CSV (maximum ${formatFileSize(maxSize, {round: true})})`}
+          </div>
+        </div>
       </div>
 
       {error && (
