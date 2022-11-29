@@ -11,13 +11,14 @@ const ProcessingStep = ({label, step, progress}) => (
     ) : (
       <FontAwesomeIcon icon={faSquareCheck} color={step === 'completed' ? theme.success : theme.bkgDisable} />
     )}
-    - {label} {step === 'completed' ? '' : '- en cours…'} {progress ? `${progress}%` : ''}
+    {label} {Number.isInteger(progress) ? `${progress}%` : ''}
 
     <style jsx>{`
       .step {
         display: flex;
         gap: 5px;
         font-weight: bold;
+        align-items: center;
       }
     `}</style>
   </div>

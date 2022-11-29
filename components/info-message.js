@@ -16,6 +16,7 @@ const InfoMessage = ({info}) => (
         font-weight: bold;
         align-items: center;
         gap: .5em;
+        color: ${colors.almostBlack};
       }
         `}</style>
   </div>

@@ -4,20 +4,27 @@ import {faSquareCheck, faSquareXmark} from '@fortawesome/free-solid-svg-icons'
 
 import theme from '@/styles/theme'
 
+import Spinner from '@/components/spinner'
+
 const ProgressBar = ({label, min, max, hasFailed}) => {
   const percent = Math.round(min / max * 100)
   const isCompleted = min === max
 
   return (
     <div className='progress-bar-container'>
-      <h4>
+      <div className='title'>
         {hasFailed ? (
-          <><FontAwesomeIcon icon={faSquareXmark} color={theme.error} /> {label}</>
+          <FontAwesomeIcon icon={faSquareXmark} color={theme.error} />
         ) : (
-          <><FontAwesomeIcon icon={faSquareCheck} color={isCompleted ? theme.success : theme.bkgDisable} /> {label} {!isCompleted && ` - en cours... ${percent}%`}</>
+          isCompleted ? (
+            <FontAwesomeIcon icon={faSquareCheck} color={theme.success} />
+          ) : (
+            <Spinner size='small' />
+          )
         )}
+        {label}
 
-      </h4>
+      </div>
 
       <div className='progress-bar'>
         <span className='progress'>
@@ -32,8 +39,12 @@ const ProgressBar = ({label, min, max, hasFailed}) => {
           margin: 1em 0;
         }
 
-        h4 {
-          margin-bottom: .4em;
+        .title {
+          display: flex;
+          gap: 5px;
+          font-weight: bold;
+          align-items: center;
+          margin-bottom: .2em;
         }
 
         label {

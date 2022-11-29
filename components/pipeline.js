@@ -57,7 +57,7 @@ const Pipeline = ({format, formatOptions, outputFormat, outputFormatOptions, geo
 Pipeline.propTypes = {
   format: PropTypes.string.isRequired,
   formatOptions: PropTypes.object.isRequired,
-  outputFormat: PropTypes.object.isRequired,
+  outputFormat: PropTypes.string.isRequired,
   outputFormatOptions: PropTypes.object.isRequired,
   geocodeOptions: PropTypes.object.isRequired
 }
