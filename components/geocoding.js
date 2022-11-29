@@ -1,8 +1,7 @@
 import {useState, useCallback} from 'react'
 import PropTypes from 'prop-types'
 import Router from 'next/router'
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faPlay, faSquareCheck} from '@fortawesome/free-solid-svg-icons'
+import {faPlay} from '@fortawesome/free-solid-svg-icons'
 
 import {geocodeFile} from '@/lib/api.js'
 
@@ -11,10 +10,10 @@ import theme from '@/styles/theme'
 import ErrorMessage from '@/components/error-message'
 import FormStepsNav from '@/components/form-steps-nav'
 import Button from '@/components/button'
-import InfoMessage from '@/components/info-message'
 import Pipeline from '@/components/pipeline'
 import Spinner from '@/components/spinner'
 import UnderlineTitle from '@/components/underline-title'
+import ProcessingStep from '@/components/processing-step'
 
 const Geocoding = ({file, format, formatOptions, addressCompositors, advancedParams, outputFormat, outputParams, outputSelectedColumns, handleStep}) => {
   const [error, setError] = useState()
@@ -65,14 +64,10 @@ const Geocoding = ({file, format, formatOptions, addressCompositors, advancedPar
         {validationProgress && (
           <>
             <UnderlineTitle>Traitement du fichier</UnderlineTitle>
-            <div className={`${isValidationComplete ? 'complete' : 'uncomplete'} validation'`}>
-              <FontAwesomeIcon icon={faSquareCheck} color={isValidationComplete ? theme.success : theme.bkgDisable} /> - Validation du fichier
-              {isValidationComplete ? (
-                <InfoMessage info={`${validationProgress.readRows} lignes traitées`} />
-              ) : (
-                <div>- en cours... {Math.round(validationProgress.readBytes / validationProgress.totalBytes * 100)}</div>
-              )}
-            </div>
+            <ProcessingStep
+              status={isValidationComplete ? 'completed' : 'validating'}
+              label={`- Validation du fichier ${!isValidationComplete && ` - en cours... ${Math.round(validationProgress.readBytes / validationProgress.totalBytes * 100)}`}`}
+            />
           </>
         )}
 
@@ -94,7 +89,7 @@ const Geocoding = ({file, format, formatOptions, addressCompositors, advancedPar
           flex-direction: column;
         }
 
-        .uploading, .validation {
+        .uploading {
           display: flex;
           gap: 5px;
           font-weight: bold;

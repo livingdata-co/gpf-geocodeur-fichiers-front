@@ -1,8 +1,7 @@
 import {useState, useEffect, useContext, useCallback} from 'react'
 import PropTypes from 'prop-types'
 import {useRouter} from 'next/router'
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faDownload, faCircleChevronLeft, faSquareCheck, faSquareXmark} from '@fortawesome/free-solid-svg-icons'
+import {faDownload, faCircleChevronLeft} from '@fortawesome/free-solid-svg-icons'
 
 import {abortGeocoding, API_URL, getProject, getProjectProcessing} from '@/lib/api'
 
@@ -20,6 +19,7 @@ import ButtonLink from '@/components/button-link'
 import ProjectInfos from '@/components/project-infos'
 import UnderlineTitle from '@/components/underline-title'
 import Spinner from '@/components/spinner'
+import ProcessingStep from '@/components/processing-step'
 
 const Project = ({projectId}) => {
   const {isFrame, screenSize} = useContext(ScreenFrameContext)
@@ -97,12 +97,15 @@ const Project = ({projectId}) => {
         <UnderlineTitle>Traitements du fichier</UnderlineTitle>
         <div className='steps-container'>
           {/* Validation et upload déjà effectués */}
-          <div className='step'>
-            <FontAwesomeIcon icon={faSquareCheck} color={theme.success} /> - Validation du fichier
-          </div>
-          <div className='step'>
-            <FontAwesomeIcon icon={faSquareCheck} color={theme.success} /> - Envoi du fichier
-          </div>
+          <ProcessingStep
+            label='- Validation du fichier'
+            status='completed'
+          />
+
+          <ProcessingStep
+            label='- Envoi du fichier'
+            status='completed'
+          />
 
           {/* En attente */}
           {project.status === 'waiting' && !processing?.step && (
@@ -111,9 +114,10 @@ const Project = ({projectId}) => {
 
           {processing && (
             <>
-              {processing.step === 'completed' && <div className='step'><FontAwesomeIcon icon={faSquareCheck} color={theme.success} /> - Traitement du fichier : </div>}
-              {processing.step === 'failed' && <div className='step error'><FontAwesomeIcon icon={faSquareXmark} color={theme.error} /> Votre géocodage a échoué : {processing.globalError}</div>}
-              {(processing.step === 'geocoding' || processing.step === 'validating') && <div className='step'><FontAwesomeIcon icon={faSquareCheck} color={theme.bkgDisable} /> - Traitement du fichier - en cours...</div>}
+              <ProcessingStep
+                label={processing.step === 'failed' ? `Votre géocodage a échoué : ${processing.globalError}` : (processing.step === 'completed' ? ' - Traitement du fichier :' : ' - Traitement du fichier - en cours...')}
+                status={processing.step}
+              />
 
               <ProjectProcessing processing={processing} />
             </>
