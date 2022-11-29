@@ -7,7 +7,7 @@ const ProjectProcessing = ({processing}) => (
   <div className='processing-container'>
     {processing.validationProgress && (
       <ProgressBar
-        label={processing.step === 'failed' ? `La validation a échoué : ${processing.globalError}` : 'Validation du fichier'}
+        label={processing.step === 'failed' ? `La validation a échoué : ${processing.validationError}` : 'Validation du fichier'}
         min={processing.validationProgress.readBytes}
         max={processing.validationProgress.totalBytes}
         hasFailed={processing.step === 'failed'}
@@ -17,7 +17,7 @@ const ProjectProcessing = ({processing}) => (
     {processing.geocodingProgress && (
       <>
         <ProgressBar
-          label={processing.step === 'failed' ? `Votre géocodage a échoué : ${processing.globalError}` : 'Géocodage'}
+          label={processing.step === 'failed' ? `Le géocodage a échoué : ${processing.geocodingError}` : 'Géocodage'}
           min={processing.geocodingProgress.readRows}
           max={processing.geocodingProgress.totalRows}
           hasFailed={processing.step === 'failed'}
