@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 
 import ProgressBar from '@/components/progress-bar'
-import InfoMessage from '@/components/info-message'
 
 const ProjectProcessing = ({processing}) => (
   <div className='processing-container'>
@@ -15,18 +14,12 @@ const ProjectProcessing = ({processing}) => (
     )}
 
     {processing.geocodingProgress && (
-      <>
-        <ProgressBar
-          label={processing.step === 'failed' ? `Le géocodage a échoué : ${processing.geocodingError}` : 'Géocodage'}
-          min={processing.geocodingProgress.readRows}
-          max={processing.geocodingProgress.totalRows}
-          hasFailed={processing.step === 'failed'}
-        />
-
-        {processing.geocodingProgress.readRows === processing.geocodingProgress.totalRows && (
-          <InfoMessage info={`${processing.geocodingProgress.totalRows} lignes traitées`} />
-        )}
-      </>
+      <ProgressBar
+        label={processing.step === 'failed' ? `Le géocodage a échoué : ${processing.geocodingError}` : 'Géocodage'}
+        min={processing.geocodingProgress.readRows}
+        max={processing.geocodingProgress.totalRows}
+        hasFailed={processing.step === 'failed'}
+      />
     )}
 
     <style jsx>{`

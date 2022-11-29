@@ -1,6 +1,7 @@
 import {useState, useEffect, useContext, useCallback} from 'react'
 import PropTypes from 'prop-types'
 import {useRouter} from 'next/router'
+import {intervalToDuration} from 'date-fns'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faDownload, faCircleChevronLeft, faCheckCircle} from '@fortawesome/free-solid-svg-icons'
 
@@ -21,6 +22,16 @@ import ProjectInfos from '@/components/project-infos'
 import UnderlineTitle from '@/components/underline-title'
 import Spinner from '@/components/spinner'
 import ProcessingStep from '@/components/processing-step'
+import InfoMessage from '@/components/info-message'
+
+function duration(start, end) {
+  const {minutes, seconds} = intervalToDuration({start: new Date(start), end: new Date(end)})
+  if (minutes) {
+    return `${minutes} minute${minutes > 1 ? 's' : ''} et ${seconds} secondes`
+  }
+
+  return `${seconds} secondes`
+}
 
 const Project = ({projectId}) => {
   const {isFrame, screenSize} = useContext(ScreenFrameContext)
@@ -114,18 +125,14 @@ const Project = ({projectId}) => {
           )}
 
           {processing && (
-            <>
-              <ProcessingStep
-                label={processing.step === 'failed' ? 'Le traitement a échoué' : 'Traitement du fichier'}
-                step={processing.step}
-              />
-
-              <ProjectProcessing processing={processing} />
-            </>
+            <ProcessingStep
+              label={processing.step === 'failed' ? 'Le traitement a échoué' : 'Traitement du fichier'}
+              step={processing.step}
+            />
           )}
         </div>
 
-        {processing.step === 'completed' && (
+        {processing.step === 'completed' ? (
           <>
             <div className='action-buttons'>
               {project.outputFile ? (
@@ -136,6 +143,10 @@ const Project = ({projectId}) => {
                   <ButtonLink href={`${API_URL}/projects/${project.id}/output-file/${project.outputFile.token}`} download={project.outputFile.filename} isExternal label='Télécharger le fichier' icon={faDownload} size='large'>
                     Télécharger le fichier
                   </ButtonLink>
+
+                  {processing.geocodingProgress.readRows === processing.geocodingProgress.totalRows && (
+                    <InfoMessage info={`${processing.geocodingProgress.totalRows} lignes traitées en ${duration(processing.startedAt, processing.finishedAt)}`} />
+                  )}
                 </div>
               ) : (
                 <Loading label='Mise à disposition du fichier géocodé' />
@@ -148,6 +159,8 @@ const Project = ({projectId}) => {
               </Button>
             </div>
           </>
+        ) : (
+          <ProjectProcessing processing={processing} />
         )}
 
         {error && <ErrorMessage>{error}</ErrorMessage>}
