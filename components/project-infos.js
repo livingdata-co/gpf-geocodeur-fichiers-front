@@ -17,7 +17,6 @@ const ProjectInfos = ({createdAt, inputFile, pipeline}) => (
     </div>
     <i>{formatDate(createdAt)}</i>
 
-    <UnderlineTitle>Paramètres sélectionnés</UnderlineTitle>
     <Pipeline {...pipeline} />
 
     <style jsx>{`
