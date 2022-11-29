@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
   reactStrictMode: true,
   useFileSystemPublicRoutes: false,
@@ -8,4 +9,4 @@ const nextConfig = {
   }
 }
 
-module.exports = nextConfig
+export default nextConfig

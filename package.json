@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node server.mjs",
+    "dev": "node server",
     "build": "next build",
-    "start": "NODE_ENV=production node server.mjs",
+    "start": "NODE_ENV=production node server",
     "lint": "xo"
   },
+  "type": "module",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.2.0",
     "@fortawesome/free-regular-svg-icons": "^6.2.0",
