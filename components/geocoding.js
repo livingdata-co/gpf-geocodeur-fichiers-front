@@ -93,6 +93,7 @@ const Geocoding = ({file, format, formatOptions, addressCompositors, advancedPar
           display: flex;
           gap: 5px;
           font-weight: bold;
+          margin-top: 1em;
         }
 
         .validation {
