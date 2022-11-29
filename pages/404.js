@@ -7,7 +7,7 @@ import Layout from '@/layouts/main'
 import theme from '@/styles/theme'
 import ButtonLink from '@/components/button-link'
 
-const Home = () => {
+const Page404 = () => {
   const {isFrame, screenSize} = useContext(ScreenContext)
 
   return (
@@ -38,4 +38,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Page404

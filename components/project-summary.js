@@ -12,7 +12,7 @@ import {formatFileSize} from '@/lib/file'
 import ProjectStatus from '@/components/project-status'
 import ButtonUnderline from '@/components/button-underline'
 
-const Project = ({id, status, createdAt, updatedAt, inputFile, onDelete}) => {
+const ProjectSummary = ({id, status, createdAt, updatedAt, inputFile, onDelete}) => {
   const isInProgress = ['waiting', 'processing'].includes(status)
   const isAvailable = ['waiting', 'processing', 'completed', 'failed'].includes(status)
 
@@ -61,7 +61,7 @@ const Project = ({id, status, createdAt, updatedAt, inputFile, onDelete}) => {
   )
 }
 
-Project.propTypes = {
+ProjectSummary.propTypes = {
   id: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
@@ -73,4 +73,4 @@ Project.propTypes = {
   onDelete: PropTypes.func.isRequired
 }
 
-export default Project
+export default ProjectSummary
