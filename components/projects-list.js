@@ -7,7 +7,7 @@ import theme from '@/styles/theme'
 
 const ProjectsList = ({projects, handleDelete}) => (
   <div className='projects-container'>
-    {projects.length > 0 && (
+    {projects.length > 0 ? (
       <>
         <UnderlineTitle>Vos géocodages</UnderlineTitle>
         <table cellSpacing='0'>
@@ -29,27 +29,20 @@ const ProjectsList = ({projects, handleDelete}) => (
           </tbody>
         </table>
       </>
-    )}
-
-    {projects.length === 0 && (
-      <>
-        <div className='intro'>
-          <h2>Lorem ipsum</h2>
-          <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit.</p>
-          <ul>
-            <li>Nemo enim ipsam voluptatem</li>
-            <li>Nemo enim ipsam voluptatem</li>
-            <li>Nemo enim ipsam voluptatem</li>
-            <li>Nemo enim ipsam voluptatem</li>
-            <li>Nemo enim ipsam voluptatem</li>
-          </ul>
-        </div>
-
-        <div className='projects-empty-list'>
-          <h3>Vos géocodages terminés ou en cours</h3>
-          <div>Vous n’avez aucune géocodage terminé ou en cours</div>
-        </div>
-      </>
+    ) : (
+      <div className='intro'>
+        <h2>Nouveau géocodeur de fichier</h2>
+        <p>Cet outil interactif permet de géocoder un fichier CSV en quelques clics. Il ne supporte actuellement que le géocodage d’adresses.</p>
+        <p>Bien que simple d’utilisation, de nombreuses fonctionnalités avancées sont disponibles :</p>
+        <ul>
+          <li>paramétrage du format d’entrée (encodage, séparateurs)</li>
+          <li>construction du libellé à géocoder</li>
+          <li>sélection des paramètres de géocodage (filtres, préférence géographique)</li>
+          <li>choix et paramétrage du format de sortie (CSV, GeoJSON)</li>
+          <li>fonctionnement asynchrone (revenez plus tard !)</li>
+          <li>conservation de l’historique des géocodages et des résultats pendant 14 jours</li>
+        </ul>
+      </div>
     )}
 
     <style jsx>{`
@@ -61,6 +54,10 @@ const ProjectsList = ({projects, handleDelete}) => (
 
       .intro {
         text-align: center;
+      }
+
+      ul {
+        text-align: left;
       }
 
       .intro h2 {
