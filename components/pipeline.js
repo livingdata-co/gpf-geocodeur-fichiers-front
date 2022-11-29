@@ -1,55 +1,97 @@
 import PropTypes from 'prop-types'
 
+import UnderlineTitle from './underline-title'
 import theme from '@/styles/theme'
 
-const Pipeline = ({format, formatOptions, geocodeOptions}) => (
-  <div>
+const Pipeline = ({format, formatOptions, geocodeOptions}) => {
+  console.log(formatOptions.linebreak)
+  return (
     <div>
-      <b>Format :</b> {format}
-      {format === 'csv' && (
+      <UnderlineTitle>Paramètres sélectionnés</UnderlineTitle>
+      <table cellSpacing='0'>
+        <thead>
+          <tr>
+            <th>Format</th>
+            <th>Séparateur de colonne</th>
+            <th>Séparateur de ligne</th>
+            <th>Type d’encodage</th>
+            <th>Caractère d’échappement</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div className='option'>{format}</div></td>
+            <td><div className='option'>{formatOptions.delimiter}</div></td>
+            <td><div className='option'>{formatOptions.linebreak}</div></td>
+            <td><div className='option'>{formatOptions.encoding}</div></td>
+            <td><div className='option'>{formatOptions.quoteChar}</div></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div className='geocode-options'>
+        <UnderlineTitle>Colonnes sélectionnées</UnderlineTitle>
+
         <div className='options'>
-          <div className='format-option'>Séparateur de colonne : <div className='option'>{formatOptions.delimiter}</div></div>
-          <div className='format-option'>Séparateur de ligne : <div className='option'>{formatOptions.lignebreak}</div></div>
-          <div className='format-option'>Type d’encodage : <div className='option'>{formatOptions.encoding}</div></div>
-          <div className='format-option'>Caractère d’échappement : <div className='option'>{formatOptions.lignebreak}</div></div>
+          {geocodeOptions.q.map(option => (
+            <div className='option' key={option}>{option}</div>
+          ))}
         </div>
-      )}
-    </div>
-
-    <div className='geocode-options'>
-      <b>Colonnes sélectionnées</b>
-
-      <div className='options'>
-        {geocodeOptions.q.map(option => (
-          <div className='option' key={option}>{option}</div>
-        ))}
       </div>
-    </div>
 
-    <style jsx>{`
+      <style jsx>{`
+        table {
+          width: 100%;
+          background: ${theme.bkgPrimary};
+          border-radius: 3px;
+          text-align: center;
+          border-collapse: collapse;
+        }
+
+        thead {
+          color: white;
+          font-weight: bold;
+          border-bottom: solid 1px ${theme.borderLight};
+        }
+
+        th, td {
+          padding: 1em;
+        }
+
+        .toto {
+          background: white;
+          padding: 5px;
+          border-radius: 3px;
+        }
+
         .options {
-        display: flex;
-        justify-content: space-between;
+          width: fit-content;
+          display: flex;
+          justify-content: space-between;
+          border-radius: 3px;
+          background: ${theme.bkgLight};
+          border: solid 2px ${theme.borderPrimary};
         }
 
         .format-option {
-        display: flex;
-        align-items: center;
-        gap: .5em;
+          display: flex;
+          align-items: center;
+          gap: .5em;
         }
 
         .option {
-        padding: .4em;
-        background-color: ${theme.bkgLight};
-        border-radius: 4px;
+          padding: .4em;
+          background-color: white;
+          border-radius: 4px;
         }
 
         .geocode-options {
-        margin: 1em 0;
+          margin: 1em 0;
         }
-    `}</style>
-  </div>
-)
+      `}</style>
+    </div>
+  )
+}
 
 Pipeline.propTypes = {
   format: PropTypes.string.isRequired,

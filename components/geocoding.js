@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import Router from 'next/router'
 import {faPlay} from '@fortawesome/free-solid-svg-icons'
 
+import Pipeline from '../pipeline'
 import {geocodeFile} from '@/lib/api.js'
 
-import ProgressBar from '@/components/progress-bar'
 import ErrorMessage from '@/components/error-message'
 import Loading from '@/components/loading'
 import FormStepsNav from '@/components/form-steps-nav'
@@ -52,27 +52,30 @@ const Geocoding = ({file, format, formatOptions, addressCompositors, advancedPar
 
   return (
     <div className='geocoding-container'>
-      {validationProgress ? (
-        <>
-          <ProgressBar
-            label='Vérification du fichier'
-            min={validationProgress.readBytes}
-            max={validationProgress.totalBytes}
-          />
-          {validationProgress.readBytes === validationProgress.totalBytes && (
-            <InfoMessage info={`${validationProgress.readRows} lignes traitées`} />
-          )}
-        </>
-      ) : (
+      <Pipeline format={format} formatOptions={outputParams} geocodeOptions={{q: addressCompositors}} />
+
+      <div className='progress-steps'>
+        {/* Validation */}
+        {validationProgress && (
+          validationProgress.readBytes === validationProgress.totalBytes ? (
+            <div>Checkgrey - Validation du fichier {Math.round(validationProgress.readBytes / validationProgress.totalBytes * 100)}%</div>
+          ) : (
+            <div>Checkgreen - Validation du fichier. <InfoMessage info={`${validationProgress.readRows} lignes traitées`} /></div>
+          )
+        )}
+
+        {/* Upload */}
+        {isUploading && (
+          <div className='uploading'>
+            <Loading label='Téléversement du fichier en cours…' />
+          </div>
+        )}
+      </div>
+
+      {!validationProgress && (
         <FormStepsNav previous={() => handleStep(4)}>
           <Button onClick={startGeocode} icon={faPlay}>Lancer le géocodage</Button>
         </FormStepsNav>
-      )}
-
-      {isUploading && (
-        <div className='uploading'>
-          <Loading label='Téléversement du fichier en cours…' />
-        </div>
       )}
 
       {error && <ErrorMessage>Le géocodage du fichier a échoué : {error}</ErrorMessage>}
