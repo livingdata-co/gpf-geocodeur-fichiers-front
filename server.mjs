@@ -10,8 +10,6 @@ app.prepare().then(() => {
 
   server.use(express.static('public')) // Serve favicon.ico
 
-  server.use(express.json())
-
   server.get('/project/:projectId', (req, res) => {
     app.render(req, res, '/project', {
       ...req.query,
