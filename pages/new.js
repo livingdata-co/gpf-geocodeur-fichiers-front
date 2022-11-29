@@ -67,6 +67,10 @@ const New = () => {
           throw new Error(preview.parseErrors[0])
         }
 
+        if (preview.rows.length === 0) {
+          throw new Error('Le fichier ne contient aucune ligne.')
+        }
+
         setPreview(preview)
         setFormatOptions(preview.formatOptions)
         setPreviewCount(preview.rows.length)
