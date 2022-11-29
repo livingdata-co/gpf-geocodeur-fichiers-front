@@ -67,6 +67,10 @@ const New = () => {
           throw new Error(preview.parseErrors[0])
         }
 
+        if (preview.rows.length === 0) {
+          throw new Error('Le fichier ne contient aucune ligne.')
+        }
+
         setPreview(preview)
         setFormatOptions(preview.formatOptions)
         setPreviewCount(preview.rows.length)
@@ -79,6 +83,11 @@ const New = () => {
       setIsLoading(false)
     }
   }, [file])
+
+  const handleFile = file => {
+    setStep(1)
+    setFile(file)
+  }
 
   const changeStep = selectedStep => {
     if (selectedStep === 1) {
@@ -152,7 +161,7 @@ const New = () => {
       <div className='container'>
         <StepsProgress step={step} handleStep={setStep} />
 
-        <FileHandler file={file} handleFile={setFile} />
+        <FileHandler file={file} handleFile={handleFile} />
 
         {step === 2 && (
           <>
@@ -192,7 +201,6 @@ const New = () => {
 
             <div className='submit'>
               <FormStepsNav previous={() => changeStep(2)} next={selectedColumns.length > 0 ? handleParamsValidation : null} />
-              {error && <ErrorMessage>{error}</ErrorMessage>}
             </div>
           </>
         )}
@@ -224,6 +232,8 @@ const New = () => {
             handleStep={changeStep}
           />
         )}
+
+        {error && <ErrorMessage>{error}</ErrorMessage>}
 
         <div className='loading'>
           {isLoading && <Loading label='Chargement du fichier' />}
