@@ -57,7 +57,13 @@ const Geocoding = ({file, format, formatOptions, addressCompositors, advancedPar
 
   return (
     <div className='geocoding-container'>
-      <Pipeline format={format} formatOptions={outputParams} geocodeOptions={{q: addressCompositors}} />
+      <Pipeline
+        format={format}
+        formatOptions={outputParams}
+        outputFormat={outputFormat}
+        outputFormatOptions={outputParams}
+        geocodeOptions={{q: addressCompositors}}
+      />
 
       <div className='progress-steps'>
         {/* Validation */}

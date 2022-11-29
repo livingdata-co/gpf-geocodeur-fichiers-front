@@ -1,33 +1,26 @@
 import PropTypes from 'prop-types'
 
-import UnderlineTitle from './underline-title'
 import theme from '@/styles/theme'
 
-const Pipeline = ({format, formatOptions, geocodeOptions}) => {
-  console.log(formatOptions.linebreak)
+import UnderlineTitle from '@/components/underline-title'
+import CSVOptions from '@/components/pipeline/csv-options'
+import GeoJSONOptions from '@/components/pipeline/geojson-options'
+
+const FORMATS = {
+  csv: CSVOptions,
+  geojson: GeoJSONOptions
+}
+
+const Pipeline = ({format, formatOptions, outputFormat, outputFormatOptions, geocodeOptions}) => {
+  const InputFormat = FORMATS[format]
+  const OutputFormat = FORMATS[outputFormat]
   return (
     <div>
-      <UnderlineTitle>Paramètres sélectionnés</UnderlineTitle>
-      <table cellSpacing='0'>
-        <thead>
-          <tr>
-            <th>Format</th>
-            <th>Séparateur de colonne</th>
-            <th>Séparateur de ligne</th>
-            <th>Type d’encodage</th>
-            <th>Caractère d’échappement</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><div className='option'>{format}</div></td>
-            <td><div className='option'>{formatOptions.delimiter}</div></td>
-            <td><div className='option'>{formatOptions.linebreak}</div></td>
-            <td><div className='option'>{formatOptions.encoding}</div></td>
-            <td><div className='option'>{formatOptions.quoteChar}</div></td>
-          </tr>
-        </tbody>
-      </table>
+      <UnderlineTitle>Paramètres d’entrée</UnderlineTitle>
+      <InputFormat {...formatOptions} />
+
+      <UnderlineTitle>Paramètres de sortie</UnderlineTitle>
+      <OutputFormat {...outputFormatOptions} />
 
       <div className='geocode-options'>
         <UnderlineTitle>Colonnes sélectionnées</UnderlineTitle>
@@ -40,24 +33,6 @@ const Pipeline = ({format, formatOptions, geocodeOptions}) => {
       </div>
 
       <style jsx>{`
-        table {
-          width: 100%;
-          background: ${theme.bkgPrimary};
-          border-radius: 3px;
-          text-align: center;
-          border-collapse: collapse;
-        }
-
-        thead {
-          color: white;
-          font-weight: bold;
-          border-bottom: solid 1px ${theme.borderLight};
-        }
-
-        th, td {
-          padding: 1em;
-        }
-
         .param {
           border-radius: 3px;
           background: ${theme.bkgLight};
@@ -71,18 +46,6 @@ const Pipeline = ({format, formatOptions, geocodeOptions}) => {
           flex-wrap: wrap;
         }
 
-        .format-option {
-          display: flex;
-          align-items: center;
-          gap: .5em;
-        }
-
-        .option {
-          padding: .4em;
-          background-color: white;
-          border-radius: 4px;
-        }
-
         .geocode-options {
           margin: 1em 0;
         }
@@ -94,6 +57,8 @@ const Pipeline = ({format, formatOptions, geocodeOptions}) => {
 Pipeline.propTypes = {
   format: PropTypes.string.isRequired,
   formatOptions: PropTypes.object.isRequired,
+  outputFormat: PropTypes.object.isRequired,
+  outputFormatOptions: PropTypes.object.isRequired,
   geocodeOptions: PropTypes.object.isRequired
 }
 
