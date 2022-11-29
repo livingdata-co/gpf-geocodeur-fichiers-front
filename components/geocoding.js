@@ -41,7 +41,10 @@ const Geocoding = ({file, format, formatOptions, addressCompositors, advancedPar
     validateProcess.on('uploading', () => setIsUploading(true))
     validateProcess.on('complete', async ({id}) => {
       setIsUploading(false)
-      Router.push(`/project?projectId=${id}`)
+      Router.push(
+        `/project?projectId=${id}`,
+        `/project/${id}`
+      )
     })
 
     validateProcess.on('validate:progress', p => setValidationProgress(p))

@@ -16,6 +16,13 @@ const ProjectSummary = ({id, status, createdAt, updatedAt, inputFile, onDelete})
   const isInProgress = ['waiting', 'processing'].includes(status)
   const isAvailable = ['waiting', 'processing', 'completed', 'failed'].includes(status)
 
+  const handleSelect = () => {
+    Router.push(
+      `/project?projectId=${id}`,
+      `/project/${id}`
+    )
+  }
+
   return (
     <tr>
       <td className='name'>{inputFile.filename}</td>
@@ -24,7 +31,7 @@ const ProjectSummary = ({id, status, createdAt, updatedAt, inputFile, onDelete})
       <td>{status === 'completed' ? formatDate(updatedAt) : '-'}</td>
       <td><ProjectStatus status={status} /></td>
       <td className='actions'>
-        {isAvailable && <ButtonUnderline icon={faEye} color={colors.blue} onClick={() => Router.push(`/project?projectId=${id}`)}>Consulter</ButtonUnderline>}
+        {isAvailable && <ButtonUnderline icon={faEye} color={colors.blue} onClick={handleSelect}>Consulter</ButtonUnderline>}
         {isInProgress ? (
           <ButtonUnderline icon={faXmark} color={colors.orange} onClick={() => abortGeocoding(id)}>Annuler</ButtonUnderline>
         ) : (
