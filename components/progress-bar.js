@@ -24,6 +24,7 @@ const ProgressBar = ({label, min, max, hasFailed}) => {
           {percent > 0 && <span className='text'>{percent}%</span>}
         </span>
       </div>
+      <label>{min} / {max}</label>
 
       <style jsx>{`
         .progress-bar-container {
@@ -33,6 +34,10 @@ const ProgressBar = ({label, min, max, hasFailed}) => {
 
         h4 {
           margin-bottom: .4em;
+        }
+
+        label {
+          font-style: italic;
         }
 
         .progress-bar {
@@ -48,7 +53,8 @@ const ProgressBar = ({label, min, max, hasFailed}) => {
           top: 0;
           height: 100%;
           width: ${percent}%;
-          background-color: ${isCompleted ? theme.bkgPrimary : theme.bkgLight};
+          background-color: ${theme.bkgPrimary};
+          transition: width 500ms ease-in;
           border-radius: 50px;
         }
 
