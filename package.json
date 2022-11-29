@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "node server.mjs",
     "build": "next build",
-    "start": "next start",
+    "start": "NODE_ENV=production node server.mjs",
     "lint": "xo"
   },
   "dependencies": {
@@ -15,8 +15,10 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@livingdata/tabular-data-helpers": "^0.0.5",
     "@tanstack/react-table": "^8.5.13",
+    "compression": "^1.7.4",
     "date-fns": "^2.29.3",
     "events": "^3.3.0",
+    "express": "^4.18.2",
     "lodash": "^4.17.21",
     "next": "12.2.5",
     "pretty-bytes": "^6.0.0",
