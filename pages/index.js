@@ -73,7 +73,7 @@ const Home = () => {
           >
             Nouveau géocodage
           </Button>
-          {isProjectInProgress && <div>Vous devez attendre la fin du traitement du fichier avant de pouvoir géocodager de nouveau</div>}
+          {isProjectInProgress && <div>Vous devez attendre la fin du traitement du fichier avant de pouvoir géocoder de nouveau</div>}
         </div>
 
         {error && <ErrorMessage>{error}</ErrorMessage>}
