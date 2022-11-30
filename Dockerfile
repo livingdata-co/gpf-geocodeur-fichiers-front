@@ -26,6 +26,7 @@ RUN adduser -S nextjs -u 1001
 
 COPY --from=builder /gpf-geocodeur/node_modules ./node_modules
 COPY --from=builder /gpf-geocodeur/package.json ./package.json
+COPY --from=builder /gpf-geocodeur/server.js ./server.js
 
 COPY --from=builder /gpf-geocodeur/public ./public
 COPY --from=builder /gpf-geocodeur/next.config.js ./
