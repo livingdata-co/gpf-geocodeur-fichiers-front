@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   frontend:
-    image: ${REGISTRY}gpf-geocodeur:v1
+    image: ${REGISTRY}gpf-geocodeur
     build: .
     container_name: gpf-geocodeur
     environment:
