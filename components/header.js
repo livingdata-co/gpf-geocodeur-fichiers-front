@@ -14,7 +14,7 @@ const Header = ({isFrame, isMobile}) => (
         </div>
       ) : (
         <div className='header-container'>
-          <Image src='/images/repfr_logo.png' width={114} height={100} layout='fixed' />
+          <Image src='/images/repfr_logo.png' width={123} height={66} layout='fixed' />
           <h1>Géocodeur de fichiers</h1>
         </div>
       )}
