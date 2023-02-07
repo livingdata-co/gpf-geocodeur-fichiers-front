@@ -6,16 +6,15 @@ services:
     build: .
     container_name: gpf-geocodeur
     environment:
-      - NEXT_PUBLIC_API_URL=http://gpf-geocodeur-api-network
-      - NEXT_PUBLIC_ROOT_URL=http://gpf-geocodeur-network
+      - NEXT_PUBLIC_API_URL=http://gpf-geocodeur-api
+      - NEXT_PUBLIC_ROOT_URL=http://gpf-geocodeur
     env_file:
       - .env
     ports:
       - '3000:3000'
     networks:
-      - gpf-geocodeur-api-network
-      - gpf-geocodeur-network
+      - gpf-geocodeur
 
 networks:
-  gpf-geocodeur-api-network:
-  gpf-geocodeur-network:
+  gpf-geocodeur:
+    name: gpf-geocodeur-network
